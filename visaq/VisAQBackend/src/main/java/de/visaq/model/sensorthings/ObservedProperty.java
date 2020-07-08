@@ -20,7 +20,7 @@ public class ObservedProperty extends Sensorthing<ObservedProperty>
     public final String name;
     public final String definition;
     public final String description;
-    public final Map<String, Object> properties;
+    private final Map<String, Object> properties;
     public final MultiNavigationLink<Datastream> datastreamsLink;
 
     /**
