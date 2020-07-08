@@ -10,6 +10,10 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import de.visaq.RestConstants;
+import de.visaq.controller.link.MultiNavigationLink;
+import de.visaq.controller.link.MultiOnlineLink;
+
 /**
  * Tests {@link Sensor}.
  */
@@ -42,5 +46,20 @@ public class SensorTest {
         assertEquals(-15, (int) sensor.getPropertyByKey("integer"));
         assertEquals(testString, sensor.getPropertyByKey("text"));
         assertEquals(null, sensor.getPropertyByKey("missing"));
+    }
+
+    @Test
+    public void initTest() {
+        MultiNavigationLink<Datastream> dl = new MultiOnlineLink<Datastream>("url", false);
+        Sensor se = new Sensor("id", "selfUrl", false, "description", "name", properties, dl);
+
+        assertEquals("id", se.id);
+        assertEquals("selfUrl", se.selfLink.url);
+        assertEquals("name", se.name);
+        assertEquals("description", se.description);
+        assertEquals(dl, se.datastreamsLink);
+
+        se = new Sensor("id", "selfUrl", true, "description", "name", properties, dl);
+        assertEquals(RestConstants.ENTRY_POINT + "selfUrl", se.selfLink.url);
     }
 }
