@@ -1,0 +1,15 @@
+{
+  "name" : "Grimm EDM80NEPH",
+  "description" : "Nephelometer that captures PM10, PM4, PM2.5, PM1, ambient temperature, ambient humidity and device parameters",
+  "properties" : {
+    "datasheet.url" : "",
+    "shortname" : "edm80neph",
+    "manufacturer.domain" : "grimm-aerosol.com"
+  },
+  "Datastreams@iot.navigationLink" : "https://api.smartaq.net/v1.0/Sensors('saqn%3As%3A1e51f2e')/Datastreams",
+  "MultiDatastreams@iot.navigationLink" : "https://api.smartaq.net/v1.0/Sensors('saqn%3As%3A1e51f2e')/MultiDatastreams",
+  "encodingType" : "application/json",
+  "metadata" : "https://api.smartaq.net/v1.0/Sensors('saqn%3As%3A1e51f2e')/properties",
+  "@iot.id" : "saqn:s:1e51f2e",
+  "@iot.selfLink" : "https://api.smartaq.net/v1.0/Sensors('saqn%3As%3A1e51f2e')"
+}

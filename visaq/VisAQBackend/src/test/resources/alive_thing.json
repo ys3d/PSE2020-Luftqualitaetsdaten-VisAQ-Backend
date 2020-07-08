@@ -1,0 +1,15 @@
+{
+  "name" : "Scientific Scout EDM80 NEPH SN17017",
+  "description" : "Mid Cost Device Measuring Particulate Matter",
+  "properties" : {
+    "operator.domain" : "grimm-aerosol.com",
+    "shortname" : "edm80neph",
+    "hardware.id" : "sn17017"
+  },
+  "Datastreams@iot.navigationLink" : "https://api.smartaq.net/v1.0/Things('saqn%3At%3Agrimm-aerosol.com%3AEDM80NEPH%3ASN17017')/Datastreams",
+  "MultiDatastreams@iot.navigationLink" : "https://api.smartaq.net/v1.0/Things('saqn%3At%3Agrimm-aerosol.com%3AEDM80NEPH%3ASN17017')/MultiDatastreams",
+  "Locations@iot.navigationLink" : "https://api.smartaq.net/v1.0/Things('saqn%3At%3Agrimm-aerosol.com%3AEDM80NEPH%3ASN17017')/Locations",
+  "HistoricalLocations@iot.navigationLink" : "https://api.smartaq.net/v1.0/Things('saqn%3At%3Agrimm-aerosol.com%3AEDM80NEPH%3ASN17017')/HistoricalLocations",
+  "@iot.id" : "saqn:t:grimm-aerosol.com:EDM80NEPH:SN17017",
+  "@iot.selfLink" : "https://api.smartaq.net/v1.0/Things('saqn%3At%3Agrimm-aerosol.com%3AEDM80NEPH%3ASN17017')"
+}

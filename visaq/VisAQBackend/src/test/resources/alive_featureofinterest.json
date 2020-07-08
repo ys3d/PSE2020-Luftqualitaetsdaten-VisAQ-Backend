@@ -1,0 +1,9 @@
+{
+  "name" : "n/a",
+  "description" : "n/a",
+  "encodingType" : "application/vnd.geo+json",
+  "feature" : {"type":"Point","coordinates":[10.897889,48.336028,495.5]},
+  "Observations@iot.navigationLink" : "https://api.smartaq.net/v1.0/FeaturesOfInterest('2a662aaa-85f6-11ea-b1c7-d709ea640d11')/Observations",
+  "@iot.id" : "2a662aaa-85f6-11ea-b1c7-d709ea640d11",
+  "@iot.selfLink" : "https://api.smartaq.net/v1.0/FeaturesOfInterest('2a662aaa-85f6-11ea-b1c7-d709ea640d11')"
+}

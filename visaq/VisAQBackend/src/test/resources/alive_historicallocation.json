@@ -1,0 +1,7 @@
+{
+  "time" : "2020-04-24T06:21:34.040Z",
+  "Thing@iot.navigationLink" : "https://api.smartaq.net/v1.0/HistoricalLocations('d848b564-85f3-11ea-9ba9-b38f82584044')/Thing",
+  "Locations@iot.navigationLink" : "https://api.smartaq.net/v1.0/HistoricalLocations('d848b564-85f3-11ea-9ba9-b38f82584044')/Locations",
+  "@iot.id" : "d848b564-85f3-11ea-9ba9-b38f82584044",
+  "@iot.selfLink" : "https://api.smartaq.net/v1.0/HistoricalLocations('d848b564-85f3-11ea-9ba9-b38f82584044')"
+}

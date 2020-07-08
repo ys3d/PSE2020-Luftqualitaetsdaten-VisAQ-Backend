@@ -1,0 +1,9 @@
+{
+  "name" : "Edm80Neph Zero N-1",
+  "description" : "Entspricht der Auto-Zero nicht den festgelegten Qualitätskriterien (interne Festlegung) so wird der zuletzt ermittelte Offset (weiter)verwendet. Alle gemessenen Daten können verwendet werden! Der Rückgriff auf einen, zuletzt ermittelten Offset, bedeutet normalerweise keine Qualitätsminderung der Messung.",
+  "Datastreams@iot.navigationLink" : "https://api.smartaq.net/v1.0/ObservedProperties('saqn%3Aop%3Acal_edm80neph_zero_N-1')/Datastreams",
+  "MultiDatastreams@iot.navigationLink" : "https://api.smartaq.net/v1.0/ObservedProperties('saqn%3Aop%3Acal_edm80neph_zero_N-1')/MultiDatastreams",
+  "definition" : "TODO",
+  "@iot.id" : "saqn:op:cal_edm80neph_zero_N-1",
+  "@iot.selfLink" : "https://api.smartaq.net/v1.0/ObservedProperties('saqn%3Aop%3Acal_edm80neph_zero_N-1')"
+}

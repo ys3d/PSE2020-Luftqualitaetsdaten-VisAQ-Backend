@@ -1,0 +1,17 @@
+{
+  "@iot.nextLink" : "https://api.smartaq.net/v1.0/Datastreams('saqn%3Ads%3A300b038')/Observations?$top=1&$skip=1",
+  "value" : [ {
+    "phenomenonTime" : "2018-09-19T14:29:55.000Z",
+    "resultTime" : "2018-09-19T14:29:55.000Z",
+    "result" : 17.3,
+    "parameters" : {
+      "calibration factor" : 0.8,
+      "calibration offset" : 0.0,
+      "last calibration" : "2018-05-31T06:41:00.000Z"
+    },
+    "Datastream@iot.navigationLink" : "https://api.smartaq.net/v1.0/Observations('saqn%3Ao%3A27691f05a2a8814a850ca4cd68ff8e740fdb13eb')/Datastream",
+    "FeatureOfInterest@iot.navigationLink" : "https://api.smartaq.net/v1.0/Observations('saqn%3Ao%3A27691f05a2a8814a850ca4cd68ff8e740fdb13eb')/FeatureOfInterest",
+    "@iot.id" : "saqn:o:27691f05a2a8814a850ca4cd68ff8e740fdb13eb",
+    "@iot.selfLink" : "https://api.smartaq.net/v1.0/Observations('saqn%3Ao%3A27691f05a2a8814a850ca4cd68ff8e740fdb13eb')"
+  } ]
+}

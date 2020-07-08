@@ -1,0 +1,10 @@
+{
+  "name" : "",
+  "description" : "",
+  "encodingType" : "application/vnd.geo+json",
+  "location" : {"type":"Point","coordinates":[10.897889,48.336028]},
+  "HistoricalLocations@iot.navigationLink" : "https://api.smartaq.net/v1.0/Locations('d846c5ba-85f3-11ea-9ba9-4f80aebbe60f')/HistoricalLocations",
+  "Things@iot.navigationLink" : "https://api.smartaq.net/v1.0/Locations('d846c5ba-85f3-11ea-9ba9-4f80aebbe60f')/Things",
+  "@iot.id" : "d846c5ba-85f3-11ea-9ba9-4f80aebbe60f",
+  "@iot.selfLink" : "https://api.smartaq.net/v1.0/Locations('d846c5ba-85f3-11ea-9ba9-4f80aebbe60f')"
+}

@@ -1,0 +1,31 @@
+{
+  "name" : "Grimm EDM80NEPH PM1 Datastream",
+  "description" : "Collection of (calibrated) PM1 measurements",
+  "properties" : {
+    "software_version" : {
+      "2018-07-10Z" : "SW V6-9",
+      "2018-09-13Z" : "SW V7-2",
+      "2018-10-02Z" : "SW V7-3",
+      "2018-10-05Z" : "SW V7-4",
+      "2018-10-08Z" : "SW V7-5"
+    }
+  },
+  "observationType" : "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_Measurement",
+  "observedArea" : {
+    "type" : "LineString",
+    "coordinates" : [ [ 10.897889, 48.336028 ], [ 10.883333, 48.358002 ] ]
+  },
+  "phenomenonTime" : "2018-09-14T21:59:58.000Z/2018-10-08T21:29:37.000Z",
+  "resultTime" : "2018-09-14T21:59:58.000Z/2018-10-08T21:29:37.000Z",
+  "Sensor@iot.navigationLink" : "https://api.smartaq.net/v1.0/Datastreams('saqn%3Ads%3A300b038')/Sensor",
+  "Thing@iot.navigationLink" : "https://api.smartaq.net/v1.0/Datastreams('saqn%3Ads%3A300b038')/Thing",
+  "Observations@iot.navigationLink" : "https://api.smartaq.net/v1.0/Datastreams('saqn%3Ads%3A300b038')/Observations",
+  "unitOfMeasurement" : {
+    "name" : "microgram per cubic meter",
+    "symbol" : "ug/m^3",
+    "definition" : "none"
+  },
+  "ObservedProperty@iot.navigationLink" : "https://api.smartaq.net/v1.0/Datastreams('saqn%3Ads%3A300b038')/ObservedProperty",
+  "@iot.id" : "saqn:ds:300b038",
+  "@iot.selfLink" : "https://api.smartaq.net/v1.0/Datastreams('saqn%3Ads%3A300b038')"
+}
