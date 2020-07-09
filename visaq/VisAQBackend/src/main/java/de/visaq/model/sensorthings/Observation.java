@@ -48,25 +48,24 @@ public class Observation extends Sensorthing<Observation> implements Sensorthing
 
     @Override
     public boolean isOlder(SensorthingsTimeStamp other) {
-        // TODO Auto-generated method stub
-        return false;
+        int compare = this.getTimeStamp().compareTo(other.getTimeStamp());
+        return (compare < 0);
     }
 
     @Override
     public boolean isNewer(SensorthingsTimeStamp other) {
-        // TODO Auto-generated method stub
-        return false;
+        int compare = this.getTimeStamp().compareTo(other.getTimeStamp());
+        return (compare > 0);
     }
 
     @Override
     public boolean isEqualOld(SensorthingsTimeStamp other) {
-        // TODO Auto-generated method stub
-        return false;
+        int compare = this.getTimeStamp().compareTo(other.getTimeStamp());
+        return (compare == 0);
     }
 
     @Override
     public Instant getTimeStamp() {
-        // TODO Auto-generated method stub
-        return null;
+        return phenomenonTime;
     }
 }

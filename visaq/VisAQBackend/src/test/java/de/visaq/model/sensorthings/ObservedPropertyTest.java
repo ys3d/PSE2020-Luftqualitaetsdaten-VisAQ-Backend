@@ -10,6 +10,10 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import de.visaq.RestConstants;
+import de.visaq.controller.link.MultiNavigationLink;
+import de.visaq.controller.link.MultiOnlineLink;
+
 /**
  * Tests {@link ObservedProperty}.
  */
@@ -44,5 +48,23 @@ public class ObservedPropertyTest {
         assertEquals(-15, (int) observedProperty.getPropertyByKey("integer"));
         assertEquals(testString, observedProperty.getPropertyByKey("text"));
         assertEquals(null, observedProperty.getPropertyByKey("missing"));
+    }
+
+    @Test
+    public void initTest() {
+        MultiNavigationLink<Datastream> dl = new MultiOnlineLink<Datastream>("url", false);
+        ObservedProperty op = new ObservedProperty("id", "selfUrl", false, "description", "name",
+                properties, "definition", dl);
+
+        assertEquals("id", op.id);
+        assertEquals("selfUrl", op.selfLink.url);
+        assertEquals("name", op.name);
+        assertEquals("description", op.description);
+        assertEquals("definition", op.definition);
+        assertEquals(dl, op.datastreamsLink);
+
+        op = new ObservedProperty("id", "selfUrl", true, "description", "name", properties,
+                "definition", dl);
+        assertEquals(RestConstants.ENTRY_POINT + "selfUrl", op.selfLink.url);
     }
 }

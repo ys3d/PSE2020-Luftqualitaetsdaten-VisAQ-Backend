@@ -1,9 +1,12 @@
 package de.visaq.model.sensorthings;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
+
+import de.visaq.RestConstants;
 
 /**
  * Tests {@link Sensorthing}.
@@ -25,6 +28,17 @@ public class SensorthingTest {
         assertFalse(t1.equals(tnull));
         assertFalse(t1.equals(null));
         assertFalse(t1.equals(new Object()));
+    }
+
+    @Test
+    public void initTest() {
+        TestThing th = new TestThing("id", "selfUrl", false);
+
+        assertEquals("id", th.id);
+        assertEquals("selfUrl", th.selfLink.url);
+
+        th = new TestThing("id", "selfUrl", true);
+        assertEquals(RestConstants.ENTRY_POINT + "selfUrl", th.selfLink.url);
     }
 
     /**
