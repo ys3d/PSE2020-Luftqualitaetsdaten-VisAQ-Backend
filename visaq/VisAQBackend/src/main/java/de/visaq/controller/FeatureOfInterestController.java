@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import de.visaq.controller.link.MultiNavigationLink;
 import de.visaq.controller.link.MultiOnlineLink;
@@ -26,7 +27,12 @@ public class FeatureOfInterestController extends SensorthingController<FeatureOf
     }
 
     @Override
-    @PostMapping(value = MAPPING, params = { "id" })
+    @PostMapping(value = MAPPING)
+    public FeatureOfInterest get(@RequestBody IdWrapper idWrapper) {
+        return get(idWrapper.id);
+    }
+
+    @Override
     public FeatureOfInterest get(String id) {
         return (FeatureOfInterest) new SingleOnlineLink<FeatureOfInterest>(
                 MessageFormat.format("/FeaturesOfInterest(''{0}'')", id), true).get(this);

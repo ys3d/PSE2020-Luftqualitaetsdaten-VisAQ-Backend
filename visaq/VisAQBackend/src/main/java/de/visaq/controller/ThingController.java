@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.visaq.controller.link.MultiNavigationLink;
@@ -36,8 +36,8 @@ public class ThingController extends SensorthingController<Thing> {
      * @param square Covers the area of all allowed locations
      * @return An array of Thing objects that were retrieved.
      */
-    @PostMapping(value = MAPPING + "/all", params = { "square" })
-    public ArrayList<Thing> getAll(Square square) {
+    @PostMapping(value = MAPPING + "/all")
+    public ArrayList<Thing> getAll(@RequestBody Square square) {
         return new MultiOnlineLink<Thing>(MessageFormat
                 .format("/Thing?$filter=st_within(location, geography''{{0}}'')", square), true)
                         .get(this);
@@ -45,8 +45,13 @@ public class ThingController extends SensorthingController<Thing> {
     }
 
     @Override
-    @PostMapping(value = MAPPING, params = { "id" })
-    public Thing get(@RequestParam String id) {
+    @PostMapping(value = MAPPING)
+    public Thing get(@RequestBody IdWrapper idWrapper) {
+        return get(idWrapper.id);
+    }
+
+    @Override
+    public Thing get(String id) {
         return (Thing) new SingleOnlineLink<Thing>(MessageFormat.format("/Things(''{0}'')", id),
                 true).get(this);
     }

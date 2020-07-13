@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import de.visaq.controller.link.MultiNavigationLink;
 import de.visaq.controller.link.MultiOnlineLink;
@@ -29,13 +30,18 @@ public class ObservedPropertyController extends SensorthingController<ObservedPr
      * @param datastream The Datastream entity
      * @return The ObservedProperty
      */
-    @PostMapping(value = MAPPING, params = { "datastream" })
-    public ObservedProperty get(Datastream datastream) {
+    @PostMapping(value = MAPPING)
+    public ObservedProperty get(@RequestBody Datastream datastream) {
         return (ObservedProperty) datastream.observedPropertyLink.get(this);
     }
 
     @Override
-    @PostMapping(value = MAPPING, params = { "id" })
+    @PostMapping(value = MAPPING)
+    public ObservedProperty get(@RequestBody IdWrapper idWrapper) {
+        return get(idWrapper.id);
+    }
+
+    @Override
     public ObservedProperty get(String id) {
         return (ObservedProperty) new SingleOnlineLink<ObservedProperty>(
                 MessageFormat.format("/ObservedProperties(''{0}'')", id), true).get(this);

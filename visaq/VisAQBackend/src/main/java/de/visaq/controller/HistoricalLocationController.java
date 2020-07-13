@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import de.visaq.controller.link.MultiNavigationLink;
 import de.visaq.controller.link.MultiOnlineLink;
@@ -26,7 +27,12 @@ public class HistoricalLocationController extends SensorthingController<Historic
     }
 
     @Override
-    @PostMapping(value = MAPPING, params = { "id" })
+    @PostMapping(value = MAPPING)
+    public HistoricalLocation get(@RequestBody IdWrapper idWrapper) {
+        return get(idWrapper.id);
+    }
+
+    @Override
     public HistoricalLocation get(String id) {
         return (HistoricalLocation) new SingleOnlineLink<HistoricalLocation>(
                 MessageFormat.format("/HistoricalLocations(''{0}'')", id), true).get(this);
