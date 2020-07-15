@@ -7,7 +7,9 @@ import java.util.ArrayList;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import de.visaq.controller.link.MultiOnlineLink;
 import de.visaq.controller.link.SingleNavigationLink;
@@ -24,6 +26,24 @@ import de.visaq.model.sensorthings.ObservedProperty;
 public class ObservationController extends SensorthingController<Observation> {
     public static final String MAPPING = "/api/observation";
 
+    static class AreaWrapper {
+        public Square square;
+        public Instant time;
+        public TemporalAmount range;
+        public ObservedProperty observedProperty;
+
+        public AreaWrapper() {
+        }
+
+        public AreaWrapper(Square square, Instant time, TemporalAmount range,
+                ObservedProperty observedProperty) {
+            this.square = square;
+            this.time = time;
+            this.range = range;
+            this.observedProperty = observedProperty;
+        }
+    }
+
     @Override
     public ArrayList<Observation> getAll() {
         return new MultiOnlineLink<Observation>("/Observations", true).get(this);
@@ -35,9 +55,24 @@ public class ObservationController extends SensorthingController<Observation> {
      * @param datastream The Datastream entity
      * @return An ArrayList containing the associated Observation entities
      */
-    @PostMapping(value = MAPPING + "/all", params = { "datastream" })
-    public ArrayList<Observation> getAll(Datastream datastream) {
+    @CrossOrigin
+    @PostMapping(value = MAPPING + "/all/datastream")
+    public ArrayList<Observation> getAll(@RequestBody Datastream datastream) {
         return datastream.observationsLink.get(this);
+    }
+
+    /**
+     * Retrieves the Observation entities of an ObservedProperty entity within a specified square
+     * and time range.
+     * 
+     * @param areaWrapper Encapsulates a Square, Instant, Range and ObservedProperty
+     * @return An ArrayList of Observation entities
+     */
+    @CrossOrigin
+    @PostMapping(value = MAPPING + "/all/area")
+    public ArrayList<Observation> getAll(@RequestBody AreaWrapper areaWrapper) {
+        return getAll(areaWrapper.square, areaWrapper.time, areaWrapper.range,
+                areaWrapper.observedProperty);
     }
 
     /**
@@ -51,8 +86,6 @@ public class ObservationController extends SensorthingController<Observation> {
      * @param observedProperty The ObservedProperty that was observed
      * @return An ArrayList of Observation entities
      */
-    @PostMapping(value = MAPPING + "/all",
-            params = { "square", "time", "range", "observedProperty" })
     public ArrayList<Observation> getAll(Square square, Instant time, TemporalAmount range,
             ObservedProperty observedProperty) {
         return new MultiOnlineLink<Observation>(MessageFormat.format(
@@ -63,8 +96,14 @@ public class ObservationController extends SensorthingController<Observation> {
                 time.minus(range), time.plus(range), observedProperty.id, square), true).get(this);
     }
 
+    @CrossOrigin
     @Override
-    @PostMapping(value = MAPPING, params = { "id" })
+    @PostMapping(value = MAPPING + "/id")
+    public Observation get(@RequestBody IdWrapper idWrapper) {
+        return get(idWrapper.id);
+    }
+
+    @Override
     public Observation get(String id) {
         return (Observation) new SingleOnlineLink<Observation>(
                 MessageFormat.format("/Observations(''{0}'')", id), true).get(this);

@@ -4,7 +4,9 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 
 import org.json.JSONObject;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import de.visaq.controller.link.MultiNavigationLink;
 import de.visaq.controller.link.MultiOnlineLink;
@@ -24,8 +26,14 @@ public class LocationController extends SensorthingController<Location> {
         return new MultiOnlineLink<Location>("/Locations", true).get(this);
     }
 
+    @CrossOrigin
     @Override
-    @PostMapping(value = MAPPING, params = { "id" })
+    @PostMapping(value = MAPPING + "/id")
+    public Location get(@RequestBody IdWrapper idWrapper) {
+        return get(idWrapper.id);
+    }
+
+    @Override
     public Location get(String id) {
         return (Location) new SingleOnlineLink<Location>(
                 MessageFormat.format("/Locations(''{0}'')", id), true).get(this);

@@ -4,8 +4,9 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 
 import org.json.JSONObject;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.visaq.controller.link.MultiNavigationLink;
@@ -25,6 +26,38 @@ import de.visaq.model.sensorthings.Thing;
 public class DatastreamController extends SensorthingController<Datastream> {
     public static final String MAPPING = "/api/datastream";
 
+    /**
+     * Encapsulates a Thing and an ObservedProperty.
+     */
+    static class ThingAndObservedPropertyWrapper {
+        public Thing thing;
+        public ObservedProperty observedProperty;
+
+        public ThingAndObservedPropertyWrapper() {
+        }
+
+        public ThingAndObservedPropertyWrapper(Thing thing, ObservedProperty observedProperty) {
+            this.thing = thing;
+            this.observedProperty = observedProperty;
+        }
+    }
+
+    /**
+     * Encapsulates a Sensor and an ObservedProperty.
+     */
+    static class SensorAndObservedPropertyWrapper {
+        public Sensor sensor;
+        public ObservedProperty observedProperty;
+
+        public SensorAndObservedPropertyWrapper() {
+        }
+
+        public SensorAndObservedPropertyWrapper(Sensor sensor, ObservedProperty observedProperty) {
+            this.sensor = sensor;
+            this.observedProperty = observedProperty;
+        }
+    }
+
     @Override
     public ArrayList<Datastream> getAll() {
         return new MultiOnlineLink<Datastream>("/Datastreams", true).get(this);
@@ -36,8 +69,9 @@ public class DatastreamController extends SensorthingController<Datastream> {
      * @param thing Thing the Datastream objects are associated with.
      * @return An array of Datastream objects that were retrieved.
      */
-    @PostMapping(value = MAPPING + "/all", params = { "thing" })
-    public ArrayList<Datastream> getAll(@RequestParam Thing thing) {
+    @CrossOrigin
+    @PostMapping(value = MAPPING + "/all/thing")
+    public ArrayList<Datastream> getAll(@RequestBody Thing thing) {
         return thing.datastreamsLink.get(this);
     }
 
@@ -47,9 +81,22 @@ public class DatastreamController extends SensorthingController<Datastream> {
      * @param sensor Sensor the Datastream objects are associated with.
      * @return An array of Datastream objects that were retrieved.
      */
-    @PostMapping(value = MAPPING + "/all", params = { "sensor" })
-    public ArrayList<Datastream> getAll(@RequestParam Sensor sensor) {
+    @CrossOrigin
+    @PostMapping(value = MAPPING + "/all/sensor")
+    public ArrayList<Datastream> getAll(@RequestBody Sensor sensor) {
         return sensor.datastreamsLink.get(this);
+    }
+
+    /**
+     * Retrieves the Datastream object for the ObservedProperty of the specified Thing.
+     * 
+     * @param wrapper Encapsulates the Thing and the ObservedProperty
+     * @return The Datastream object that was retrieved.
+     */
+    @CrossOrigin
+    @PostMapping(value = MAPPING + "/thing/observedProperty")
+    public Datastream get(@RequestBody ThingAndObservedPropertyWrapper wrapper) {
+        return get(wrapper.thing, wrapper.observedProperty);
     }
 
     /**
@@ -59,12 +106,22 @@ public class DatastreamController extends SensorthingController<Datastream> {
      * @param observedProperty Observed Property the Datastream is associated with.
      * @return The Datastream object that was retrieved.
      */
-    @PostMapping(value = MAPPING, params = { "thing", "observedProperty" })
-    public Datastream get(@RequestParam Thing thing,
-            @RequestParam ObservedProperty observedProperty) {
+    public Datastream get(Thing thing, ObservedProperty observedProperty) {
         return (Datastream) new SingleOnlineLink<Datastream>(MessageFormat.format(
                 "/Things(''{0}'')/Datastreams?$filter=ObservedProperty/@iot.id eq ''{1}''",
                 thing.id, observedProperty.id), true).get(this);
+    }
+
+    /**
+     * Retrieves the Datastream object for the observed property of the specified Sensor.
+     * 
+     * @param wrapper Encapsulates the Sensor and the ObservedProperty
+     * @return The Datastream object that was retrieved.
+     */
+    @CrossOrigin
+    @PostMapping(value = MAPPING + "/sensor/observedProperty")
+    public Datastream get(@RequestBody SensorAndObservedPropertyWrapper wrapper) {
+        return get(wrapper.sensor, wrapper.observedProperty);
     }
 
     /**
@@ -74,17 +131,21 @@ public class DatastreamController extends SensorthingController<Datastream> {
      * @param observedProperty Observed Property the Datastream is associated with.
      * @return The Datastream object that was retrieved.
      */
-    @PostMapping(value = MAPPING, params = { "sensor", "observedProperty" })
-    public Datastream get(@RequestParam Sensor sensor,
-            @RequestParam ObservedProperty observedProperty) {
+    public Datastream get(Sensor sensor, ObservedProperty observedProperty) {
         return (Datastream) new SingleOnlineLink<Datastream>(MessageFormat.format(
                 "/Sensors(''{0}'')/Datastreams?$filter=ObservedProperty/@iot.id eq ''{1}''",
                 sensor.id, observedProperty.id), true).get(this);
     }
 
-    @PostMapping(value = MAPPING, params = { "id" })
+    @CrossOrigin
+    @PostMapping(value = MAPPING + "/id")
     @Override
-    public Datastream get(@RequestParam String id) {
+    public Datastream get(@RequestBody IdWrapper idWrapper) {
+        return get(idWrapper.id);
+    }
+
+    @Override
+    public Datastream get(String id) {
         return (Datastream) new SingleOnlineLink<Datastream>(
                 MessageFormat.format("/Datastreams(''{0}'')", id), true).get(this);
     }

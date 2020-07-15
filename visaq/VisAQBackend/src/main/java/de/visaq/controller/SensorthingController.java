@@ -16,6 +16,20 @@ import de.visaq.model.sensorthings.Sensorthing;
  */
 public abstract class SensorthingController<SensorthingT extends Sensorthing<SensorthingT>> {
     /**
+     * Encapsulates a unique identifier of a Sensorthings object inside the database.
+     */
+    static class IdWrapper {
+        public String id;
+
+        public IdWrapper() {
+        }
+
+        public IdWrapper(String id) {
+            this.id = id;
+        }
+    }
+
+    /**
      * Retrieves all Sensorthings objects of this type. Can be slow and should be avoided. Use more
      * specific requests instead.
      * 
@@ -42,6 +56,15 @@ public abstract class SensorthingController<SensorthingT extends Sensorthing<Sen
     public Sensorthing<SensorthingT> get(SingleNavigationLink<SensorthingT> navigationLink) {
         return navigationLink.get(this);
     }
+
+    /**
+     * Retrieves the Sensorthings object with the specified identifier.
+     * 
+     * @param idWrapper Encapsulates a unique identifier of a Sensorthings object inside the
+     *                  database.
+     * @return The Sensorthings object that was retrieved.
+     */
+    public abstract SensorthingT get(IdWrapper idWrapper);
 
     /**
      * Retrieves the Sensorthings object with the specified identifier.
