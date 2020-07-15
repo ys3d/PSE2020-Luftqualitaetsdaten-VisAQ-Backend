@@ -4,6 +4,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 
 import org.json.JSONObject;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -26,8 +27,9 @@ public class HistoricalLocationController extends SensorthingController<Historic
         return new MultiOnlineLink<HistoricalLocation>("/HistoricalLocations", true).get(this);
     }
 
+    @CrossOrigin
     @Override
-    @PostMapping(value = MAPPING)
+    @PostMapping(value = MAPPING + "/id")
     public HistoricalLocation get(@RequestBody IdWrapper idWrapper) {
         return get(idWrapper.id);
     }

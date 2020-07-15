@@ -4,6 +4,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 
 import org.json.JSONObject;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -30,13 +31,15 @@ public class ObservedPropertyController extends SensorthingController<ObservedPr
      * @param datastream The Datastream entity
      * @return The ObservedProperty
      */
-    @PostMapping(value = MAPPING)
+    @CrossOrigin
+    @PostMapping(value = MAPPING + "/datastream")
     public ObservedProperty get(@RequestBody Datastream datastream) {
         return (ObservedProperty) datastream.observedPropertyLink.get(this);
     }
 
+    @CrossOrigin
     @Override
-    @PostMapping(value = MAPPING)
+    @PostMapping(value = MAPPING + "/id")
     public ObservedProperty get(@RequestBody IdWrapper idWrapper) {
         return get(idWrapper.id);
     }

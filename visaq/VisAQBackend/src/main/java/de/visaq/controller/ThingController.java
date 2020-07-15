@@ -4,6 +4,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 
 import org.json.JSONObject;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,16 +37,16 @@ public class ThingController extends SensorthingController<Thing> {
      * @param square Covers the area of all allowed locations
      * @return An array of Thing objects that were retrieved.
      */
-    @PostMapping(value = MAPPING + "/all")
+    @PostMapping(value = MAPPING + "/all/square")
     public ArrayList<Thing> getAll(@RequestBody Square square) {
         return new MultiOnlineLink<Thing>(MessageFormat
                 .format("/Thing?$filter=st_within(location, geography''{{0}}'')", square), true)
                         .get(this);
-
     }
 
+    @CrossOrigin
     @Override
-    @PostMapping(value = MAPPING)
+    @PostMapping(value = MAPPING + "/id")
     public Thing get(@RequestBody IdWrapper idWrapper) {
         return get(idWrapper.id);
     }

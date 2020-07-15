@@ -4,6 +4,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 
 import org.json.JSONObject;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -31,7 +32,8 @@ public class SensorController extends SensorthingController<Sensor> {
      * @param thing Thing the Sensor objects are associated with.
      * @return An array of Sensor objects that were retrieved.
      */
-    @PostMapping(value = MAPPING + "/all")
+    @CrossOrigin
+    @PostMapping(value = MAPPING + "/all/thing")
     public ArrayList<Sensor> getAll(@RequestBody Thing thing) {
         return new MultiOnlineLink<Sensor>(
                 MessageFormat.format("/Sensors?$filter=Datastreams/Thing/id eq ''{0}''", thing.id),
@@ -44,13 +46,15 @@ public class SensorController extends SensorthingController<Sensor> {
      * @param datastream Datastream the Sensor object is associated with.
      * @return The Sensor object that was retrieved.
      */
-    @PostMapping(value = MAPPING)
+    @CrossOrigin
+    @PostMapping(value = MAPPING + "/datastream")
     public Sensor get(@RequestBody Datastream datastream) {
         return (Sensor) datastream.sensorLink.get(this);
     }
 
+    @CrossOrigin
     @Override
-    @PostMapping(value = MAPPING)
+    @PostMapping(value = MAPPING + "/id")
     public Sensor get(@RequestBody IdWrapper idWrapper) {
         return get(idWrapper.id);
     }

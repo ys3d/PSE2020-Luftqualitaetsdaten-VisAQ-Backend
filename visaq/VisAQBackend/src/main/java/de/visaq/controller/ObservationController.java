@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -54,7 +55,8 @@ public class ObservationController extends SensorthingController<Observation> {
      * @param datastream The Datastream entity
      * @return An ArrayList containing the associated Observation entities
      */
-    @PostMapping(value = MAPPING + "/all")
+    @CrossOrigin
+    @PostMapping(value = MAPPING + "/all/datastream")
     public ArrayList<Observation> getAll(@RequestBody Datastream datastream) {
         return datastream.observationsLink.get(this);
     }
@@ -66,7 +68,8 @@ public class ObservationController extends SensorthingController<Observation> {
      * @param areaWrapper Encapsulates a Square, Instant, Range and ObservedProperty
      * @return An ArrayList of Observation entities
      */
-    @PostMapping(value = MAPPING + "/all")
+    @CrossOrigin
+    @PostMapping(value = MAPPING + "/all/area")
     public ArrayList<Observation> getAll(@RequestBody AreaWrapper areaWrapper) {
         return getAll(areaWrapper.square, areaWrapper.time, areaWrapper.range,
                 areaWrapper.observedProperty);
@@ -93,8 +96,9 @@ public class ObservationController extends SensorthingController<Observation> {
                 time.minus(range), time.plus(range), observedProperty.id, square), true).get(this);
     }
 
+    @CrossOrigin
     @Override
-    @PostMapping(value = MAPPING)
+    @PostMapping(value = MAPPING + "/id")
     public Observation get(@RequestBody IdWrapper idWrapper) {
         return get(idWrapper.id);
     }

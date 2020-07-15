@@ -4,6 +4,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 
 import org.json.JSONObject;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -68,7 +69,8 @@ public class DatastreamController extends SensorthingController<Datastream> {
      * @param thing Thing the Datastream objects are associated with.
      * @return An array of Datastream objects that were retrieved.
      */
-    @PostMapping(value = MAPPING + "/all")
+    @CrossOrigin
+    @PostMapping(value = MAPPING + "/all/thing")
     public ArrayList<Datastream> getAll(@RequestBody Thing thing) {
         return thing.datastreamsLink.get(this);
     }
@@ -79,7 +81,8 @@ public class DatastreamController extends SensorthingController<Datastream> {
      * @param sensor Sensor the Datastream objects are associated with.
      * @return An array of Datastream objects that were retrieved.
      */
-    @PostMapping(value = MAPPING + "/all")
+    @CrossOrigin
+    @PostMapping(value = MAPPING + "/all/sensor")
     public ArrayList<Datastream> getAll(@RequestBody Sensor sensor) {
         return sensor.datastreamsLink.get(this);
     }
@@ -90,7 +93,8 @@ public class DatastreamController extends SensorthingController<Datastream> {
      * @param wrapper Encapsulates the Thing and the ObservedProperty
      * @return The Datastream object that was retrieved.
      */
-    @PostMapping(value = MAPPING)
+    @CrossOrigin
+    @PostMapping(value = MAPPING + "/thing/observedProperty")
     public Datastream get(@RequestBody ThingAndObservedPropertyWrapper wrapper) {
         return get(wrapper.thing, wrapper.observedProperty);
     }
@@ -114,7 +118,8 @@ public class DatastreamController extends SensorthingController<Datastream> {
      * @param wrapper Encapsulates the Sensor and the ObservedProperty
      * @return The Datastream object that was retrieved.
      */
-    @PostMapping(value = MAPPING)
+    @CrossOrigin
+    @PostMapping(value = MAPPING + "/sensor/observedProperty")
     public Datastream get(@RequestBody SensorAndObservedPropertyWrapper wrapper) {
         return get(wrapper.sensor, wrapper.observedProperty);
     }
@@ -132,7 +137,8 @@ public class DatastreamController extends SensorthingController<Datastream> {
                 sensor.id, observedProperty.id), true).get(this);
     }
 
-    @PostMapping(value = MAPPING)
+    @CrossOrigin
+    @PostMapping(value = MAPPING + "/id")
     @Override
     public Datastream get(@RequestBody IdWrapper idWrapper) {
         return get(idWrapper.id);

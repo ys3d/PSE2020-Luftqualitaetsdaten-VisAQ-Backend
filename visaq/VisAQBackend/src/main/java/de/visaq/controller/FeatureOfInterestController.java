@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -26,8 +27,9 @@ public class FeatureOfInterestController extends SensorthingController<FeatureOf
         return new MultiOnlineLink<FeatureOfInterest>("/FeaturesOfInterest", true).get(this);
     }
 
+    @CrossOrigin
     @Override
-    @PostMapping(value = MAPPING)
+    @PostMapping(value = MAPPING + "/id")
     public FeatureOfInterest get(@RequestBody IdWrapper idWrapper) {
         return get(idWrapper.id);
     }
