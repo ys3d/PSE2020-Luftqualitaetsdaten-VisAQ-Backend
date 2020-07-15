@@ -25,6 +25,7 @@ import de.visaq.model.sensorthings.Thing;
 public class ThingController extends SensorthingController<Thing> {
     public static final String MAPPING = "/api/thing";
 
+    @CrossOrigin
     @Override
     @PostMapping(value = MAPPING + "/all")
     public ArrayList<Thing> getAll() {
