@@ -26,8 +26,9 @@ public class ThingController extends SensorthingController<Thing> {
     public static final String MAPPING = "/api/thing";
 
     @Override
+    @PostMapping(value = MAPPING + "/all")
     public ArrayList<Thing> getAll() {
-        MultiOnlineLink<Thing> multiLink = new MultiOnlineLink<Thing>("/Things?$top=3", true);
+        MultiOnlineLink<Thing> multiLink = new MultiOnlineLink<Thing>("/Things", true);
         return multiLink.get(this);
     }
 
@@ -37,6 +38,7 @@ public class ThingController extends SensorthingController<Thing> {
      * @param square Covers the area of all allowed locations
      * @return An array of Thing objects that were retrieved.
      */
+    @CrossOrigin
     @PostMapping(value = MAPPING + "/all/square")
     public ArrayList<Thing> getAll(@RequestBody Square square) {
         return new MultiOnlineLink<Thing>(MessageFormat
