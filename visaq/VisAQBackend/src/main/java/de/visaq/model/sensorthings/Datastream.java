@@ -2,6 +2,8 @@ package de.visaq.model.sensorthings;
 
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import de.visaq.controller.link.MultiNavigationLink;
 import de.visaq.controller.link.SingleNavigationLink;
 
@@ -44,11 +46,16 @@ public class Datastream extends Sensorthing<Datastream> implements SensorthingsP
      * @param unitOfMeasurement    The Unit of Measurement
      * @param observedPropertyLink Link to the {@link ObservedProperty}
      */
-    public Datastream(String id, String selfUrl, boolean relative, String name, String description,
-            Map<String, Object> properties, String observationTypeLink,
-            SingleNavigationLink<Sensor> sensorLink, SingleNavigationLink<Thing> thingLink,
-            MultiNavigationLink<Observation> observationsLink, UnitOfMeasurement unitOfMeasurement,
-            SingleNavigationLink<ObservedProperty> observedPropertyLink) {
+    public Datastream(@JsonProperty("id") String id, @JsonProperty("selfUrl") String selfUrl,
+            @JsonProperty("relative") boolean relative, @JsonProperty("name") String name,
+            @JsonProperty("description") String description,
+            @JsonProperty("properties") Map<String, Object> properties,
+            @JsonProperty("observationTypeLink") String observationTypeLink,
+            @JsonProperty("sensorLink") SingleNavigationLink<Sensor> sensorLink,
+            @JsonProperty("thingLink") SingleNavigationLink<Thing> thingLink,
+            @JsonProperty("observationsLink") MultiNavigationLink<Observation> observationsLink,
+            @JsonProperty("unitOfMeasurement") UnitOfMeasurement unitOfMeasurement,
+            @JsonProperty("observedPropertyLink") SingleNavigationLink<ObservedProperty> observedPropertyLink) {
         super(id, selfUrl, relative);
         this.name = name;
         this.description = description;

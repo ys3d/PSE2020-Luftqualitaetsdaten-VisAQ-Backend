@@ -2,6 +2,8 @@ package de.visaq.model.sensorthings;
 
 import java.time.Instant;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import de.visaq.controller.link.SingleNavigationLink;
 
 /**
@@ -35,9 +37,12 @@ public class Observation extends Sensorthing<Observation> implements Sensorthing
      * @param datastreamLink        Link to the {@link Datastream}
      * @param featureOfInterestLink Link to the {@link FeatureOfInterest}
      */
-    public Observation(String id, String selfUrl, boolean relative, Instant phenomenonTime,
-            Double result, Instant resultTime, SingleNavigationLink<Datastream> datastreamLink,
-            SingleNavigationLink<FeatureOfInterest> featureOfInterestLink) {
+    public Observation(@JsonProperty("id") String id, @JsonProperty("selfUrl") String selfUrl,
+            @JsonProperty("relative") boolean relative,
+            @JsonProperty("phenomenonTime") Instant phenomenonTime,
+            @JsonProperty("result") Double result, @JsonProperty("resultTime") Instant resultTime,
+            @JsonProperty("datastreamLink") SingleNavigationLink<Datastream> datastreamLink,
+            @JsonProperty("featureOfInterestLink") SingleNavigationLink<FeatureOfInterest> featureOfInterestLink) {
         super(id, selfUrl, relative);
         this.phenomenonTime = phenomenonTime;
         this.result = result;

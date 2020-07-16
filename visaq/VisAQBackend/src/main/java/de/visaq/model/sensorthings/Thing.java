@@ -2,6 +2,8 @@ package de.visaq.model.sensorthings;
 
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import de.visaq.controller.link.MultiNavigationLink;
 
 /**
@@ -39,10 +41,13 @@ public class Thing extends Sensorthing<Thing> implements SensorthingsProperties 
      * @param historicalLocationsLink Links to the {@link HistoricalLocation}
      * @param locationsLink           Links to the {@link Location}
      */
-    public Thing(String id, String selfUrl, boolean relative, String description, String name,
-            Map<String, Object> properties, MultiNavigationLink<Datastream> datastreamsLink,
-            MultiNavigationLink<HistoricalLocation> historicalLocationsLink,
-            MultiNavigationLink<Location> locationsLink) {
+    public Thing(@JsonProperty("id") String id, @JsonProperty("selfUrl") String selfUrl,
+            @JsonProperty("relative") boolean relative,
+            @JsonProperty("description") String description, @JsonProperty("name") String name,
+            @JsonProperty("properties") Map<String, Object> properties,
+            @JsonProperty("datastreamsLink") MultiNavigationLink<Datastream> datastreamsLink,
+            @JsonProperty("historicalLocationsLink") MultiNavigationLink<HistoricalLocation> historicalLocationsLink,
+            @JsonProperty("locationsLink") MultiNavigationLink<Location> locationsLink) {
         super(id, selfUrl, relative);
         this.description = description;
         this.name = name;
