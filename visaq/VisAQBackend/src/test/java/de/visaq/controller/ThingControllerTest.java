@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import de.visaq.controller.link.MultiOnlineLink;
 import de.visaq.controller.link.SingleOnlineLink;
+import de.visaq.model.Square;
 import de.visaq.model.sensorthings.Thing;
 
 /**
@@ -34,5 +35,12 @@ public class ThingControllerTest {
         MultiOnlineLink<Thing> mol = new MultiOnlineLink<Thing>("/Things?$top=2", true);
         mol.get(CONTROLLER);
         mol.get(CONTROLLER);
+    }
+
+    @Test
+    public void testMultiThingGetBySquare() {
+        Square square = new Square(10, 11, 48, 49);
+        assertNotNull(CONTROLLER.getAll(square));
+
     }
 }

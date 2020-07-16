@@ -1,6 +1,6 @@
 package de.visaq.controller;
 
-import java.awt.Point;
+import java.awt.geom.Point2D;
 import java.time.Instant;
 import java.util.Map;
 
@@ -45,7 +45,7 @@ public final class UtilityController {
      * @param json The JSON Object.
      * @return The constructed Point.
      */
-    public static Point buildLocationPoint(JSONObject json) {
+    public static Point2D.Double buildLocationPoint(JSONObject json) {
         JSONArray pointArray;
 
         if (json.has("location")) {
@@ -56,8 +56,7 @@ public final class UtilityController {
             return null;
         }
 
-        Point point = new Point();
-        point.setLocation(pointArray.getDouble(0), pointArray.getDouble(1));
+        Point2D.Double point = new Point2D.Double(pointArray.getDouble(0), pointArray.getDouble(1));
         return point;
     }
 

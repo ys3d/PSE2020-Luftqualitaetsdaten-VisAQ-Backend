@@ -12,7 +12,7 @@ public class VisAQ {
     /**
      * Version of the server-software.
      */
-    public static final String VERSION = "2020.07.15#3";
+    public static final String VERSION = "2020.07.16#2";
 
     /**
      * Spring application entry point.

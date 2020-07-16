@@ -13,7 +13,7 @@ import de.visaq.model.sensorthings.Sensorthing;
  */
 public class MultiLocalLink<SensorthingT extends Sensorthing<SensorthingT>>
         extends MultiNavigationLink<SensorthingT> {
-    private final ArrayList<SensorthingT> cachedSensorthing;
+    public final ArrayList<SensorthingT> cachedSensorthing;
 
     /**
      * Constructs a new MultiLocalLink with a query that possibly returns multiple Sensorthings

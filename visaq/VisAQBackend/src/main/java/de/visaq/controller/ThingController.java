@@ -42,9 +42,9 @@ public class ThingController extends SensorthingController<Thing> {
     @CrossOrigin
     @PostMapping(value = MAPPING + "/all/square")
     public ArrayList<Thing> getAll(@RequestBody Square square) {
-        return new MultiOnlineLink<Thing>(MessageFormat
-                .format("/Thing?$filter=st_within(location, geography''{{0}}'')", square), true)
-                        .get(this);
+        return new MultiOnlineLink<Thing>(MessageFormat.format(
+                "/Things?$expand=Locations&$filter=st_within(Locations/location, geography''{0}'')",
+                square), true).get(this);
     }
 
     @CrossOrigin
@@ -82,6 +82,7 @@ public class ThingController extends SensorthingController<Thing> {
                 json.getString("description"), json.getString("name"),
                 UtilityController.buildProperties(json), datastreams, historicalLocations,
                 locations);
+
         return thing;
     }
 }

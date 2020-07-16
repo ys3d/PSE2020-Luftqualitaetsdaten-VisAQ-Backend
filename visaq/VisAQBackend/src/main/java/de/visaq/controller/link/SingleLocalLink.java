@@ -11,7 +11,7 @@ import de.visaq.model.sensorthings.Sensorthing;
  */
 public class SingleLocalLink<SensorthingT extends Sensorthing<SensorthingT>>
         extends SingleNavigationLink<SensorthingT> {
-    private final Sensorthing<SensorthingT> cachedSensorthing;
+    public final Sensorthing<SensorthingT> cachedSensorthing;
 
     /**
      * Constructs a new SingleLocalLink with a query that returns a Sensorthings entity and caches

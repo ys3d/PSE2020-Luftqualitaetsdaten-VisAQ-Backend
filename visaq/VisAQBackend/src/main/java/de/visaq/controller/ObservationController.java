@@ -91,8 +91,8 @@ public class ObservationController extends SensorthingController<Observation> {
         return new MultiOnlineLink<Observation>(MessageFormat.format(
                 "/Observations?$filter=phenomenonTime gt ''{0}'' and "
                         + "phenomenonTime lt ''{1}'' and "
-                        + "Datastream/ObservedProperty/id eq ''{{2}}'' and "
-                        + "st_within(location, geography''{{3}}'')",
+                        + "Datastream/ObservedProperty/id eq ''{2}'' and "
+                        + "st_within(Datastream/Locations/location, geography''{3}'')",
                 time.minus(range), time.plus(range), observedProperty.id, square), true).get(this);
     }
 

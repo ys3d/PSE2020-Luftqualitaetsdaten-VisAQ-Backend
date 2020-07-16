@@ -1,6 +1,6 @@
 package de.visaq.controller;
 
-import java.awt.Point;
+import java.awt.geom.Point2D;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
@@ -47,7 +47,7 @@ public class FeatureOfInterestController extends SensorthingController<FeatureOf
      * @return The Point that was retrieved from the features or null if the features do not contain
      *         a point.
      */
-    public Point getLocationPoint(FeatureOfInterest foi) {
+    public Point2D.Double getLocationPoint(FeatureOfInterest foi) {
         try {
             JSONObject json = new JSONObject(foi.features);
             return UtilityController.buildLocationPoint(json);

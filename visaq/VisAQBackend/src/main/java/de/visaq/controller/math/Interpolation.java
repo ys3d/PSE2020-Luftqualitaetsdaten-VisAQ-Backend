@@ -1,6 +1,6 @@
 package de.visaq.controller.math;
 
-import java.awt.Point;
+import java.awt.geom.Point2D;
 import java.time.Instant;
 import java.time.temporal.TemporalAmount;
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public abstract class Interpolation {
         ArrayList<Coordinate> coordinates = new ArrayList<>();
 
         observations.forEach((observation) -> {
-            Point p = controller.getLocationPoint(
+            Point2D.Double p = controller.getLocationPoint(
                     (FeatureOfInterest) observation.featureOfInterestLink.get(controller));
 
             if (p != null) {

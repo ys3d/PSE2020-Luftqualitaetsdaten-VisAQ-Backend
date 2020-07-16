@@ -4,10 +4,14 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import java.time.Duration;
+import java.time.Instant;
+
 import org.junit.Test;
 
 import de.visaq.controller.link.MultiOnlineLink;
 import de.visaq.controller.link.SingleOnlineLink;
+import de.visaq.model.Square;
 import de.visaq.model.sensorthings.Observation;
 
 /**
@@ -41,5 +45,15 @@ public class ObservationControllerTest {
     @Test
     public void testMultiObservationGetByDatastream() {
         assertFalse(CONTROLLER.getAll(SensorthingsControllerTests.ALIVEDATASTREAM).isEmpty());
+    }
+
+    @Test
+    public void testMultiObservationGetByArea() {
+        Square square = new Square(10, 11, 48, 49);
+        Instant instant = Instant.now();
+        Duration range = Duration.ofMinutes(5);
+
+        assertNotNull(CONTROLLER.getAll(square, instant, range,
+                SensorthingsControllerTests.ALIVEOBSERVEDPROPERTY));
     }
 }

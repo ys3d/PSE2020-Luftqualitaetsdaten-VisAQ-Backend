@@ -2,7 +2,7 @@ package de.visaq.model.sensorthings;
 
 import static org.junit.Assert.assertEquals;
 
-import java.awt.Point;
+import java.awt.geom.Point2D;
 
 import org.junit.Test;
 
@@ -16,7 +16,7 @@ import de.visaq.controller.link.MultiOnlineLink;
 public class LocationTest {
     @Test
     public void initTest() {
-        Point p = new Point(3, 4);
+        Point2D.Double p = new Point2D.Double(3, 4);
         MultiNavigationLink<HistoricalLocation> hl =
                 new MultiOnlineLink<HistoricalLocation>("url", false);
         MultiNavigationLink<Thing> tl = new MultiOnlineLink<Thing>("url", false);

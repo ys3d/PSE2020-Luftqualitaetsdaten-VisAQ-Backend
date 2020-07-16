@@ -42,7 +42,7 @@ public class ThingTest {
     }
 
     @Test
-    public void getpropertyTest() {
+    public void getPropertyTest() {
         Thing thing = new Thing("id", "selfUrl", true, "description", "name", properties, null,
                 null, null);
         assertEquals(-15, (int) thing.getPropertyByKey("integer"));
