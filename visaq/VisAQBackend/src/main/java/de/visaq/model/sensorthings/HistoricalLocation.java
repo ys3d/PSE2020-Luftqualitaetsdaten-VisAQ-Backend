@@ -2,6 +2,8 @@ package de.visaq.model.sensorthings;
 
 import java.time.Instant;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import de.visaq.controller.link.MultiNavigationLink;
 import de.visaq.controller.link.SingleNavigationLink;
 
@@ -32,8 +34,11 @@ public class HistoricalLocation extends Sensorthing<HistoricalLocation>
      * @param thingLink     Link to the {@link Thing}
      * @param locationsLink Links to the {@link Location}s
      */
-    public HistoricalLocation(String id, String selfUrl, boolean relative, Instant time,
-            SingleNavigationLink<Thing> thingLink, MultiNavigationLink<Location> locationsLink) {
+    public HistoricalLocation(@JsonProperty("id") String id,
+            @JsonProperty("selfUrl") String selfUrl, @JsonProperty("relative") boolean relative,
+            @JsonProperty("time") Instant time,
+            @JsonProperty("thingLink") SingleNavigationLink<Thing> thingLink,
+            @JsonProperty("locationsLink") MultiNavigationLink<Location> locationsLink) {
         super(id, selfUrl, relative);
         this.time = time;
         this.thingLink = thingLink;
