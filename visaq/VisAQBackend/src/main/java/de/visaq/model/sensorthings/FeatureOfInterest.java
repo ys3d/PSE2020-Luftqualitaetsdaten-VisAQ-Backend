@@ -2,6 +2,8 @@ package de.visaq.model.sensorthings;
 
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import de.visaq.controller.link.MultiNavigationLink;
 
 /**
@@ -33,9 +35,11 @@ public class FeatureOfInterest extends Sensorthing<FeatureOfInterest> {
      * @param observationsLink Links to the {@link Observation}
      * @param features         Features
      */
-    public FeatureOfInterest(String id, String selfUrl, boolean relative, String description,
-            String name, MultiNavigationLink<Observation> observationsLink,
-            Map<String, Object> features) {
+    public FeatureOfInterest(@JsonProperty("id") String id, @JsonProperty("selfUrl") String selfUrl,
+            @JsonProperty("relative") boolean relative,
+            @JsonProperty("description") String description, @JsonProperty("name") String name,
+            @JsonProperty("observationsLink") MultiNavigationLink<Observation> observationsLink,
+            @JsonProperty("features") Map<String, Object> features) {
         super(id, selfUrl, relative);
         this.description = description;
         this.name = name;

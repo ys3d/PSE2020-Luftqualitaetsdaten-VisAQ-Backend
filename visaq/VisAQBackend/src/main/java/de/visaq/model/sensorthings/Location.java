@@ -2,6 +2,8 @@ package de.visaq.model.sensorthings;
 
 import java.awt.geom.Point2D;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import de.visaq.controller.link.MultiNavigationLink;
 
 /**
@@ -12,7 +14,7 @@ import de.visaq.controller.link.MultiNavigationLink;
  * The Location entity locates the Thing(s) it associated with. A Thing's Location entity is defined
  * as the last known location of the Thing.
  * </p>
- * 
+ *
  * @see <a href=
  *      "https://developers.sensorup.com/docs/#locations_post">https://developers.sensorup.com/docs/#locations_post</a>
  */
@@ -26,7 +28,7 @@ public class Location extends Sensorthing<Location> {
 
     /**
      * Constructs a new {@link Location}.
-     * 
+     *
      * @param id                      {@link Sensorthing#Sensorthings(String, String, boolean)}
      * @param selfUrl                 {@link Sensorthing#Sensorthings(String, String, boolean)}
      * @param relative                {@link Sensorthing#Sensorthings(String, String, boolean)}
@@ -36,10 +38,12 @@ public class Location extends Sensorthing<Location> {
      * @param historicalLocationsLink Links to the {@link HistoricalLocation}
      * @param thingsLink              Links to the {@link Thing}
      */
-    public Location(String id, String selfUrl, boolean relative, String name, String description,
-            Point2D.Double location,
-            MultiNavigationLink<HistoricalLocation> historicalLocationsLink,
-            MultiNavigationLink<Thing> thingsLink) {
+    public Location(@JsonProperty("id") String id, @JsonProperty("selfUrl") String selfUrl,
+            @JsonProperty("relative") boolean relative, @JsonProperty("name") String name,
+            @JsonProperty("description") String description,
+            @JsonProperty("location") Point2D.Double location,
+            @JsonProperty("historicalLocationsLink") MultiNavigationLink<HistoricalLocation> historicalLocationsLink,
+            @JsonProperty("thingsLink") MultiNavigationLink<Thing> thingsLink) {
         super(id, selfUrl, relative);
         this.name = name;
         this.description = description;
