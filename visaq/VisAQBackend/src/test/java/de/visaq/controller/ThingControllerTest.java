@@ -41,6 +41,5 @@ public class ThingControllerTest {
     public void testMultiThingGetBySquare() {
         Square square = new Square(10, 11, 48, 49);
         assertNotNull(CONTROLLER.getAll(square));
-
     }
 }

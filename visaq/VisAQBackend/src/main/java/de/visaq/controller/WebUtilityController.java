@@ -1,11 +1,12 @@
 package de.visaq.controller;
 
+import java.time.Duration;
+
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.visaq.VisAQ;
-import de.visaq.model.Square;
 
 /**
  * Provides functions to check the spring application from the web interface.
@@ -23,8 +24,7 @@ public class WebUtilityController {
     }
 
     @GetMapping(value = "/test", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Square test() {
-        Square square = new Square(47, 48, 10, 11);
-        return square;
+    public Duration test() {
+        return Duration.ofHours(12);
     }
 }

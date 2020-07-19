@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import de.visaq.controller.link.MultiNavigationLink;
 import de.visaq.controller.link.MultiOnlineLink;
@@ -19,6 +20,7 @@ import de.visaq.model.sensorthings.Observation;
 /**
  * Encapsulates the control over FeatureOfIntrest objects.
  */
+@RestController
 public class FeatureOfInterestController extends SensorthingController<FeatureOfInterest> {
     public static final String MAPPING = "/api/featureOfInterest";
 

@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNull;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
 
 import org.junit.Test;
 
@@ -13,6 +14,7 @@ import de.visaq.controller.link.MultiOnlineLink;
 import de.visaq.controller.link.SingleOnlineLink;
 import de.visaq.model.Square;
 import de.visaq.model.sensorthings.Observation;
+import de.visaq.model.sensorthings.Thing;
 
 /**
  * Tests {@link ObservationController}.
@@ -50,10 +52,21 @@ public class ObservationControllerTest {
     @Test
     public void testMultiObservationGetByArea() {
         Square square = new Square(10, 11, 48, 49);
-        Instant instant = Instant.now();
+        Instant time = Instant.now();
         Duration range = Duration.ofMinutes(5);
 
-        assertNotNull(CONTROLLER.getAll(square, instant, range,
+        assertNotNull(CONTROLLER.getAll(square, time, range,
+                SensorthingsControllerTests.ALIVEOBSERVEDPROPERTY));
+    }
+
+    @Test
+    public void testMultiObservationGetByTimeframedThings() {
+        ArrayList<Thing> things = new ArrayList<Thing>();
+        things.add(SensorthingsControllerTests.ALIVETHING);
+        Instant time = Instant.now();
+        Duration range = Duration.ofHours(12);
+
+        assertNotNull(CONTROLLER.getAll(things, time, range,
                 SensorthingsControllerTests.ALIVEOBSERVEDPROPERTY));
     }
 }
