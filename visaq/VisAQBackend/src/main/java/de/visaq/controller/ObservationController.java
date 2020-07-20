@@ -51,14 +51,14 @@ public class ObservationController extends SensorthingController<Observation> {
      */
     static class TopWrapper {
         public int topNumber;
-        public String dataStreamID;
+        public String datastreamID;
 
         public TopWrapper() {
         }
 
-        public TopWrapper(int topNumber, String dataStreamID) {
+        public TopWrapper(int topNumber, String datastreamID) {
             this.topNumber = topNumber;
-            this.dataStreamID = dataStreamID;
+            this.datastreamID = datastreamID;
         }
 
     }
@@ -101,12 +101,12 @@ public class ObservationController extends SensorthingController<Observation> {
      * @return A number of newest elements
      */
     @CrossOrigin
-    @PostMapping(value = MAPPING + "/newest")
-    public ArrayList<Observation> getTop(@RequestBody TopWrapper topWrapper) {
+    @PostMapping(value = MAPPING + "/all/newest")
+    public ArrayList<Observation> getNewest(@RequestBody TopWrapper topWrapper) {
         return new MultiOnlineLink<Observation>(MessageFormat.format(
                 "/Observations?$orderby=phenomenonTime desc&$top={0,number,integer}&"
                         + "$filter=Datastream/id eq ''{1}''",
-                topWrapper.topNumber, topWrapper.dataStreamID), true).get(this);
+                topWrapper.topNumber, topWrapper.datastreamID), true).get(this);
     }
 
     /**
