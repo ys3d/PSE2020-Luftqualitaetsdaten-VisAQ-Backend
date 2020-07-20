@@ -51,14 +51,14 @@ public class ObservationController extends SensorthingController<Observation> {
      */
     static class TopWrapper {
         public int topNumber;
-        public String datastreamID;
+        public String datastreamId;
 
         public TopWrapper() {
         }
 
-        public TopWrapper(int topNumber, String datastreamID) {
+        public TopWrapper(int topNumber, String datastreamId) {
             this.topNumber = topNumber;
-            this.datastreamID = datastreamID;
+            this.datastreamId = datastreamId;
         }
 
     }
@@ -106,7 +106,7 @@ public class ObservationController extends SensorthingController<Observation> {
         return new MultiOnlineLink<Observation>(MessageFormat.format(
                 "/Observations?$orderby=phenomenonTime desc&$top={0,number,integer}&"
                         + "$filter=Datastream/id eq ''{1}''",
-                topWrapper.topNumber, topWrapper.datastreamID), true).get(this);
+                topWrapper.topNumber, topWrapper.datastreamId), true).get(this);
     }
 
     /**
