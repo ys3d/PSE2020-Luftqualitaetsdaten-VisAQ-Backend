@@ -2,9 +2,12 @@ package de.visaq.model.sensorthings;
 
 import java.awt.geom.Point2D;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import de.visaq.controller.link.MultiNavigationLink;
+import de.visaq.spring.DedupingResolver;
 
 /**
  * <p>
@@ -18,6 +21,8 @@ import de.visaq.controller.link.MultiNavigationLink;
  * @see <a href=
  *      "https://developers.sensorup.com/docs/#locations_post">https://developers.sensorup.com/docs/#locations_post</a>
  */
+@JsonIdentityInfo(property = "id", generator = ObjectIdGenerators.PropertyGenerator.class,
+        scope = Location.class, resolver = DedupingResolver.class)
 public class Location extends Sensorthing<Location> {
     public final String name;
     public final String description;
@@ -29,9 +34,9 @@ public class Location extends Sensorthing<Location> {
     /**
      * Constructs a new {@link Location}.
      *
-     * @param id                      {@link Sensorthing#Sensorthings(String, String, boolean)}
-     * @param selfUrl                 {@link Sensorthing#Sensorthings(String, String, boolean)}
-     * @param relative                {@link Sensorthing#Sensorthings(String, String, boolean)}
+     * @param id                      {@link Sensorthing#Sensorthing(String, String, boolean)}
+     * @param selfUrl                 {@link Sensorthing#Sensorthing(String, String, boolean)}
+     * @param relative                {@link Sensorthing#Sensorthing(String, String, boolean)}
      * @param name                    The name of the {@link Location}
      * @param description             The description of the {@link Location}
      * @param location                A point describing the actual location

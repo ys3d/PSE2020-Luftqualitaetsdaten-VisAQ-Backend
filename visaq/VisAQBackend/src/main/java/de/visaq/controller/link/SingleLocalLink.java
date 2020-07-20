@@ -1,5 +1,7 @@
 package de.visaq.controller.link;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import de.visaq.controller.SensorthingController;
 import de.visaq.model.sensorthings.Sensorthing;
 
@@ -21,8 +23,9 @@ public class SingleLocalLink<SensorthingT extends Sensorthing<SensorthingT>>
      * @param relative          {@link NavigationLink#NavigationLink(String, boolean)}
      * @param cachedSensorthing The retrieved entity of this query
      */
-    public SingleLocalLink(String url, boolean relative,
-            Sensorthing<SensorthingT> cachedSensorthing) {
+    public SingleLocalLink(@JsonProperty("url") String url,
+            @JsonProperty("relative") boolean relative,
+            @JsonProperty("cachedSensorthing") Sensorthing<SensorthingT> cachedSensorthing) {
         super(url, relative);
         this.cachedSensorthing = cachedSensorthing;
     }

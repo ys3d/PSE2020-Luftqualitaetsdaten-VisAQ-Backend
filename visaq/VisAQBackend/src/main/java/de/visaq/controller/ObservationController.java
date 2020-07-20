@@ -1,9 +1,10 @@
 package de.visaq.controller;
 
 import java.text.MessageFormat;
+import java.time.Duration;
 import java.time.Instant;
-import java.time.temporal.TemporalAmount;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,17 +32,17 @@ public class ObservationController extends SensorthingController<Observation> {
 
     static class AreaWrapper {
         public Square square;
-        public Instant time;
-        public TemporalAmount range;
+        public long millis;
+        public Duration range;
         public ObservedProperty observedProperty;
 
         public AreaWrapper() {
         }
 
-        public AreaWrapper(Square square, Instant time, TemporalAmount range,
+        public AreaWrapper(Square square, long millis, Duration range,
                 ObservedProperty observedProperty) {
             this.square = square;
-            this.time = time;
+            this.millis = millis;
             this.range = range;
             this.observedProperty = observedProperty;
         }
@@ -49,17 +50,17 @@ public class ObservationController extends SensorthingController<Observation> {
 
     static class TimeframedThingWrapper {
         public ArrayList<Thing> things;
-        public Instant time;
-        public TemporalAmount range;
+        public long millis;
+        public Duration range;
         public ObservedProperty observedProperty;
 
         public TimeframedThingWrapper() {
         }
 
-        public TimeframedThingWrapper(ArrayList<Thing> things, Instant time, TemporalAmount range,
+        public TimeframedThingWrapper(ArrayList<Thing> things, long millis, Duration range,
                 ObservedProperty observedProperty) {
             this.things = things;
-            this.time = time;
+            this.millis = millis;
             this.range = range;
             this.observedProperty = observedProperty;
         }
@@ -92,8 +93,8 @@ public class ObservationController extends SensorthingController<Observation> {
     @CrossOrigin
     @PostMapping(value = MAPPING + "/all/area")
     public ArrayList<Observation> getAll(@RequestBody AreaWrapper areaWrapper) {
-        return getAll(areaWrapper.square, areaWrapper.time, areaWrapper.range,
-                areaWrapper.observedProperty);
+        return getAll(areaWrapper.square, Instant.ofEpochMilli(areaWrapper.millis),
+                areaWrapper.range, areaWrapper.observedProperty);
     }
 
     /**
@@ -107,7 +108,7 @@ public class ObservationController extends SensorthingController<Observation> {
      * @param observedProperty The ObservedProperty that was observed
      * @return An ArrayList of Observation entities
      */
-    public ArrayList<Observation> getAll(Square square, Instant time, TemporalAmount range,
+    public ArrayList<Observation> getAll(Square square, Instant time, Duration range,
             ObservedProperty observedProperty) {
         return new MultiOnlineLink<Observation>(MessageFormat.format(
                 "/Observations?$orderby=phenomenonTime desc&$filter=phenomenonTime gt {0} and "
@@ -129,8 +130,9 @@ public class ObservationController extends SensorthingController<Observation> {
     @PostMapping(value = MAPPING + "/all/things/timeframed")
     public ArrayList<Observation>
             getAll(@RequestBody TimeframedThingWrapper timeframedThingWrapper) {
-        return getAll(timeframedThingWrapper.things, timeframedThingWrapper.time,
-                timeframedThingWrapper.range, timeframedThingWrapper.observedProperty);
+        return getAll(timeframedThingWrapper.things,
+                Instant.ofEpochMilli(timeframedThingWrapper.millis), timeframedThingWrapper.range,
+                timeframedThingWrapper.observedProperty);
     }
 
     /**
@@ -144,9 +146,12 @@ public class ObservationController extends SensorthingController<Observation> {
      * @param observedProperty The ObservedProperty that was observed
      * @return An ArrayList of Observation entities
      */
-    public ArrayList<Observation> getAll(ArrayList<Thing> things, Instant time,
-            TemporalAmount range, ObservedProperty observedProperty) {
-        ArrayList<Observation> observations = new ArrayList<Observation>();
+    public ArrayList<Observation> getAll(ArrayList<Thing> things, Instant time, Duration range,
+            ObservedProperty observedProperty) {
+        Observation[] observations = new Observation[things.size()];
+
+        Instant upper = time.plus(range);
+        Instant lower = time.minus(range);
 
         for (int i = 0; i < things.size(); i++) {
             Thing thing = things.get(i);
@@ -155,14 +160,13 @@ public class ObservationController extends SensorthingController<Observation> {
                             + "$filter=phenomenonTime ge {0} and phenomenonTime le {1} and "
                             + "Datastream/ObservedProperty/id eq ''{2}'' and "
                             + "Datastream/Thing/id eq ''{3}''&$top=1",
-                    time.minus(range), time.plus(range), observedProperty.id, thing.id), true)
-                            .get(this);
+                    lower, upper, observedProperty.id, thing.id), true).get(this);
             if (!temp.isEmpty()) {
-                observations.set(i, temp.get(0));
+                observations[i] = temp.get(0);
             }
         }
 
-        return observations;
+        return new ArrayList<Observation>(Arrays.asList(observations));
     }
 
     @CrossOrigin

@@ -1,8 +1,8 @@
 package de.visaq.controller.math;
 
 import java.awt.geom.Point2D;
+import java.time.Duration;
 import java.time.Instant;
-import java.time.temporal.TemporalAmount;
 import java.util.ArrayList;
 
 import org.locationtech.jts.geom.Coordinate;
@@ -29,7 +29,7 @@ public abstract class Interpolation {
      * @param observedProperty The ObservedProperty that was observed
      * @return An array of PointData
      */
-    public PointDatum[] interpolate(Square square, Instant time, TemporalAmount range,
+    public PointDatum[] interpolate(Square square, Instant time, Duration range,
             ObservedProperty observedProperty) {
         ArrayList<Observation> observations =
                 new ObservationController().getAll(square, time, range, observedProperty);

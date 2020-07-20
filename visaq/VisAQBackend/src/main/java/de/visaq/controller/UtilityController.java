@@ -36,7 +36,7 @@ public final class UtilityController {
      * @return The constructed Instance.
      */
     public static Instant buildTime(JSONObject json, String key) {
-        return Instant.parse(json.getString(key));
+        return Instant.parse(json.getString(key).split("/")[0]);
     }
 
     /**

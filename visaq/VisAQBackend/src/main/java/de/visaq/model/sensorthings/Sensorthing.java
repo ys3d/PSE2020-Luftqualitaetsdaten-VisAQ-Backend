@@ -2,8 +2,10 @@ package de.visaq.model.sensorthings;
 
 import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import de.visaq.controller.link.SingleLocalLink;
 
@@ -13,7 +15,16 @@ import de.visaq.controller.link.SingleLocalLink;
  * @param <SensorthingT> A class that implements the abstract class Sensorthings, used for f-bounded
  *                       quantification.
  */
-@JsonIdentityInfo(property = "id", generator = ObjectIdGenerators.PropertyGenerator.class)
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY)
+@JsonSubTypes({ @JsonSubTypes.Type(value = Datastream.class, name = "Datastream"),
+        @JsonSubTypes.Type(value = FeatureOfInterest.class, name = "FeatureOfInterest"),
+        @JsonSubTypes.Type(value = HistoricalLocation.class, name = "HistoricalLocation"),
+        @JsonSubTypes.Type(value = Location.class, name = "Location"),
+        @JsonSubTypes.Type(value = Observation.class, name = "Observation"),
+        @JsonSubTypes.Type(value = ObservedProperty.class, name = "ObservedProperty"),
+        @JsonSubTypes.Type(value = Sensor.class, name = "Sensor"),
+        @JsonSubTypes.Type(value = Thing.class, name = "Thing") })
 public abstract class Sensorthing<SensorthingT extends Sensorthing<SensorthingT>> {
 
     /**
@@ -26,7 +37,13 @@ public abstract class Sensorthing<SensorthingT extends Sensorthing<SensorthingT>
      * a class Datastream, then this will have to be something akin to
      * SingleLocalLink&lt;Datastream&gt;.
      */
+    @JsonIgnore
     public final SingleLocalLink<SensorthingT> selfLink;
+
+    /**
+     * The url used by the {@link Sensorthing#selfLink}. Used in (de-)/serialization.
+     */
+    public final String selfUrl;
 
     /**
      * Creates a new Sensorthings object with the given id and the specified database link.
@@ -39,6 +56,7 @@ public abstract class Sensorthing<SensorthingT extends Sensorthing<SensorthingT>
     public Sensorthing(String id, String selfUrl, boolean relative) {
         this.id = id;
         this.selfLink = new SingleLocalLink<SensorthingT>(selfUrl, relative, this);
+        this.selfUrl = selfUrl;
     }
 
     /**
