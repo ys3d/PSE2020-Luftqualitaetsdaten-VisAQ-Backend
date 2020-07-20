@@ -2,6 +2,8 @@ package de.visaq.controller.link;
 
 import java.util.ArrayList;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import de.visaq.controller.SensorthingController;
 import de.visaq.model.sensorthings.Sensorthing;
 
@@ -13,7 +15,7 @@ import de.visaq.model.sensorthings.Sensorthing;
  */
 public class MultiLocalLink<SensorthingT extends Sensorthing<SensorthingT>>
         extends MultiNavigationLink<SensorthingT> {
-    private final ArrayList<SensorthingT> cachedSensorthing;
+    public final ArrayList<SensorthingT> cachedSensorthing;
 
     /**
      * Constructs a new MultiLocalLink with a query that possibly returns multiple Sensorthings
@@ -23,7 +25,9 @@ public class MultiLocalLink<SensorthingT extends Sensorthing<SensorthingT>>
      * @param relative          {@link NavigationLink#NavigationLink(String, boolean)}
      * @param cachedSensorthing The retrieved entities of this query
      */
-    public MultiLocalLink(String url, boolean relative, ArrayList<SensorthingT> cachedSensorthing) {
+    public MultiLocalLink(@JsonProperty("url") String url,
+            @JsonProperty("relative") boolean relative,
+            @JsonProperty("cachedSensorthing") ArrayList<SensorthingT> cachedSensorthing) {
         super(url, relative);
         this.cachedSensorthing = cachedSensorthing;
     }

@@ -45,7 +45,7 @@ public abstract class NavigationLink<SensorthingT extends Sensorthing<Sensorthin
             JSONObject response = new JSONObject(responseString);
 
             System.out.println("\nTextausgabe:");
-            System.out.println(responseString);
+            System.out.println(responseString.length());
 
             return response;
         } catch (NotFoundException e) {

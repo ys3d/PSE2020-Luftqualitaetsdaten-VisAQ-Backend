@@ -2,7 +2,12 @@ package de.visaq.model.sensorthings;
 
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import de.visaq.controller.link.MultiNavigationLink;
+import de.visaq.spring.DedupingResolver;
 
 /**
  * <p>
@@ -16,6 +21,8 @@ import de.visaq.controller.link.MultiNavigationLink;
  * @see <a href=
  *      "https://developers.sensorup.com/docs/#featureOfInterest_post">https://developers.sensorup.com/docs/#featureOfInterest_postt</a>
  */
+@JsonIdentityInfo(property = "id", generator = ObjectIdGenerators.PropertyGenerator.class,
+        scope = FeatureOfInterest.class, resolver = DedupingResolver.class)
 public class FeatureOfInterest extends Sensorthing<FeatureOfInterest> {
     public final String description;
     public final String name;
@@ -25,17 +32,19 @@ public class FeatureOfInterest extends Sensorthing<FeatureOfInterest> {
     /**
      * Constructs a new {@link FeatureOfInterest}.
      * 
-     * @param id               {@link Sensorthing#Sensorthings(String, String, boolean)}
-     * @param selfUrl          {@link Sensorthing#Sensorthings(String, String, boolean)}
-     * @param relative         {@link Sensorthing#Sensorthings(String, String, boolean)}
+     * @param id               {@link Sensorthing#Sensorthing(String, String, boolean)}
+     * @param selfUrl          {@link Sensorthing#Sensorthing(String, String, boolean)}
+     * @param relative         {@link Sensorthing#Sensorthing(String, String, boolean)}
      * @param description      The description of the {@link FeatureOfInterest}
      * @param name             The name of the {@link FeatureOfInterest}
      * @param observationsLink Links to the {@link Observation}
      * @param features         Features
      */
-    public FeatureOfInterest(String id, String selfUrl, boolean relative, String description,
-            String name, MultiNavigationLink<Observation> observationsLink,
-            Map<String, Object> features) {
+    public FeatureOfInterest(@JsonProperty("id") String id, @JsonProperty("selfUrl") String selfUrl,
+            @JsonProperty("relative") boolean relative,
+            @JsonProperty("description") String description, @JsonProperty("name") String name,
+            @JsonProperty("observationsLink") MultiNavigationLink<Observation> observationsLink,
+            @JsonProperty("features") Map<String, Object> features) {
         super(id, selfUrl, relative);
         this.description = description;
         this.name = name;

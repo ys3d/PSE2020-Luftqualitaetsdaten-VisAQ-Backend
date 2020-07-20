@@ -2,7 +2,12 @@ package de.visaq.model.sensorthings;
 
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import de.visaq.controller.link.MultiNavigationLink;
+import de.visaq.spring.DedupingResolver;
 
 /**
  * <p>
@@ -16,6 +21,8 @@ import de.visaq.controller.link.MultiNavigationLink;
  * @see <a href=
  *      "https://developers.sensorup.com/docs/#sensors_post">https://developers.sensorup.com/docs/#sensors_post</a>
  */
+@JsonIdentityInfo(property = "id", generator = ObjectIdGenerators.PropertyGenerator.class,
+        scope = Sensor.class, resolver = DedupingResolver.class)
 public class Sensor extends Sensorthing<Sensor> implements SensorthingsProperties {
     public final String description;
     public final String name;
@@ -26,16 +33,19 @@ public class Sensor extends Sensorthing<Sensor> implements SensorthingsPropertie
     /**
      * Constructs a new {@link Sensor}.
      * 
-     * @param id              {@link Sensorthing#Sensorthings(String, String, boolean)}
-     * @param selfUrl         {@link Sensorthing#Sensorthings(String, String, boolean)}
-     * @param relative        {@link Sensorthing#Sensorthings(String, String, boolean)}
+     * @param id              {@link Sensorthing#Sensorthing(String, String, boolean)}
+     * @param selfUrl         {@link Sensorthing#Sensorthing(String, String, boolean)}
+     * @param relative        {@link Sensorthing#Sensorthing(String, String, boolean)}
      * @param description     The description of the {@link Sensor}
      * @param name            The name of the {@link Sensor}
      * @param properties      Several properties of the {@link Sensor}
      * @param datastreamsLink Links to the {@link Datastream}
      */
-    public Sensor(String id, String selfUrl, boolean relative, String description, String name,
-            Map<String, Object> properties, MultiNavigationLink<Datastream> datastreamsLink) {
+    public Sensor(@JsonProperty("id") String id, @JsonProperty("selfUrl") String selfUrl,
+            @JsonProperty("relative") boolean relative,
+            @JsonProperty("description") String description, @JsonProperty("name") String name,
+            @JsonProperty("properties") Map<String, Object> properties,
+            @JsonProperty("datastreamsLink") MultiNavigationLink<Datastream> datastreamsLink) {
         super(id, selfUrl, relative);
         this.description = description;
         this.name = name;

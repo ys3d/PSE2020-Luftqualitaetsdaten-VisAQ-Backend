@@ -2,8 +2,13 @@ package de.visaq.model.sensorthings;
 
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import de.visaq.controller.link.MultiNavigationLink;
 import de.visaq.controller.link.SingleNavigationLink;
+import de.visaq.spring.DedupingResolver;
 
 /**
  * <p>
@@ -16,6 +21,8 @@ import de.visaq.controller.link.SingleNavigationLink;
  * @see <a href=
  *      "https://developers.sensorup.com/docs/#datastreams_post">https://developers.sensorup.com/docs/#datastreams_post</a>
  */
+@JsonIdentityInfo(property = "id", generator = ObjectIdGenerators.PropertyGenerator.class,
+        scope = Datastream.class, resolver = DedupingResolver.class)
 public class Datastream extends Sensorthing<Datastream> implements SensorthingsProperties {
     public final String name;
     public final String description;
@@ -31,9 +38,9 @@ public class Datastream extends Sensorthing<Datastream> implements SensorthingsP
     /**
      * Constructs a new {@link Datastream}.
      * 
-     * @param id                   {@link Sensorthing#Sensorthings(String, String, boolean)}
-     * @param selfUrl              {@link Sensorthing#Sensorthings(String, String, boolean)}
-     * @param relative             {@link Sensorthing#Sensorthings(String, String, boolean)}
+     * @param id                   {@link Sensorthing#Sensorthing(String, String, boolean)}
+     * @param selfUrl              {@link Sensorthing#Sensorthing(String, String, boolean)}
+     * @param relative             {@link Sensorthing#Sensorthing(String, String, boolean)}
      * @param name                 The name of the {@link Datastream}
      * @param description          The description of the {@link Datastream}
      * @param properties           Several properties given by the database
@@ -44,11 +51,16 @@ public class Datastream extends Sensorthing<Datastream> implements SensorthingsP
      * @param unitOfMeasurement    The Unit of Measurement
      * @param observedPropertyLink Link to the {@link ObservedProperty}
      */
-    public Datastream(String id, String selfUrl, boolean relative, String name, String description,
-            Map<String, Object> properties, String observationTypeLink,
-            SingleNavigationLink<Sensor> sensorLink, SingleNavigationLink<Thing> thingLink,
-            MultiNavigationLink<Observation> observationsLink, UnitOfMeasurement unitOfMeasurement,
-            SingleNavigationLink<ObservedProperty> observedPropertyLink) {
+    public Datastream(@JsonProperty("id") String id, @JsonProperty("selfUrl") String selfUrl,
+            @JsonProperty("relative") boolean relative, @JsonProperty("name") String name,
+            @JsonProperty("description") String description,
+            @JsonProperty("properties") Map<String, Object> properties,
+            @JsonProperty("observationTypeLink") String observationTypeLink,
+            @JsonProperty("sensorLink") SingleNavigationLink<Sensor> sensorLink,
+            @JsonProperty("thingLink") SingleNavigationLink<Thing> thingLink,
+            @JsonProperty("observationsLink") MultiNavigationLink<Observation> observationsLink,
+            @JsonProperty("unitOfMeasurement") UnitOfMeasurement unitOfMeasurement,
+            @JsonProperty("observedPropertyLink") SingleNavigationLink<ObservedProperty> observedPropertyLink) {
         super(id, selfUrl, relative);
         this.name = name;
         this.description = description;

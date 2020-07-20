@@ -1,6 +1,6 @@
 package de.visaq.controller;
 
-import java.awt.Point;
+import java.awt.geom.Point2D;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import de.visaq.controller.link.MultiNavigationLink;
 import de.visaq.controller.link.MultiOnlineLink;
@@ -19,6 +20,7 @@ import de.visaq.model.sensorthings.Observation;
 /**
  * Encapsulates the control over FeatureOfIntrest objects.
  */
+@RestController
 public class FeatureOfInterestController extends SensorthingController<FeatureOfInterest> {
     public static final String MAPPING = "/api/featureOfInterest";
 
@@ -47,7 +49,7 @@ public class FeatureOfInterestController extends SensorthingController<FeatureOf
      * @return The Point that was retrieved from the features or null if the features do not contain
      *         a point.
      */
-    public Point getLocationPoint(FeatureOfInterest foi) {
+    public Point2D.Double getLocationPoint(FeatureOfInterest foi) {
         try {
             JSONObject json = new JSONObject(foi.features);
             return UtilityController.buildLocationPoint(json);

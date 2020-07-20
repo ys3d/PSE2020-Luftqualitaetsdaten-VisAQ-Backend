@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import de.visaq.controller.link.MultiNavigationLink;
 import de.visaq.controller.link.MultiOnlineLink;
@@ -18,6 +19,7 @@ import de.visaq.model.sensorthings.Thing;
 /**
  * Encapsulates the control over Sensor objects.
  */
+@RestController
 public class SensorController extends SensorthingController<Sensor> {
     public static final String MAPPING = "/api/sensor";
 

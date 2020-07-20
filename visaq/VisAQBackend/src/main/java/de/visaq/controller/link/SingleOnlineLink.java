@@ -2,6 +2,8 @@ package de.visaq.controller.link;
 
 import org.json.JSONObject;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import de.visaq.controller.SensorthingController;
 import de.visaq.model.sensorthings.Sensorthing;
 
@@ -20,7 +22,8 @@ public class SingleOnlineLink<SensorthingT extends Sensorthing<SensorthingT>>
      * @param url      {@link NavigationLink#NavigationLink(String, boolean)}
      * @param relative {@link NavigationLink#NavigationLink(String, boolean)}
      */
-    public SingleOnlineLink(String url, boolean relative) {
+    public SingleOnlineLink(@JsonProperty("url") String url,
+            @JsonProperty("relative") boolean relative) {
         super(url, relative);
     }
 

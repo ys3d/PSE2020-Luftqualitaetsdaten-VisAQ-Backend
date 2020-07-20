@@ -2,6 +2,10 @@ package de.visaq.controller.link;
 
 import org.json.JSONObject;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 import de.visaq.controller.SensorthingController;
 import de.visaq.model.sensorthings.Sensorthing;
 
@@ -10,6 +14,10 @@ import de.visaq.model.sensorthings.Sensorthing;
  *
  * @param <SensorthingT> A class that extends Sensorthings
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY)
+@JsonSubTypes({ @JsonSubTypes.Type(value = MultiLocalLink.class, name = "SingleLocalLink"),
+        @JsonSubTypes.Type(value = MultiOnlineLink.class, name = "SingleOnlineLink") })
 public abstract class SingleNavigationLink<SensorthingT extends Sensorthing<SensorthingT>>
         extends NavigationLink<SensorthingT> {
     /**

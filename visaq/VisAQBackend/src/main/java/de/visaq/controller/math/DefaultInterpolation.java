@@ -1,7 +1,7 @@
 package de.visaq.controller.math;
 
+import java.time.Duration;
 import java.time.Instant;
-import java.time.temporal.TemporalAmount;
 import java.util.ArrayList;
 
 import org.geotools.process.vector.BarnesSurfaceInterpolator;
@@ -32,7 +32,7 @@ public class DefaultInterpolation extends Interpolation {
     @PostMapping(MAPPING)
     @Override
     public PointDatum[] interpolate(@RequestParam Square square, @RequestParam Instant time,
-            @RequestParam TemporalAmount range, @RequestParam ObservedProperty observedProperty) {
+            @RequestParam Duration range, @RequestParam ObservedProperty observedProperty) {
         return super.interpolate(square, time, range, observedProperty);
     }
 }
