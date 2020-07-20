@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import de.visaq.controller.link.MultiOnlineLink;
 import de.visaq.controller.link.SingleNavigationLink;
@@ -23,6 +24,7 @@ import de.visaq.model.sensorthings.ObservedProperty;
 /**
  * Encapsulates the control over Observation objects.
  */
+@RestController
 public class ObservationController extends SensorthingController<Observation> {
     public static final String MAPPING = "/api/observation";
 
@@ -42,6 +44,23 @@ public class ObservationController extends SensorthingController<Observation> {
             this.range = range;
             this.observedProperty = observedProperty;
         }
+    }
+
+    /**
+     * Wrapps data for the top request.
+     */
+    static class TopWrapper {
+        public int topNumber;
+        public String dataStreamID;
+
+        public TopWrapper() {
+        }
+
+        public TopWrapper(int topNumber, String dataStreamID) {
+            this.topNumber = topNumber;
+            this.dataStreamID = dataStreamID;
+        }
+
     }
 
     @Override
@@ -73,6 +92,21 @@ public class ObservationController extends SensorthingController<Observation> {
     public ArrayList<Observation> getAll(@RequestBody AreaWrapper areaWrapper) {
         return getAll(areaWrapper.square, areaWrapper.time, areaWrapper.range,
                 areaWrapper.observedProperty);
+    }
+
+    /**
+     * Returns the newest Observatiosn for the given Datastream.
+     * 
+     * @param topWrapper Encapsulates the number of elements and teh datastreams id
+     * @return A number of newest elements
+     */
+    @CrossOrigin
+    @PostMapping(value = MAPPING + "/newest")
+    public ArrayList<Observation> getTop(@RequestBody TopWrapper topWrapper) {
+        return new MultiOnlineLink<Observation>(MessageFormat.format(
+                "/Observations?$orderby=phenomenonTime desc&$top={0,number,integer}&"
+                        + "$filter=Datastream/id eq ''{1}''",
+                topWrapper.topNumber, topWrapper.dataStreamID), true).get(this);
     }
 
     /**
