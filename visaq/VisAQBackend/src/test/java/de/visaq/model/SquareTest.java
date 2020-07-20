@@ -22,6 +22,6 @@ public class SquareTest {
     public void toStringTest() {
         Square s = new Square(4.2d, 3.4d, 6.7d, 8.4d);
 
-        assertEquals("POLYGON((4,2 6,7, 3,4 6,7, 3,4 8,4, 4,2 8,4))", s.toString());
+        assertEquals("POLYGON ((4.2 6.7, 3.4 6.7, 3.4 8.4, 4.2 8.4, 4.2 6.7))", s.toString());
     }
 }

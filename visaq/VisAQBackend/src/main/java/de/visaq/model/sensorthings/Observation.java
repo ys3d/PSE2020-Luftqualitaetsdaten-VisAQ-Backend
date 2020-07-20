@@ -2,9 +2,12 @@ package de.visaq.model.sensorthings;
 
 import java.time.Instant;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import de.visaq.controller.link.SingleNavigationLink;
+import de.visaq.spring.DedupingResolver;
 
 /**
  * <p>
@@ -18,6 +21,8 @@ import de.visaq.controller.link.SingleNavigationLink;
  * @see <a href=
  *      "https://developers.sensorup.com/docs/#observations_post">https://developers.sensorup.com/docs/#observations_post</a>
  */
+@JsonIdentityInfo(property = "id", generator = ObjectIdGenerators.PropertyGenerator.class,
+        scope = Observation.class, resolver = DedupingResolver.class)
 public class Observation extends Sensorthing<Observation> implements SensorthingsTimeStamp {
     public final Instant phenomenonTime;
     public final Double result;
@@ -28,9 +33,9 @@ public class Observation extends Sensorthing<Observation> implements Sensorthing
     /**
      * Constructs a new {@link Observation}.
      * 
-     * @param id                    {@link Sensorthing#Sensorthings(String, String, boolean)}
-     * @param selfUrl               {@link Sensorthing#Sensorthings(String, String, boolean)}
-     * @param relative              {@link Sensorthing#Sensorthings(String, String, boolean)}
+     * @param id                    {@link Sensorthing#Sensorthing(String, String, boolean)}
+     * @param selfUrl               {@link Sensorthing#Sensorthing(String, String, boolean)}
+     * @param relative              {@link Sensorthing#Sensorthing(String, String, boolean)}
      * @param phenomenonTime        The time when the Observation occurred
      * @param result                The result of the {@link Observation}
      * @param resultTime            The Time of the measuring result

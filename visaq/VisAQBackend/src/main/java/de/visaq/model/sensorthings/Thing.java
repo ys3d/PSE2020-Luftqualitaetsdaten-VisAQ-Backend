@@ -2,9 +2,12 @@ package de.visaq.model.sensorthings;
 
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import de.visaq.controller.link.MultiNavigationLink;
+import de.visaq.spring.DedupingResolver;
 
 /**
  * <p>
@@ -19,6 +22,8 @@ import de.visaq.controller.link.MultiNavigationLink;
  * @see <a href=
  *      "https://developers.sensorup.com/docs/#things">https://developers.sensorup.com/docs/#things</a>
  */
+@JsonIdentityInfo(property = "id", generator = ObjectIdGenerators.PropertyGenerator.class,
+        scope = Thing.class, resolver = DedupingResolver.class)
 public class Thing extends Sensorthing<Thing> implements SensorthingsProperties {
     public final String description;
     public final String name;
@@ -31,9 +36,9 @@ public class Thing extends Sensorthing<Thing> implements SensorthingsProperties 
     /**
      * Constructs a new {@link Thing}.
      * 
-     * @param id                      {@link Sensorthing#Sensorthings(String, String, boolean)}
-     * @param selfUrl                 {@link Sensorthing#Sensorthings(String, String, boolean)}
-     * @param relative                {@link Sensorthing#Sensorthings(String, String, boolean)}
+     * @param id                      {@link Sensorthing#Sensorthing(String, String, boolean)}
+     * @param selfUrl                 {@link Sensorthing#Sensorthing(String, String, boolean)}
+     * @param relative                {@link Sensorthing#Sensorthing(String, String, boolean)}
      * @param description             The description of the {@link Thing}
      * @param name                    The name of the {@link Thing}
      * @param properties              Several properties of the {@link Sensor}
