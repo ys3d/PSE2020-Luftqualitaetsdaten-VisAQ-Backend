@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import org.geotools.process.vector.BarnesSurfaceInterpolator;
 import org.locationtech.jts.geom.Coordinate;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -29,6 +30,7 @@ public class DefaultInterpolation extends Interpolation {
         return null;
     }
 
+    @CrossOrigin
     @PostMapping(MAPPING)
     @Override
     public PointDatum[] interpolate(@RequestParam Square square, @RequestParam Instant time,
