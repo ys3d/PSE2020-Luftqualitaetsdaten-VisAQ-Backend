@@ -51,7 +51,7 @@ public class DefaultInterpolation extends Interpolation {
 		
 		// interpolated is in row major order.
 		float[][] interpolated = new BarnesSurfaceInterpolator(coordinatesToArray(coordinates))
-				.computeSurface(square, GRID_NUM, GRID_NUM);
+				.computeSurface(square, GRID_NUM, GRID_NUM);		
 		PointDatum pointData[] = new PointDatum[interpolated.length * interpolated[0].length];
 		int index = 0;
 		double gridWidth = square.getWidth() / GRID_NUM;
@@ -84,6 +84,9 @@ public class DefaultInterpolation extends Interpolation {
 				defaultInterpolationWrapper.range, defaultInterpolationWrapper.observedProperty);
 	}
 	
+	/*
+	 * Transforms an ArrayList of Coordinates into an Array.
+	 */
 	private Coordinate[] coordinatesToArray(ArrayList<Coordinate> c)	{
 		int length = c.toArray().length;
 		Coordinate[] coordinates = new Coordinate[length];
