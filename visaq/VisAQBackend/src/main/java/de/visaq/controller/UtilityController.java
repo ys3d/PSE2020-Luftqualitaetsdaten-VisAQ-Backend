@@ -47,11 +47,12 @@ public final class UtilityController {
      */
     public static Point2D.Double buildLocationPoint(JSONObject json) {
         JSONArray pointArray;
-
         if (json.has("location")) {
             pointArray = json.getJSONObject("location").getJSONArray("coordinates");
         } else if (json.has("feature")) {
             pointArray = json.getJSONObject("feature").getJSONArray("coordinates");
+        } else if (json.has("coordinates")) {
+        	pointArray = json.getJSONArray("coordinates");
         } else {
             return null;
         }

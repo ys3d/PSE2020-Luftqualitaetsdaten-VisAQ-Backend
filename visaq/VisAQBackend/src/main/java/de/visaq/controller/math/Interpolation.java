@@ -35,11 +35,10 @@ public abstract class Interpolation {
                 new ObservationController().getAll(square, time, range, observedProperty);
         FeatureOfInterestController controller = new FeatureOfInterestController();
         ArrayList<Coordinate> coordinates = new ArrayList<>();
-
         observations.forEach((observation) -> {
             Point2D.Double p = controller.getLocationPoint(
                     (FeatureOfInterest) observation.featureOfInterestLink.get(controller));
-
+            
             if (p != null) {
                 coordinates.add(new Coordinate(p.getX(), p.getY(), observation.result));
             }
