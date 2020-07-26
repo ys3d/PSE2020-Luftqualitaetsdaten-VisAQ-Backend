@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
  * Represents a specific datum at a point in space.
  */
 public class PointDatum {
-	public final Point2D location;
+    public final Point2D location;
     public final double datum;
 
     /**
