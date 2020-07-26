@@ -39,7 +39,7 @@ public abstract class Interpolation {
             Point2D.Double p = controller.getLocationPoint(
                     (FeatureOfInterest) observation.featureOfInterestLink.get(controller));
             
-            if (p != null) {
+            if (p != null && observation.result != null) {
                 coordinates.add(new Coordinate(p.getX(), p.getY(), observation.result));
             }
         });

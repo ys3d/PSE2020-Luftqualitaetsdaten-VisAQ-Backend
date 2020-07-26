@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 
+
 import org.geotools.process.vector.BarnesSurfaceInterpolator;
 import org.locationtech.jts.geom.Coordinate;
 
@@ -78,6 +79,12 @@ public class DefaultInterpolation extends Interpolation {
 		return super.interpolate(square, time, range, observedProperty);
 	}
 	
+	/**
+	 * Returns interpolated data for a given viewport, time and Observed Property.
+	 * 
+	 * @param defaultInterpolationWrapper Encapsulates the parameters for the interpolation
+	 * @return An Array of PointData Entities.
+	 */
 	@CrossOrigin
 	@PostMapping(MAPPING)
 	public PointDatum[] interpolate(@RequestBody DefaultInterpolationWrapper defaultInterpolationWrapper) {
@@ -93,7 +100,6 @@ public class DefaultInterpolation extends Interpolation {
 		Coordinate[] coordinates = new Coordinate[length];
 		for(int i = 0; i < length; i++) {
 			coordinates[i] = c.get(i);
-			System.out.println(coordinates[i].toString());
 		}
 		return coordinates;
 	}
