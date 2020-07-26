@@ -7,13 +7,14 @@ import java.util.ArrayList;
 
 import org.locationtech.jts.geom.Coordinate;
 
-import de.visaq.controller.FeatureOfInterestController;
+import de.visaq.controller.LocationController;
 import de.visaq.controller.ObservationController;
+import de.visaq.controller.ThingController;
 import de.visaq.model.PointDatum;
 import de.visaq.model.Square;
-import de.visaq.model.sensorthings.FeatureOfInterest;
 import de.visaq.model.sensorthings.Observation;
 import de.visaq.model.sensorthings.ObservedProperty;
+import de.visaq.model.sensorthings.Thing;
 
 /**
  * Handles the Interpolation of Observations.
@@ -31,18 +32,23 @@ public abstract class Interpolation {
      */
     public PointDatum[] interpolate(Square square, Instant time, Duration range,
             ObservedProperty observedProperty) {
-        ArrayList<Observation> observations =
-                new ObservationController().getAll(square, time, range, observedProperty);
-        FeatureOfInterestController controller = new FeatureOfInterestController();
+        ArrayList<Thing> things =
+                new ThingController().getAll(square);
+        ArrayList<Observation> observations = new ObservationController().getAll(things, time, range, observedProperty);
         ArrayList<Coordinate> coordinates = new ArrayList<>();
-        observations.forEach((observation) -> {
-            Point2D.Double p = controller.getLocationPoint(
-                    (FeatureOfInterest) observation.featureOfInterestLink.get(controller));
+        LocationController locationController = new LocationController();
+        
+        for (int i = 0; i < things.toArray().length; i ++) {
+            if(!things.get(i).locationsLink.get(locationController).isEmpty())  {
+                
+                Point2D.Double p = things.get(i).locationsLink.get(locationController).get(0).location;
             
-            if (p != null && observation.result != null) {
-                coordinates.add(new Coordinate(p.getX(), p.getY(), observation.result));
+                if (p != null && observations.get(i) != null) {
+                    Coordinate c = new Coordinate(p.getX(), p.getY(), observations.get(i).result);
+                    coordinates.add(c);
+                }   
             }
-        });
+        }
 
         return interpolateCoordinates(square, coordinates);
     }

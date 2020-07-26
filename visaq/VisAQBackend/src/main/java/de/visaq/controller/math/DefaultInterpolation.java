@@ -24,7 +24,7 @@ import de.visaq.model.sensorthings.ObservedProperty;
 @RestController
 public class DefaultInterpolation extends Interpolation {
     public static final String MAPPING = "/api/interpolation/default";
-    public static final int GRID_NUM = 10;
+    public static final int GRID_NUM = 20;
 
     static class DefaultInterpolationWrapper {
         public Square square;
@@ -62,6 +62,7 @@ public class DefaultInterpolation extends Interpolation {
 
         for (int i = 0; i < interpolated.length; i++) {
             for (int j = 0; j < interpolated[0].length; j++) {
+                System.out.println(interpolated[i][j]);
                 /*
                  * Start on the right top of the square.
                  */
