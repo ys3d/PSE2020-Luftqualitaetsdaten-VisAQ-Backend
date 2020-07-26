@@ -122,11 +122,24 @@ public class ObservationController extends SensorthingController<Observation> {
      */
     @CrossOrigin
     @PostMapping(value = MAPPING + "/all/newest")
-    public ArrayList<Observation> getNewest(@RequestBody TopWrapper topWrapper) {
-        return new MultiOnlineLink<Observation>(MessageFormat.format(
-                "/Observations?$orderby=phenomenonTime desc&$top={0,number,integer}&"
-                        + "$filter=Datastream/id eq ''{1}''",
-                topWrapper.topNumber, topWrapper.datastreamId), true).get(this);
+    public ArrayList<Observation> getAll(@RequestBody TopWrapper topWrapper) {
+        return getAll(topWrapper.topNumber, topWrapper.datastreamId);
+    }
+
+    /**
+     * Retrieves the newest Observations entities of an Datastream.
+     * 
+     * @param topNumber    The number of Observations
+     * @param datastreamId The id of the Datastream
+     * @return An ArrayList of Observation entities
+     */
+    public ArrayList<Observation> getAll(int topNumber, String datastreamId) {
+        return new MultiOnlineLink<Observation>(
+                MessageFormat.format(
+                        "/Observations?$orderby=phenomenonTime desc&$top={0,number,integer}&"
+                                + "$filter=Datastream/id eq ''{1}''",
+                        topNumber, datastreamId),
+                true).get(this);
     }
 
     /**
