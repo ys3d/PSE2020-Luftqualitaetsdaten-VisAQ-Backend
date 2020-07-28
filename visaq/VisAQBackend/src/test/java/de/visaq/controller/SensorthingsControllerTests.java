@@ -24,7 +24,8 @@ import de.visaq.model.sensorthings.Thing;
 @SuiteClasses({ DatastreamControllerTest.class, FeatureOfInterestControllerTest.class,
         HistoricalLocationControllerTest.class, LocationControllerTest.class,
         ObservationControllerTest.class, ObservedPropertyControllerTest.class,
-        SensorControllerTest.class, ThingControllerTest.class })
+        SensorControllerTest.class, ThingControllerTest.class, SensorthingControllerTest.class,
+        UtilityControllerTest.class })
 public class SensorthingsControllerTests {
     /**
      * The following ALIVE objects are used as a reference in various tests.
@@ -72,7 +73,7 @@ public class SensorthingsControllerTests {
             ALIVETHING = new ThingController().singleBuild(new JSONObject(new JSONTokener(
                     SensorthingsControllerTests.class.getResourceAsStream("/alive_thing.json"))));
         }
-        
+
     };
 
 }

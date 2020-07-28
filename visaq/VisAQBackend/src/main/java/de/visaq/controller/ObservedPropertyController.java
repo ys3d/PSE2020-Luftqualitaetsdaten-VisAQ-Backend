@@ -54,11 +54,11 @@ public class ObservedPropertyController extends SensorthingController<ObservedPr
 
     @Override
     public ObservedProperty singleBuild(JSONObject json) {
-        json = UtilityController.removeArrayWrapper(json);
-
         if (json == null) {
             return null;
         }
+
+        json = UtilityController.removeArrayWrapper(json);
 
         MultiNavigationLink<Datastream> datastreams = new MultiNavigationLink.Builder<Datastream>()
                 .build("Datastreams@iot.navigationLink", "Datastreams", new DatastreamController(),

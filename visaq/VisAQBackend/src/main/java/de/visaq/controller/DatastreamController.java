@@ -152,11 +152,11 @@ public class DatastreamController extends SensorthingController<Datastream> {
 
     @Override
     public Datastream singleBuild(JSONObject json) {
-        json = UtilityController.removeArrayWrapper(json);
-
         if (json == null) {
             return null;
         }
+
+        json = UtilityController.removeArrayWrapper(json);
 
         SingleNavigationLink<Sensor> sensor = new SingleNavigationLink.Builder<Sensor>()
                 .build("Sensor@iot.navigationLink", "Sensor", new SensorController(), json);

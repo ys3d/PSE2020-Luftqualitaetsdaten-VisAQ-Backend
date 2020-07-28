@@ -61,11 +61,11 @@ public class FeatureOfInterestController extends SensorthingController<FeatureOf
     @Override
     public FeatureOfInterest singleBuild(JSONObject json) {
         try {
-            json = UtilityController.removeArrayWrapper(json);
-
             if (json == null) {
                 return null;
             }
+
+            json = UtilityController.removeArrayWrapper(json);
 
             MultiNavigationLink<Observation> observations =
                     new MultiNavigationLink.Builder<Observation>().build(

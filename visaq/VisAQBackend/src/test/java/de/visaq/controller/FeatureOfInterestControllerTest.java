@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
+import de.visaq.controller.SensorthingController.IdWrapper;
 import de.visaq.controller.link.MultiOnlineLink;
 import de.visaq.controller.link.SingleOnlineLink;
 import de.visaq.model.sensorthings.FeatureOfInterest;
@@ -27,6 +28,8 @@ public class FeatureOfInterestControllerTest {
     public void testSingleFeatureOfInterestGetById() {
         assertNull(CONTROLLER.get("undefined"));
         assertNotNull(CONTROLLER.get(SensorthingsControllerTests.ALIVEFEATUREOFINTEREST.id));
+        assertNotNull(CONTROLLER
+                .get(new IdWrapper(SensorthingsControllerTests.ALIVEFEATUREOFINTEREST.id)));
     }
 
     @Test
@@ -35,6 +38,16 @@ public class FeatureOfInterestControllerTest {
                 new MultiOnlineLink<FeatureOfInterest>("/FeaturesOfInterests?$top=2", true);
         mol.get(CONTROLLER);
         mol.get(CONTROLLER);
+    }
+
+    @Test
+    public void singelBuildNullTest() {
+        assertNull(CONTROLLER.singleBuild(null));
+    }
+
+    @Test
+    public void getLocationPointTest() {
+        assertNull(CONTROLLER.getLocationPoint(null));
     }
 
 }

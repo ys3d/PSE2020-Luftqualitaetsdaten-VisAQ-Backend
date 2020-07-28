@@ -29,8 +29,7 @@ public class ThingController extends SensorthingController<Thing> {
     @Override
     @PostMapping(value = MAPPING + "/all")
     public ArrayList<Thing> getAll() {
-        MultiOnlineLink<Thing> multiLink = new MultiOnlineLink<Thing>("/Things", true);
-        return multiLink.get(this);
+        return new MultiOnlineLink<Thing>("/Things", true).get(this);
     }
 
     /**
@@ -62,11 +61,11 @@ public class ThingController extends SensorthingController<Thing> {
 
     @Override
     public Thing singleBuild(JSONObject json) {
-        json = UtilityController.removeArrayWrapper(json);
-
         if (json == null) {
             return null;
         }
+
+        json = UtilityController.removeArrayWrapper(json);
 
         MultiNavigationLink<Datastream> datastreams = new MultiNavigationLink.Builder<Datastream>()
                 .build("Datastreams@iot.navigationLink", "Datastreams", new DatastreamController(),
