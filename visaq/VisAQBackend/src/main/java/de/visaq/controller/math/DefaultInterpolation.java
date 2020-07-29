@@ -5,7 +5,6 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 
-import org.geotools.process.vector.BarnesSurfaceInterpolator;
 import org.locationtech.jts.geom.Coordinate;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +23,7 @@ import de.visaq.model.sensorthings.ObservedProperty;
 @RestController
 public class DefaultInterpolation extends Interpolation {
     public static final String MAPPING = "/api/interpolation/default";
-    public static final int GRID_NUM = 20;
+    public static final int GRID_NUM = 10;
 
     static class DefaultInterpolationWrapper {
         public Square square;
@@ -51,25 +50,28 @@ public class DefaultInterpolation extends Interpolation {
     protected PointDatum[] interpolateCoordinates(Square square, 
             ArrayList<Coordinate> coordinates) {
 
+        Coordinate[] c = coordinatesToArray(coordinates);
+        NearestNeighborInterpolation nni = new NearestNeighborInterpolation(c, 0.05);
+
         // interpolated is in row major order.
-        float[][] interpolated = new BarnesSurfaceInterpolator(coordinatesToArray(coordinates))
-                .computeSurface(square, GRID_NUM, GRID_NUM);
+        double[][] interpolated = 
+                nni.computeSurface(square, GRID_NUM, GRID_NUM);
 
         PointDatum[] pointData = new PointDatum[(interpolated.length * interpolated[0].length)];
         int index = 0;
-        double gridWidth = square.getWidth() / GRID_NUM;
-        double gridHeigth = square.getHeight() / GRID_NUM;
+
 
         for (int i = 0; i < interpolated.length; i++) {
             for (int j = 0; j < interpolated[0].length; j++) {
                 System.out.println(interpolated[i][j]);
+                GridTransform trans = new GridTransform(square, GRID_NUM, GRID_NUM);
                 /*
                  * Start on the right top of the square.
                  */
                 pointData[index] = new PointDatum(
-                        new Point2D.Double(square.getMinX() + j * gridWidth, 
-                                square.getMaxY() - i * gridHeigth),
+                        new Point2D.Double(trans.transformX(j), trans.transformY(i)),
                         interpolated[i][j]);
+                
                 index++;
             }
         }
@@ -107,6 +109,7 @@ public class DefaultInterpolation extends Interpolation {
         Coordinate[] coordinates = new Coordinate[length];
         for (int i = 0; i < length; i++) {
             coordinates[i] = c.get(i);
+            System.out.println(coordinates[i].toString());
         }
         return coordinates;
     }
