@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * Provides the entry point to the Spring backend.
  */
 @SpringBootApplication
-public final class VisAQ {
+public class VisAQ {
 
     /**
      * Version of the server-software.
@@ -21,9 +21,6 @@ public final class VisAQ {
      */
     public static void main(String[] args) {
         SpringApplication.run(VisAQ.class, args);
-    }
-
-    private VisAQ() {
     }
 
 }
