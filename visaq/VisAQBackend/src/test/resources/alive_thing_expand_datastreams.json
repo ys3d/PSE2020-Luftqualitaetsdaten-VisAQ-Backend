@@ -1,0 +1,66 @@
+{
+  "name" : "UBA Station Augsburg/LfU (historic data)",
+  "description" : "A station measuring -Gaseous air pollutants- -Particulate air pollutants- -Meteorological measurands- -Pollutants in PM10-",
+  "properties" : {
+    "dem_status" : "M",
+    "station_code" : "DEBY099",
+    "station_local_code" : "DEBY099",
+    "station_name" : "Augsburg/LfU",
+    "station_start_date" : 20000727,
+    "station_end_date" : "nan",
+    "station_latitude_d" : 48.326013,
+    "station_latitude_dms" : "+048.19.33",
+    "station_longitude_d" : 10.903051,
+    "station_longitude_dms" : "+010.54.10",
+    "station_altitude" : 495,
+    "type_of_station" : "background",
+    "station_type_of_area" : "suburban",
+    "station_ozone_classification" : "suburban",
+    "station_subcat_rural_background" : "unknown",
+    "network_code" : "DE007A",
+    "operator_url" : "lfu.bayern.de"
+  },
+  "Datastreams@iot.navigationLink" : "https://api.smartaq.net/v1.0/Things('saqn%3At%3Ab666034')/Datastreams",
+  "Datastreams" : [ {
+    "name" : "Particulate matter - PM10, first measurement Datastream of station DEBY099",
+    "description" : "A Datastream measuring Particulate matter - PM10, first measurement using Beta ray absorption",
+    "properties" : {
+      "operator_url" : "lfu.bayern.de",
+      "upload properties" : { },
+      "license" : {
+        "type" : "",
+        "owner" : "Umweltbundesamt"
+      },
+      "type_of_parameter" : "Particulate air pollutants",
+      "parameter" : "Particulate matter - PM10, first measurement",
+      "component_code" : 5.0,
+      "measurement_start_date" : 20000828,
+      "measurement_end_date" : "nan",
+      "measurement_technique_principle" : "Beta ray absorption",
+      "measurement_equipment" : "unknown",
+      "measuring_time" : "half hourly mean",
+      "frequency_of_measurement" : "n.a.",
+      "demonstration_of_equivalence" : "yes",
+      "demonstration_of_equivalence_id" : "nan",
+      "documentation" : "nan"
+    },
+    "observationType" : "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_Measurement",
+    "observedArea" : {
+      "type" : "Point",
+      "coordinates" : [ 10.903051, 48.326013 ]
+    },
+    "phenomenonTime" : "2016-12-31T00:00:00.000Z/2019-07-23T13:00:00.000Z",
+    "unitOfMeasurement" : {
+      "name" : "microgram per cubic meter",
+      "symbol" : "ug/m^3",
+      "definition" : "http://www.qudt.org/qudt/owl/1.0.0/unit/Instances.html#KilogramPerCubicMeter"
+    },
+    "@iot.id" : "saqn:ds:6880098",
+    "@iot.selfLink" : "https://api.smartaq.net/v1.0/Datastreams('saqn%3Ads%3A6880098')"
+  } ],
+  "MultiDatastreams@iot.navigationLink" : "https://api.smartaq.net/v1.0/Things('saqn%3At%3Ab666034')/MultiDatastreams",
+  "Locations@iot.navigationLink" : "https://api.smartaq.net/v1.0/Things('saqn%3At%3Ab666034')/Locations",
+  "HistoricalLocations@iot.navigationLink" : "https://api.smartaq.net/v1.0/Things('saqn%3At%3Ab666034')/HistoricalLocations",
+  "@iot.id" : "saqn:t:b666034",
+  "@iot.selfLink" : "https://api.smartaq.net/v1.0/Things('saqn%3At%3Ab666034')"
+}

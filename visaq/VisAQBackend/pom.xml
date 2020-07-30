@@ -156,6 +156,11 @@
 			<artifactId>gt-geometry</artifactId>
 			<version>23.1</version>
 		</dependency>
+		<dependency>
+			<groupId>org.locationtech.jts.io</groupId>
+			<artifactId>jts-io-common</artifactId>
+			<version>1.17.0</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -200,6 +205,9 @@
 				<groupId>org.pitest</groupId>
 				<artifactId>pitest-maven</artifactId>
 				<version>1.5.2</version>
+				<configuration>
+					<threads>8</threads>
+				</configuration>
 				<dependencies>
 					<dependency>
 						<groupId>org.pitest</groupId>
