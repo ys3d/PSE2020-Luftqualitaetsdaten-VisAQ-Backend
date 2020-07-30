@@ -13,7 +13,7 @@ public class NearestNeighborInterpolation {
      * The default value if there if the coordinates are empty 
      * or the minimal distance of the grid point to a sensor is bigger than maxDistance.
      */
-    public final double defaultValue = -999;
+    public final double defaultValue = -99999;
     
     public final Coordinate[] coordinates;
     
