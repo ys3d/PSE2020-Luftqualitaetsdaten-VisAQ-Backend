@@ -5,6 +5,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 
+import org.geotools.process.vector.BarnesSurfaceInterpolator;
 import org.locationtech.jts.geom.Coordinate;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -51,11 +52,8 @@ public class DefaultInterpolation extends Interpolation {
             ArrayList<Coordinate> coordinates) {
 
         Coordinate[] c = coordinatesToArray(coordinates);
-        NearestNeighborInterpolation nni = new NearestNeighborInterpolation(c, 0.05);
-
-        // interpolated is in row major order.
-        double[][] interpolated = 
-                nni.computeSurface(square, GRID_NUM, GRID_NUM);
+        float[][] interpolated = new BarnesSurfaceInterpolator(c)
+                .computeSurface(square, GRID_NUM, GRID_NUM);
 
         PointDatum[] pointData = new PointDatum[(interpolated.length * interpolated[0].length)];
         int index = 0;
