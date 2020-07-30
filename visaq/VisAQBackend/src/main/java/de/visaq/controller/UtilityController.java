@@ -52,7 +52,7 @@ public final class UtilityController {
         } else if (json.has("feature")) {
             pointArray = json.getJSONObject("feature").getJSONArray("coordinates");
         } else if (json.has("coordinates")) {
-        	pointArray = json.getJSONArray("coordinates");
+            pointArray = json.getJSONArray("coordinates");
         } else {
             return null;
         }

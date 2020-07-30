@@ -20,7 +20,6 @@ import de.visaq.model.sensorthings.ObservedProperty;
 
 /**
  * The class applies nearest neighbor interpolation to a discrete grid.
- *
  */
 @RestController
 public class NearestNeighborInterpolation extends Interpolation {
@@ -28,8 +27,8 @@ public class NearestNeighborInterpolation extends Interpolation {
     public static final int GRID_NUM = 10;
 
     /*
-     * The default value if there if the coordinates are empty or the minimal
-     * distance of the grid point to a sensor is bigger than maxDistance.
+     * The default value if there if the coordinates are empty or the minimal distance of the grid
+     * point to a sensor is bigger than maxDistance.
      */
     public final double defaultValue = -99999;
 
@@ -46,8 +45,9 @@ public class NearestNeighborInterpolation extends Interpolation {
         public NearestNeighborInterpolationWrapper() {
         }
 
-        public NearestNeighborInterpolationWrapper(@JsonProperty("x1") double x1, @JsonProperty("x2") double x2,
-                @JsonProperty("y1") double y1, @JsonProperty("y2") double y2, @JsonProperty("millis") long millis,
+        public NearestNeighborInterpolationWrapper(@JsonProperty("x1") double x1,
+                @JsonProperty("x2") double x2, @JsonProperty("y1") double y1,
+                @JsonProperty("y2") double y2, @JsonProperty("millis") long millis,
                 @JsonProperty("range") Duration range,
                 @JsonProperty("observedProperty") ObservedProperty observedProperty) {
             this.square = new Square(x1, x2, y1, y2);
@@ -58,7 +58,8 @@ public class NearestNeighborInterpolation extends Interpolation {
     }
 
     @Override
-    protected PointDatum[] interpolateCoordinates(Square square, ArrayList<Coordinate> coordinates) {
+    protected PointDatum[] interpolateCoordinates(Square square,
+            ArrayList<Coordinate> coordinates) {
         this.coordinates = coordinatesToArray(coordinates);
 
         // interpolated is in row major order.
@@ -74,8 +75,9 @@ public class NearestNeighborInterpolation extends Interpolation {
                 /*
                  * Start on the right top of the square.
                  */
-                pointData[index] = new PointDatum(new Point2D.Double(trans.transformX(j), trans.transformY(i)),
-                        interpolated[i][j]);
+                pointData[index] =
+                        new PointDatum(new Point2D.Double(trans.transformX(j), trans.transformY(i)),
+                                interpolated[i][j]);
 
                 index++;
             }
@@ -84,22 +86,24 @@ public class NearestNeighborInterpolation extends Interpolation {
     }
 
     @Override
-    public PointDatum[] interpolate(Square square, Instant time, Duration range, ObservedProperty observedProperty) {
+    public PointDatum[] interpolate(Square square, Instant time, Duration range,
+            ObservedProperty observedProperty) {
         return super.interpolate(square, time, range, observedProperty);
     }
 
     /**
      * Returns interpolated data for a given viewport, time and Observed Property.
      * 
-     * @param defaultInterpolationWrapper Encapsulates the parameters for the
-     *                                    interpolation
+     * @param interpolationWrapper Encapsulates the parameters for the interpolation
      * @return An Array of PointData Entities.
      */
     @CrossOrigin
     @PostMapping(MAPPING)
-    public PointDatum[] interpolate(@RequestBody NearestNeighborInterpolationWrapper interpolationWrapper) {
-        return this.interpolate(interpolationWrapper.square, Instant.ofEpochMilli(interpolationWrapper.millis),
-                interpolationWrapper.range, interpolationWrapper.observedProperty);
+    public PointDatum[]
+            interpolate(@RequestBody NearestNeighborInterpolationWrapper interpolationWrapper) {
+        return this.interpolate(interpolationWrapper.square,
+                Instant.ofEpochMilli(interpolationWrapper.millis), interpolationWrapper.range,
+                interpolationWrapper.observedProperty);
     }
 
     /**
