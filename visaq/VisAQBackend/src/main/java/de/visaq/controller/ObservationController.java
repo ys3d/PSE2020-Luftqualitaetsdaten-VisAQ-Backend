@@ -230,11 +230,11 @@ public class ObservationController extends SensorthingController<Observation> {
     @Override
     public Observation singleBuild(JSONObject json) {
         try {
+            json = UtilityController.removeArrayWrapper(json);
+
             if (json == null) {
                 return null;
             }
-
-            json = UtilityController.removeArrayWrapper(json);
 
             SingleNavigationLink<Datastream> datastream =
                     new SingleNavigationLink.Builder<Datastream>().build(

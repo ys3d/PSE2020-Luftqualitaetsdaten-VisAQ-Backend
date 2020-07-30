@@ -43,11 +43,11 @@ public class LocationController extends SensorthingController<Location> {
 
     @Override
     public Location singleBuild(JSONObject json) {
+        json = UtilityController.removeArrayWrapper(json);
+
         if (json == null) {
             return null;
         }
-
-        json = UtilityController.removeArrayWrapper(json);
 
         MultiNavigationLink<HistoricalLocation> historicalLocations =
                 new MultiNavigationLink.Builder<HistoricalLocation>().build(

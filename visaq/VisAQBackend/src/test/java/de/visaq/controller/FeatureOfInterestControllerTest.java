@@ -42,11 +42,6 @@ public class FeatureOfInterestControllerTest {
     }
 
     @Test
-    public void singelBuildNullTest() {
-        assertNull(CONTROLLER.singleBuild(null));
-    }
-
-    @Test
     public void getLocationPointTest() {
         assertNull(CONTROLLER.getLocationPoint(null));
     }
@@ -54,6 +49,11 @@ public class FeatureOfInterestControllerTest {
     @Test
     public void getAllTest() {
         assertTrue(0 < (CONTROLLER.getAll().size()));
+    }
+
+    @Test
+    public void singleBuildEmptyTest() {
+        assertNull(CONTROLLER.singleBuild(SensorthingsControllerTests.EMPTYARRAY));
     }
 
 }

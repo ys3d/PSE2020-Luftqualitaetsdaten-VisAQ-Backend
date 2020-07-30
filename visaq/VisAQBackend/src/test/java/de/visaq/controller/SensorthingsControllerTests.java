@@ -38,6 +38,7 @@ public class SensorthingsControllerTests {
     public static Datastream ALIVEDATASTREAM;
     public static FeatureOfInterest ALIVEFEATUREOFINTEREST;
     public static Observation ALIVEOBSERVATION;
+    public static JSONObject EMPTYARRAY;
 
     @ClassRule
     public static ExternalResource testRule = new ExternalResource() {
@@ -72,6 +73,8 @@ public class SensorthingsControllerTests {
 
             ALIVETHING = new ThingController().singleBuild(new JSONObject(new JSONTokener(
                     SensorthingsControllerTests.class.getResourceAsStream("/alive_thing.json"))));
+            EMPTYARRAY = new JSONObject(new JSONTokener(SensorthingsControllerTests.class
+                    .getResourceAsStream("/empty_json_array.json")));
         }
 
     };

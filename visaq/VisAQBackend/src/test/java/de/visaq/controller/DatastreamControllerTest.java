@@ -120,7 +120,7 @@ public class DatastreamControllerTest {
     }
 
     @Test
-    public void singleBuildNullTest() {
-        assertNull(new DatastreamController().singleBuild(null));
+    public void singleBuildEmptyTest() {
+        assertNull(CONTROLLER.singleBuild(SensorthingsControllerTests.EMPTYARRAY));
     }
 }

@@ -47,8 +47,8 @@ public class ThingControllerTest {
     }
 
     @Test
-    public void singleBuildNullTest() {
-        assertNull(CONTROLLER.singleBuild(null));
+    public void singleBuildEmptyTest() {
+        assertNull(CONTROLLER.singleBuild(SensorthingsControllerTests.EMPTYARRAY));
     }
 
     @Test

@@ -44,11 +44,11 @@ public class HistoricalLocationController extends SensorthingController<Historic
 
     @Override
     public HistoricalLocation singleBuild(JSONObject json) {
+        json = UtilityController.removeArrayWrapper(json);
+
         if (json == null) {
             return null;
         }
-
-        json = UtilityController.removeArrayWrapper(json);
 
         SingleNavigationLink<Thing> thing = new SingleNavigationLink.Builder<Thing>()
                 .build("Thing@iot.navigationLink", "Thing", new ThingController(), json);

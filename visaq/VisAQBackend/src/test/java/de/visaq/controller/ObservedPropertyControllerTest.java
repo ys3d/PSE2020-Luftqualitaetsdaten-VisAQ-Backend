@@ -1,8 +1,8 @@
 package de.visaq.controller;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.Test;
 
@@ -48,8 +48,8 @@ public class ObservedPropertyControllerTest {
     }
 
     @Test
-    public void singelBuildNullTest() {
-        assertNull(CONTROLLER.singleBuild(null));
+    public void singleBuildEmptyTest() {
+        assertNull(CONTROLLER.singleBuild(SensorthingsControllerTests.EMPTYARRAY));
     }
 
     @Test

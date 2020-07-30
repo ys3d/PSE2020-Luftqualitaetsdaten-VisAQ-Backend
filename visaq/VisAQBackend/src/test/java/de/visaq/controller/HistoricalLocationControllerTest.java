@@ -43,12 +43,12 @@ public class HistoricalLocationControllerTest {
     }
 
     @Test
-    public void singelBuildNullTest() {
-        assertNull(CONTROLLER.singleBuild(null));
+    public void getAllTest() {
+        assertTrue(0 < (CONTROLLER.getAll().size()));
     }
 
     @Test
-    public void getAllTest() {
-        assertTrue(0 < (CONTROLLER.getAll().size()));
+    public void singleBuildEmptyTest() {
+        assertNull(CONTROLLER.singleBuild(SensorthingsControllerTests.EMPTYARRAY));
     }
 }

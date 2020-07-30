@@ -39,8 +39,8 @@ public class LocationControllerTest {
     }
 
     @Test
-    public void singelBuildNullTest() {
-        assertNull(CONTROLLER.singleBuild(null));
+    public void singleBuildEmptyTest() {
+        assertNull(CONTROLLER.singleBuild(SensorthingsControllerTests.EMPTYARRAY));
     }
 
     @Test
