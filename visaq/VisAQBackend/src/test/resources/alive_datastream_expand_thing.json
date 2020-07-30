@@ -1,0 +1,43 @@
+{
+  "name" : "Grimm EDM80NEPH Ambient Relative Humidity Datastream",
+  "description" : "Collection of ambient humidity measurements",
+  "properties" : {
+    "software_version" : {
+      "2019-10-09Z" : "SW V8-4",
+      "2020-02-19Z" : "SW V8-5",
+      "2020-03-09Z" : "SW V8-6",
+      "2020-03-10Z" : "SW V8-7",
+      "2020-05-06Z" : "SW V8-8"
+    },
+    "@iot.id" : "saqn:ds:grimm-aerosol.com:EDM80NEPH:SN17024:grimm-aerosol.com:EDM80NEPH:SN17024:RHambient"
+  },
+  "observationType" : "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_Measurement",
+  "observedArea" : {
+    "type" : "Point",
+    "coordinates" : [ 10.863656, 48.357423 ]
+  },
+  "phenomenonTime" : "2020-02-19T23:04:24.000Z/2020-07-30T07:29:05.000Z",
+  "resultTime" : "2020-02-19T23:04:24.000Z/2020-07-30T07:29:05.000Z",
+  "Sensor@iot.navigationLink" : "https://api.smartaq.net/v1.0/Datastreams('saqn%3Ads%3A2623126')/Sensor",
+  "Thing@iot.navigationLink" : "https://api.smartaq.net/v1.0/Datastreams('saqn%3Ads%3A2623126')/Thing",
+  "Thing" : {
+    "name" : "Scientific Scout EDM80 NEPH SN17024",
+    "description" : "Mid Cost Device Measuring Particulate Matter",
+    "properties" : {
+      "operator.domain" : "grimm-aerosol.com",
+      "shortname" : "edm80neph",
+      "hardware.id" : "sn17024"
+    },
+    "@iot.id" : "saqn:t:grimm-aerosol.com:EDM80NEPH:SN17024",
+    "@iot.selfLink" : "https://api.smartaq.net/v1.0/Things('saqn%3At%3Agrimm-aerosol.com%3AEDM80NEPH%3ASN17024')"
+  },
+  "Observations@iot.navigationLink" : "https://api.smartaq.net/v1.0/Datastreams('saqn%3Ads%3A2623126')/Observations",
+  "unitOfMeasurement" : {
+    "name" : "percent",
+    "symbol" : "%",
+    "definition" : "http://www.qudt.org/qudt/owl/1.0.0/unit/Instances.html#Percent"
+  },
+  "ObservedProperty@iot.navigationLink" : "https://api.smartaq.net/v1.0/Datastreams('saqn%3Ads%3A2623126')/ObservedProperty",
+  "@iot.id" : "saqn:ds:2623126",
+  "@iot.selfLink" : "https://api.smartaq.net/v1.0/Datastreams('saqn%3Ads%3A2623126')"
+}

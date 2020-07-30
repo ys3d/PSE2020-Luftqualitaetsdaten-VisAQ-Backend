@@ -2,6 +2,7 @@ package de.visaq.controller;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.Test;
@@ -51,6 +52,11 @@ public class SensorControllerTest {
     @Test
     public void singelBuildNullTest() {
         assertNull(CONTROLLER.singleBuild(null));
+    }
+
+    @Test
+    public void getAllTest() {
+        assertTrue(0 < (CONTROLLER.getAll().size()));
     }
 
 }

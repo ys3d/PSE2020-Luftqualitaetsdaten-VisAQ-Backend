@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 
+import org.json.JSONObject;
+import org.json.JSONTokener;
 import org.junit.jupiter.api.Test;
 
 import de.visaq.controller.SensorthingController.IdWrapper;
@@ -38,5 +40,13 @@ public class SensorthingControllerTest {
         Datastream ds = SensorthingsControllerTests.ALIVEDATASTREAM;
         SingleLocalLink<Datastream> link = new SingleLocalLink<Datastream>("url", true, ds);
         assertEquals(ds, new DatastreamController().get(link));
+    }
+
+    @Test
+    public void multiBuildTest() {
+        DatastreamController dc = new DatastreamController();
+        assertEquals(2,
+                dc.multiBuild(new JSONObject(new JSONTokener(SensorthingsControllerTests.class
+                        .getResourceAsStream("/multi_alive_datastreams.json")))).size());
     }
 }

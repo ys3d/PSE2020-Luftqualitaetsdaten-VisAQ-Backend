@@ -2,6 +2,7 @@ package de.visaq.controller;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -47,6 +48,11 @@ public class ThingControllerTest {
 
     @Test
     public void singleBuildNullTest() {
-        assertNull(new DatastreamController().singleBuild(null));
+        assertNull(CONTROLLER.singleBuild(null));
+    }
+
+    @Test
+    public void getAllTest() {
+        assertTrue(0 < (CONTROLLER.getAll().size()));
     }
 }

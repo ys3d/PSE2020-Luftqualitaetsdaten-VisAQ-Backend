@@ -85,6 +85,7 @@ public class ObservationControllerTest {
     @Test
     public void testMultiObservationsGetNewest() {
         assertNotNull(CONTROLLER.getAll(10, "saqn:ds:5aa3aa2"));
+        assertEquals(10, CONTROLLER.getAll(10, "saqn:ds:5aa3aa2").size());
         assertNotNull(CONTROLLER.getAll(new TopWrapper(10, "saqn:ds:5aa3aa2")));
     }
 
