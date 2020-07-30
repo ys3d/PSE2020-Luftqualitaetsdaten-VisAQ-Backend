@@ -70,7 +70,6 @@ public class NearestNeighborInterpolation extends Interpolation {
 
         for (int i = 0; i < interpolated.length; i++) {
             for (int j = 0; j < interpolated[0].length; j++) {
-                System.out.println(interpolated[i][j]);
                 GridTransform trans = new GridTransform(square, GRID_NUM, GRID_NUM);
                 /*
                  * Start on the right top of the square.
