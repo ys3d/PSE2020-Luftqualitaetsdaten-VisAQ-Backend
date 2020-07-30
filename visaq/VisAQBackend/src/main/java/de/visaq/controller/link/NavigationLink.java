@@ -39,13 +39,8 @@ public abstract class NavigationLink<SensorthingT extends Sensorthing<Sensorthin
             Client c = ClientBuilder.newClient();
             WebTarget target = c.target(url);
 
-            System.out.println("\nAngefragte URL: " + target.getUri());
-
             String responseString = target.request(MediaType.APPLICATION_JSON).get(String.class);
             JSONObject response = new JSONObject(responseString);
-
-            System.out.println("\nTextausgabe:");
-            System.out.println(responseString.length());
 
             return response;
         } catch (NotFoundException e) {

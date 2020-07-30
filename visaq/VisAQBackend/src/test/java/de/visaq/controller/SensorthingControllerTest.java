@@ -48,5 +48,10 @@ public class SensorthingControllerTest {
         assertEquals(2,
                 dc.multiBuild(new JSONObject(new JSONTokener(SensorthingsControllerTests.class
                         .getResourceAsStream("/multi_alive_datastreams.json")))).size());
+        assertEquals(
+                1, dc
+                        .multiBuild(new JSONObject(new JSONTokener(SensorthingsControllerTests.class
+                                .getResourceAsStream("/multi_alive_datastreams_no_value.json"))))
+                        .size());
     }
 }
