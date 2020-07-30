@@ -1,0 +1,30 @@
+
+{
+    "name" : "PM10 Datastream of Crowdsensing Node (SDS011)",
+    "description" : "Datastream for recording Particulate Matter",
+    "properties" : {
+      "license" : {
+        "type" : "CC0 1.0",
+        "owner" : "TECO",
+        "metadata" : "https://creativecommons.org/publicdomain/zero/1.0/deed.de"
+      }
+    },
+    "observationType" : "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_Measurement",
+    "observedArea" : {
+      "type" : "Polygon",
+      "coordinates" : [ [ [ 10.8980835, 48.3359063 ], [ 10.8980845096775, 48.335908000036 ], [ 10.89808451, 48.335908 ], [ 10.8980835, 48.3359063 ] ] ]
+    },
+    "phenomenonTime" : "2019-03-23T14:08:58.000Z/2020-07-23T14:36:01.000Z",
+    "resultTime" : "2019-03-23T14:08:58.000Z/2020-07-23T14:36:01.000Z",
+    "Sensor@iot.navigationLink" : "https://api.smartaq.net/v1.0/Datastreams('saqn%3Ads%3A33459d6')/Sensor",
+    "Thing@iot.navigationLink" : "https://api.smartaq.net/v1.0/Datastreams('saqn%3Ads%3A33459d6')/Thing",
+    "Observations@iot.navigationLink" : "https://api.smartaq.net/v1.0/Datastreams('saqn%3Ads%3A33459d6')/Observations",
+    "unitOfMeasurement" : {
+      "name" : "microgram per cubic meter",
+      "symbol" : "ug/m^3",
+      "definition" : "http://www.qudt.org/qudt/owl/1.0.0/unit/Instances.html#KilogramPerCubicMeter"
+    },
+    "ObservedProperty@iot.navigationLink" : "https://api.smartaq.net/v1.0/Datastreams('saqn%3Ads%3A33459d6')/ObservedProperty",
+    "@iot.id" : "saqn:ds:33459d6",
+    "@iot.selfLink" : "https://api.smartaq.net/v1.0/Datastreams('saqn%3Ads%3A33459d6')"
+  }

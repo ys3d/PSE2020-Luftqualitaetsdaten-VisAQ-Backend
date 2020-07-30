@@ -1,9 +1,12 @@
 package de.visaq.controller;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import org.junit.Test;
 
+import de.visaq.controller.SensorthingController.IdWrapper;
 import de.visaq.controller.link.MultiOnlineLink;
 import de.visaq.controller.link.SingleOnlineLink;
 import de.visaq.model.sensorthings.ObservedProperty;
@@ -33,6 +36,25 @@ public class ObservedPropertyControllerTest {
                 new MultiOnlineLink<ObservedProperty>("/ObservedProperties?$top=2", true);
         mol.get(CONTROLLER);
         mol.get(CONTROLLER);
+    }
+
+    @Test
+    public void testSingleObservedPropertyGetById() {
+        assertNull(CONTROLLER.get("undefined"));
+        assertNotNull(CONTROLLER.get(SensorthingsControllerTests.ALIVEOBSERVEDPROPERTY.id));
+        assertNotNull(CONTROLLER
+                .get(new IdWrapper(SensorthingsControllerTests.ALIVEOBSERVEDPROPERTY.id)));
+
+    }
+
+    @Test
+    public void singleBuildEmptyTest() {
+        assertNull(CONTROLLER.singleBuild(SensorthingsControllerTests.EMPTYARRAY));
+    }
+
+    @Test
+    public void getAllTest() {
+        assertFalse(CONTROLLER.getAll().isEmpty());
     }
 
 }

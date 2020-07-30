@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
+import de.visaq.controller.SensorthingController.IdWrapper;
 import de.visaq.controller.link.MultiOnlineLink;
 import de.visaq.controller.link.SingleOnlineLink;
 import de.visaq.model.sensorthings.Sensor;
@@ -27,6 +28,7 @@ public class SensorControllerTest {
     public void testSingleSensorGetById() {
         assertNull(CONTROLLER.get("undefined"));
         assertNotNull(CONTROLLER.get(SensorthingsControllerTests.ALIVESENSOR.id));
+        assertNotNull(CONTROLLER.get(new IdWrapper(SensorthingsControllerTests.ALIVESENSOR.id)));
     }
 
     @Test
@@ -44,6 +46,16 @@ public class SensorControllerTest {
         MultiOnlineLink<Sensor> mol = new MultiOnlineLink<Sensor>("/Sensors?$top=2", true);
         mol.get(CONTROLLER);
         mol.get(CONTROLLER);
+    }
+
+    @Test
+    public void singleBuildEmptyTest() {
+        assertNull(CONTROLLER.singleBuild(SensorthingsControllerTests.EMPTYARRAY));
+    }
+
+    @Test
+    public void getAllTest() {
+        assertFalse(CONTROLLER.getAll().isEmpty());
     }
 
 }

@@ -1,7 +1,5 @@
 package de.visaq.controller;
 
-import java.time.Duration;
-
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,10 +19,5 @@ public class WebUtilityController {
     @GetMapping(value = "/version", produces = MediaType.TEXT_PLAIN_VALUE)
     public String versionPage() {
         return "Currently running on Version " + VisAQ.VERSION;
-    }
-
-    @GetMapping(value = "/test", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Duration test() {
-        return Duration.ofHours(12);
     }
 }

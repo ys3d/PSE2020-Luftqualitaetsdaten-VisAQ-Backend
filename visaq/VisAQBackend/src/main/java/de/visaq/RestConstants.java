@@ -22,6 +22,5 @@ public final class RestConstants {
     }
 
     private RestConstants() {
-        throw new IllegalStateException();
     }
 }

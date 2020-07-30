@@ -2,9 +2,11 @@ package de.visaq.controller;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import org.junit.Test;
 
+import de.visaq.controller.SensorthingController.IdWrapper;
 import de.visaq.controller.link.MultiOnlineLink;
 import de.visaq.controller.link.SingleOnlineLink;
 import de.visaq.model.Square;
@@ -28,6 +30,7 @@ public class ThingControllerTest {
     public void testSingleThingGetById() {
         assertNull(CONTROLLER.get("undefined"));
         assertNotNull(CONTROLLER.get(SensorthingsControllerTests.ALIVETHING.id));
+        assertNotNull(CONTROLLER.get(new IdWrapper(SensorthingsControllerTests.ALIVETHING.id)));
     }
 
     @Test
@@ -41,5 +44,15 @@ public class ThingControllerTest {
     public void testMultiThingGetBySquare() {
         Square square = new Square(10, 11, 48, 49);
         assertNotNull(CONTROLLER.getAll(square));
+    }
+
+    @Test
+    public void singleBuildEmptyTest() {
+        assertNull(CONTROLLER.singleBuild(SensorthingsControllerTests.EMPTYARRAY));
+    }
+
+    @Test
+    public void getAllTest() {
+        assertFalse(CONTROLLER.getAll().isEmpty());
     }
 }

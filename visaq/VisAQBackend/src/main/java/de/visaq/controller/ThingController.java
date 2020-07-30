@@ -29,8 +29,7 @@ public class ThingController extends SensorthingController<Thing> {
     @Override
     @PostMapping(value = MAPPING + "/all")
     public ArrayList<Thing> getAll() {
-        MultiOnlineLink<Thing> multiLink = new MultiOnlineLink<Thing>("/Things", true);
-        return multiLink.get(this);
+        return new MultiOnlineLink<Thing>("/Things", true).get(this);
     }
 
     /**
