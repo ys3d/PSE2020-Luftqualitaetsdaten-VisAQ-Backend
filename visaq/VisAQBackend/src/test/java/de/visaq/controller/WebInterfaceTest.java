@@ -53,6 +53,7 @@ public class WebInterfaceTest {
 
     @Test
     public void missingPostParameterTest() throws Exception {
+        // Expected Error-Code 400
         this.mockMvc.perform(post("/api/thing/id")).andExpect(status().isBadRequest());
     }
 
