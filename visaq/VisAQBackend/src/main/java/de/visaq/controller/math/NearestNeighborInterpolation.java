@@ -27,14 +27,14 @@ public class NearestNeighborInterpolation extends Interpolation {
     public static final int GRID_NUM = 10;
 
     /*
-     * The default value if there if the coordinates are empty or the minimal distance of the grid
-     * point to a sensor is bigger than maxDistance.
+     * The default value if the coordinates are empty or the minimal distance of the grid point to a
+     * sensor is bigger than maxDistance.
      */
     public final double defaultValue = -99999;
 
     public final double maxDistance = 0.05;
 
-    private Coordinate[] coordinates;
+    private Coordinate[] coordinates = new Coordinate[0];
 
     static class NearestNeighborInterpolationWrapper {
         public Square square;
@@ -60,7 +60,7 @@ public class NearestNeighborInterpolation extends Interpolation {
     @Override
     protected PointDatum[] interpolateCoordinates(Square square,
             ArrayList<Coordinate> coordinates) {
-        this.coordinates = coordinatesToArray(coordinates);
+        this.coordinates = coordinates.toArray(this.coordinates);
 
         // interpolated is in row major order.
         double[][] interpolated = computeSurface(square, GRID_NUM, GRID_NUM);
@@ -107,7 +107,7 @@ public class NearestNeighborInterpolation extends Interpolation {
     }
 
     /**
-     * Projects the the measurements on a grid using nearest neighbor interpolation.
+     * Projects the measurements on a grid using nearest neighbor interpolation.
      * 
      * @param srcEnv The area of the grid
      * @param x      The number of grid points along the x axis
@@ -129,19 +129,6 @@ public class NearestNeighborInterpolation extends Interpolation {
             }
         }
         return grid;
-    }
-
-    /*
-     * Transforms an ArrayList of Coordinates into an Array.
-     */
-    private Coordinate[] coordinatesToArray(ArrayList<Coordinate> c) {
-        int length = c.toArray().length;
-        Coordinate[] coordinates = new Coordinate[length];
-        for (int i = 0; i < length; i++) {
-            coordinates[i] = c.get(i);
-            System.out.println(coordinates[i].toString());
-        }
-        return coordinates;
     }
 
     /*

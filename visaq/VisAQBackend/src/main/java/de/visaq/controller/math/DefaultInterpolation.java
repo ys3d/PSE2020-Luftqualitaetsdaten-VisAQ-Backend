@@ -24,7 +24,6 @@ import de.visaq.model.sensorthings.ObservedProperty;
 @RestController
 public class DefaultInterpolation extends Interpolation {
     public static final String MAPPING = "/api/interpolation/default";
-    public static final int GRID_NUM = 10;
 
     static class DefaultInterpolationWrapper {
         public Square square;
@@ -35,8 +34,8 @@ public class DefaultInterpolation extends Interpolation {
         public DefaultInterpolationWrapper() {
         }
 
-        public DefaultInterpolationWrapper(@JsonProperty("x1") double x1, 
-                @JsonProperty("x2") double x2, @JsonProperty("y1") double y1, 
+        public DefaultInterpolationWrapper(@JsonProperty("x1") double x1,
+                @JsonProperty("x2") double x2, @JsonProperty("y1") double y1,
                 @JsonProperty("y2") double y2, @JsonProperty("millis") long millis,
                 @JsonProperty("range") Duration range,
                 @JsonProperty("observedProperty") ObservedProperty observedProperty) {
@@ -48,36 +47,61 @@ public class DefaultInterpolation extends Interpolation {
     }
 
     @Override
-    protected PointDatum[] interpolateCoordinates(Square square, 
+    protected PointDatum[] interpolateCoordinates(Square square,
             ArrayList<Coordinate> coordinates) {
+        Coordinate[] coordinatesArray = new Coordinate[coordinates.size()];
+        coordinates.toArray(coordinatesArray);
 
-        Coordinate[] c = coordinatesToArray(coordinates);
-        float[][] interpolated = new BarnesSurfaceInterpolator(c)
-                .computeSurface(square, GRID_NUM, GRID_NUM);
+        double scale = 3.0;
+        int gridNum = (int) (square.maxExtent() / (0.03 / scale));
 
-        PointDatum[] pointData = new PointDatum[(interpolated.length * interpolated[0].length)];
+        GridTransform trans = new GridTransform(square, gridNum, gridNum);
+
+        BarnesSurfaceInterpolator bsi = new BarnesSurfaceInterpolator(coordinatesArray);
+
+        bsi.setLengthScale(0.02);
+        bsi.setMinObservationCount(0);
+        double invSqrt2 = 1 / Math.sqrt(2);
+        double maxObservationDistance =
+                invSqrt2 * Math.max(Math.abs(trans.transformX(1) - trans.transformX(0)),
+                        Math.abs(trans.transformY(1) - trans.transformY(0)));
+        bsi.setMaxObservationDistance(maxObservationDistance);
+        bsi.setNoData(-99999);
+        bsi.setPassCount(2);
+
+        // Too much load on server
+        if (gridNum > 15 * scale) {
+            return null;
+        }
+
+        float[][] interpolated = bsi.computeSurface(square, gridNum, gridNum);
+
+        PointDatum[] pointData = new PointDatum[gridNum * gridNum];
         int index = 0;
 
-
-        for (int i = 0; i < interpolated.length; i++) {
-            for (int j = 0; j < interpolated[0].length; j++) {
-                System.out.println(interpolated[i][j]);
-                GridTransform trans = new GridTransform(square, GRID_NUM, GRID_NUM);
+        for (int i = 0; i < gridNum; i++) {
+            for (int j = 0; j < gridNum; j++) {
                 /*
                  * Start on the right top of the square.
                  */
-                pointData[index] = new PointDatum(
-                        new Point2D.Double(trans.transformX(j), trans.transformY(i)),
-                        interpolated[i][j]);
-                
+                pointData[index] =
+                        new PointDatum(new Point2D.Double(trans.transformX(j), trans.transformY(i)),
+                                interpolated[j][i]);
+                /*
+                 * pointData[index] = new PointDatum(new Point2D.Double(trans.transformX(j),
+                 * trans.transformY(i)), (i % 2) == 1 ? (j % 2) == 1 ? 50 : 0 : (j % 2) == 0 ? 50 :
+                 * 0); System.out.println(i + " " + j + " " + pointData[index].location + " " +
+                 * pointData[index].datum);
+                 */
                 index++;
             }
         }
+
         return pointData;
     }
 
     @Override
-    public PointDatum[] interpolate(Square square, Instant time, Duration range, 
+    public PointDatum[] interpolate(Square square, Instant time, Duration range,
             ObservedProperty observedProperty) {
         return super.interpolate(square, time, range, observedProperty);
     }
@@ -85,30 +109,15 @@ public class DefaultInterpolation extends Interpolation {
     /**
      * Returns interpolated data for a given viewport, time and Observed Property.
      * 
-     * @param defaultInterpolationWrapper Encapsulates the parameters for the
-     *                                    interpolation
+     * @param defaultInterpolationWrapper Encapsulates the parameters for the interpolation
      * @return An Array of PointData Entities.
      */
     @CrossOrigin
     @PostMapping(MAPPING)
-    public PointDatum[] interpolate(
-            @RequestBody DefaultInterpolationWrapper defaultInterpolationWrapper) {
+    public PointDatum[]
+            interpolate(@RequestBody DefaultInterpolationWrapper defaultInterpolationWrapper) {
         return this.interpolate(defaultInterpolationWrapper.square,
-                Instant.ofEpochMilli(defaultInterpolationWrapper.millis), 
-                defaultInterpolationWrapper.range,
-                defaultInterpolationWrapper.observedProperty);
-    }
-
-    /*
-     * Transforms an ArrayList of Coordinates into an Array.
-     */
-    private Coordinate[] coordinatesToArray(ArrayList<Coordinate> c) {
-        int length = c.toArray().length;
-        Coordinate[] coordinates = new Coordinate[length];
-        for (int i = 0; i < length; i++) {
-            coordinates[i] = c.get(i);
-            System.out.println(coordinates[i].toString());
-        }
-        return coordinates;
+                Instant.ofEpochMilli(defaultInterpolationWrapper.millis),
+                defaultInterpolationWrapper.range, defaultInterpolationWrapper.observedProperty);
     }
 }

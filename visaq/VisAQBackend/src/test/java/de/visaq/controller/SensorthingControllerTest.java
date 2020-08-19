@@ -1,13 +1,13 @@
 package de.visaq.controller;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 
 import org.json.JSONObject;
 import org.json.JSONTokener;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import de.visaq.controller.SensorthingController.IdWrapper;
 import de.visaq.controller.link.MultiLocalLink;

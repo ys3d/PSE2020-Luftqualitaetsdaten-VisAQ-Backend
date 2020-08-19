@@ -1,5 +1,8 @@
 package de.visaq.controller;
 
+import java.io.File;
+import java.util.ArrayList;
+
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.junit.ClassRule;
@@ -7,7 +10,13 @@ import org.junit.rules.ExternalResource;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
+import org.locationtech.jts.geom.Coordinate;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import de.visaq.controller.math.DefaultInterpolationTest;
+import de.visaq.model.Square;
 import de.visaq.model.sensorthings.Datastream;
 import de.visaq.model.sensorthings.FeatureOfInterest;
 import de.visaq.model.sensorthings.HistoricalLocation;
@@ -25,7 +34,7 @@ import de.visaq.model.sensorthings.Thing;
         HistoricalLocationControllerTest.class, LocationControllerTest.class,
         ObservationControllerTest.class, ObservedPropertyControllerTest.class,
         SensorControllerTest.class, ThingControllerTest.class, SensorthingControllerTest.class,
-        UtilityControllerTest.class })
+        UtilityControllerTest.class, DefaultInterpolationTest.class })
 public class SensorthingsControllerTests {
     /**
      * The following ALIVE objects are used as a reference in various tests.
@@ -39,6 +48,8 @@ public class SensorthingsControllerTests {
     public static FeatureOfInterest ALIVEFEATUREOFINTEREST;
     public static Observation ALIVEOBSERVATION;
     public static JSONObject EMPTYARRAY;
+    public static Square INTERPOLATIONSQUARE;
+    public static ArrayList<Coordinate> INTERPOLATIONCOORDINATES;
 
     @ClassRule
     public static ExternalResource testRule = new ExternalResource() {
@@ -75,8 +86,13 @@ public class SensorthingsControllerTests {
                     SensorthingsControllerTests.class.getResourceAsStream("/alive_thing.json"))));
             EMPTYARRAY = new JSONObject(new JSONTokener(SensorthingsControllerTests.class
                     .getResourceAsStream("/empty_json_array.json")));
+            INTERPOLATIONSQUARE = new ObjectMapper().readValue(
+                    new File("src/test/resources/interpolation_square.json"), Square.class);
+            INTERPOLATIONCOORDINATES = new ObjectMapper().readValue(
+                    new File("src/test/resources/interpolation_coordinates.json"),
+                    new TypeReference<ArrayList<Coordinate>>() {
+                    });
         }
-
     };
 
 }
