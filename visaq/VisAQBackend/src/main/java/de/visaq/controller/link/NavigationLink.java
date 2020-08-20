@@ -21,6 +21,7 @@ import de.visaq.model.sensorthings.Sensorthing;
  */
 @JsonIdentityInfo(property = "url", generator = ObjectIdGenerators.PropertyGenerator.class)
 public abstract class NavigationLink<SensorthingT extends Sensorthing<SensorthingT>> {
+    public static final Client client = ClientBuilder.newClient();
     public final String url;
 
     /**
@@ -36,8 +37,7 @@ public abstract class NavigationLink<SensorthingT extends Sensorthing<Sensorthin
 
     protected JSONObject getJson() {
         try {
-            Client c = ClientBuilder.newClient();
-            WebTarget target = c.target(url);
+            WebTarget target = client.target(url);
 
             String responseString = target.request(MediaType.APPLICATION_JSON).get(String.class);
             JSONObject response = new JSONObject(responseString);

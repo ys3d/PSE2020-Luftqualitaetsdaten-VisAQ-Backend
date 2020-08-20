@@ -242,7 +242,10 @@ public class ObservationController extends SensorthingController<Observation> {
             ObservedProperty observedProperty) {
         int ticket = (int) (Math.random() * 1000);
 
-        System.out.println(ticket + "Before: " + Instant.now().toEpochMilli());
+        /*
+         * System.out.println(ticket + " Things: " + things.size() + " Time: " + time + " Range: " +
+         * range + " AirQ " + observedProperty.name + " Before: " + Instant.now().toEpochMilli());
+         */
 
         Instant upper = time.plus(range);
         Instant lower = time.minus(range);
@@ -267,7 +270,10 @@ public class ObservationController extends SensorthingController<Observation> {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        System.out.println(ticket + "After: " + Instant.now().toEpochMilli());
+        /*
+         * System.out.println( ticket + " Things: " + things.size() + " After: " +
+         * Instant.now().toEpochMilli());
+         */
 
         return new ArrayList<Observation>(Arrays.asList(observations));
     }

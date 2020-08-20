@@ -67,7 +67,7 @@ public class DefaultInterpolation extends Interpolation {
                         Math.abs(trans.transformY(1) - trans.transformY(0)));
         bsi.setMaxObservationDistance(maxObservationDistance);
         bsi.setNoData(-99999);
-        bsi.setPassCount(2);
+        bsi.setPassCount(1);
 
         // Too much load on server
         if (gridNum > 15 * scale) {
@@ -90,7 +90,10 @@ public class DefaultInterpolation extends Interpolation {
                 /*
                  * pointData[index] = new PointDatum(new Point2D.Double(trans.transformX(j),
                  * trans.transformY(i)), (i % 2) == 1 ? (j % 2) == 1 ? 50 : 0 : (j % 2) == 0 ? 50 :
-                 * 0); System.out.println(i + " " + j + " " + pointData[index].location + " " +
+                 * 0);
+                 */
+                /*
+                 * System.out.println(i + " " + j + " " + pointData[index].location + " " +
                  * pointData[index].datum);
                  */
                 index++;
