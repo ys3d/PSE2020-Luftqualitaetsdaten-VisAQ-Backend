@@ -77,9 +77,9 @@ public class ObservationControllerTest {
         Duration range = Duration.ofHours(12);
 
         assertNotNull(CONTROLLER.getAll(things, time, range,
-                SensorthingsControllerTests.ALIVEOBSERVEDPROPERTY));
+                SensorthingsControllerTests.ALIVEOBSERVEDPROPERTY, 0, 1000));
         assertNotNull(CONTROLLER.getAll(new TimeframedThingWrapper(things, 10000, range,
-                SensorthingsControllerTests.ALIVEOBSERVEDPROPERTY)));
+                SensorthingsControllerTests.ALIVEOBSERVEDPROPERTY, 0, 1000)));
     }
 
     @Test
@@ -129,7 +129,7 @@ public class ObservationControllerTest {
         ObservedProperty observedProperty = new ObservedProperty("id", "selfUrl", true,
                 "description", "name", null, "definition", null);
 
-        wrapper = new TimeframedThingWrapper(things, millis, range, observedProperty);
+        wrapper = new TimeframedThingWrapper(things, millis, range, observedProperty, 0, 1000);
         assertEquals(things, wrapper.things);
         assertEquals(millis, wrapper.millis);
         assertEquals(range, wrapper.range);

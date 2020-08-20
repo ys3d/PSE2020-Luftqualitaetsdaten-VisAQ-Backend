@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 import org.locationtech.jts.geom.Coordinate;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import de.visaq.controller.LocationController;
 import de.visaq.controller.ObservationController;
 import de.visaq.controller.ThingController;
@@ -20,6 +22,32 @@ import de.visaq.model.sensorthings.Thing;
  * Handles the Interpolation of Observations.
  */
 public abstract class Interpolation {
+    static class InterpolationWrapper {
+        public Square square;
+        public long millis;
+        public Duration range;
+        public ObservedProperty observedProperty;
+        public double average;
+        public double variance;
+
+        public InterpolationWrapper() {
+        }
+
+        public InterpolationWrapper(@JsonProperty("x1") double x1, @JsonProperty("x2") double x2,
+                @JsonProperty("y1") double y1, @JsonProperty("y2") double y2,
+                @JsonProperty("millis") long millis, @JsonProperty("range") Duration range,
+                @JsonProperty("observedProperty") ObservedProperty observedProperty,
+                @JsonProperty("average") double average,
+                @JsonProperty("variance") double variance) {
+            this.square = new Square(x1, x2, y1, y2);
+            this.millis = millis;
+            this.range = range;
+            this.observedProperty = observedProperty;
+            this.average = average;
+            this.variance = variance;
+        }
+    }
+
     /**
      * Interpolates all Observations within the specified square and time range.
      * 
@@ -28,16 +56,18 @@ public abstract class Interpolation {
      * @param range            The Observation must have been recorded in [time - range, time +
      *                         range]
      * @param observedProperty The ObservedProperty that was observed
+     * @param average          Assumed average of the ObservedProperty
+     * @param variance         Assumed variance of the ObservedProperty
      * @return An array of PointData
      */
     public PointDatum[] interpolate(Square square, Instant time, Duration range,
-            ObservedProperty observedProperty) {
+            ObservedProperty observedProperty, double average, double variance) {
 
         ThingController thingController = new ThingController();
         ArrayList<Thing> things = thingController.getAll(square);
 
-        ArrayList<Observation> observations =
-                new ObservationController().getAll(things, time, range, observedProperty);
+        ArrayList<Observation> observations = new ObservationController().getAll(things, time,
+                range, observedProperty, average, variance);
         ArrayList<Coordinate> coordinates = new ArrayList<>();
         LocationController locationController = new LocationController();
 
@@ -49,7 +79,8 @@ public abstract class Interpolation {
 
                 if (p != null && observations.get(i) != null) {
                     // Probably broken sensor
-                    if (observations.get(i).result > 10000) {
+                    if (observations.get(i).result > average + 10 * variance
+                            && observations.get(i).result < average - 10 * variance) {
                         continue;
                     }
                     Coordinate c = new Coordinate(p.getX(), p.getY(), observations.get(i).result);

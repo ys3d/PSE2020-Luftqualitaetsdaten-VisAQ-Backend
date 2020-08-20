@@ -41,16 +41,21 @@ public class ObservationController extends SensorthingController<Observation> {
         private Instant lower;
         private Instant upper;
         private ObservedProperty observedProperty;
+        private double average;
+        private double variance;
         private int start;
         private int packetSize;
 
         public TimeframeRun(int start, int packetSize, Thing[] things, Observation[] observations,
-                Instant lower, Instant upper, ObservedProperty observedProperty) {
+                Instant lower, Instant upper, ObservedProperty observedProperty, double average,
+                double variance) {
             this.things = things;
             this.observations = observations;
             this.lower = lower;
             this.upper = upper;
             this.observedProperty = observedProperty;
+            this.average = average;
+            this.variance = variance;
             this.start = start;
             this.packetSize = packetSize;
         }
@@ -71,7 +76,11 @@ public class ObservationController extends SensorthingController<Observation> {
                         this.lower, this.upper, this.observedProperty.id, thing.id), true)
                                 .get(ObservationController.this);
                 if (!temp.isEmpty()) {
-                    this.observations[i] = temp.get(0);
+                    Observation observation = temp.get(0);
+                    if (observation.result <= average + 10 * variance
+                            && observation.result >= average - 10 * variance) {
+                        this.observations[i] = observation;
+                    }
                 }
             }
         }
@@ -100,21 +109,25 @@ public class ObservationController extends SensorthingController<Observation> {
         public long millis;
         public Duration range;
         public ObservedProperty observedProperty;
+        public double average;
+        public double variance;
 
         public TimeframedThingWrapper() {
         }
 
         public TimeframedThingWrapper(ArrayList<Thing> things, long millis, Duration range,
-                ObservedProperty observedProperty) {
+                ObservedProperty observedProperty, double average, double variance) {
             this.things = things;
             this.millis = millis;
             this.range = range;
             this.observedProperty = observedProperty;
+            this.average = average;
+            this.variance = variance;
         }
     }
 
     /**
-     * Wrapps data for the top request.
+     * Wraps data for the top request.
      */
     static class TopWrapper {
         public int topNumber;
@@ -224,7 +237,8 @@ public class ObservationController extends SensorthingController<Observation> {
             getAll(@RequestBody TimeframedThingWrapper timeframedThingWrapper) {
         return getAll(timeframedThingWrapper.things,
                 Instant.ofEpochMilli(timeframedThingWrapper.millis), timeframedThingWrapper.range,
-                timeframedThingWrapper.observedProperty);
+                timeframedThingWrapper.observedProperty, timeframedThingWrapper.average,
+                timeframedThingWrapper.variance);
     }
 
     /**
@@ -236,13 +250,15 @@ public class ObservationController extends SensorthingController<Observation> {
      * @param range            The Observation must have been recorded in [time - range, time +
      *                         range]
      * @param observedProperty The ObservedProperty that was observed
+     * @param average          Assumed average of the ObservedProperty
+     * @param variance         Assumed variance of the ObservedProperty
      * @return An ArrayList of Observation entities
      */
     public ArrayList<Observation> getAll(ArrayList<Thing> things, Instant time, Duration range,
-            ObservedProperty observedProperty) {
-        int ticket = (int) (Math.random() * 1000);
-
+            ObservedProperty observedProperty, double average, double variance) {
         /*
+         * int ticket = (int) (Math.random() * 1000);
+         * 
          * System.out.println(ticket + " Things: " + things.size() + " Time: " + time + " Range: " +
          * range + " AirQ " + observedProperty.name + " Before: " + Instant.now().toEpochMilli());
          */
@@ -260,7 +276,7 @@ public class ObservationController extends SensorthingController<Observation> {
 
         for (int i = 0; i < things.size() / packetSize; i++) {
             es.execute(new TimeframeRun(i * packetSize, packetSize, thingsArr, observations, lower,
-                    upper, observedProperty));
+                    upper, observedProperty, average, variance));
         }
 
         es.shutdown();

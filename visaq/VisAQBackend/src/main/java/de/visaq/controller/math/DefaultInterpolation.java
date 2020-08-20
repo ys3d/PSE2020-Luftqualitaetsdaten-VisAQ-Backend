@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import de.visaq.model.PointDatum;
 import de.visaq.model.Square;
 import de.visaq.model.sensorthings.ObservedProperty;
@@ -24,27 +22,6 @@ import de.visaq.model.sensorthings.ObservedProperty;
 @RestController
 public class DefaultInterpolation extends Interpolation {
     public static final String MAPPING = "/api/interpolation/default";
-
-    static class DefaultInterpolationWrapper {
-        public Square square;
-        public long millis;
-        public Duration range;
-        public ObservedProperty observedProperty;
-
-        public DefaultInterpolationWrapper() {
-        }
-
-        public DefaultInterpolationWrapper(@JsonProperty("x1") double x1,
-                @JsonProperty("x2") double x2, @JsonProperty("y1") double y1,
-                @JsonProperty("y2") double y2, @JsonProperty("millis") long millis,
-                @JsonProperty("range") Duration range,
-                @JsonProperty("observedProperty") ObservedProperty observedProperty) {
-            this.square = new Square(x1, x2, y1, y2);
-            this.millis = millis;
-            this.range = range;
-            this.observedProperty = observedProperty;
-        }
-    }
 
     @Override
     protected PointDatum[] interpolateCoordinates(Square square,
@@ -105,8 +82,8 @@ public class DefaultInterpolation extends Interpolation {
 
     @Override
     public PointDatum[] interpolate(Square square, Instant time, Duration range,
-            ObservedProperty observedProperty) {
-        return super.interpolate(square, time, range, observedProperty);
+            ObservedProperty observedProperty, double average, double variance) {
+        return super.interpolate(square, time, range, observedProperty, average, variance);
     }
 
     /**
@@ -117,10 +94,10 @@ public class DefaultInterpolation extends Interpolation {
      */
     @CrossOrigin
     @PostMapping(MAPPING)
-    public PointDatum[]
-            interpolate(@RequestBody DefaultInterpolationWrapper defaultInterpolationWrapper) {
+    public PointDatum[] interpolate(@RequestBody InterpolationWrapper defaultInterpolationWrapper) {
         return this.interpolate(defaultInterpolationWrapper.square,
                 Instant.ofEpochMilli(defaultInterpolationWrapper.millis),
-                defaultInterpolationWrapper.range, defaultInterpolationWrapper.observedProperty);
+                defaultInterpolationWrapper.range, defaultInterpolationWrapper.observedProperty,
+                defaultInterpolationWrapper.average, defaultInterpolationWrapper.variance);
     }
 }

@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import de.visaq.model.PointDatum;
 import de.visaq.model.Square;
 import de.visaq.model.sensorthings.ObservedProperty;
@@ -35,27 +33,6 @@ public class NearestNeighborInterpolation extends Interpolation {
     public final double maxDistance = 0.05;
 
     private Coordinate[] coordinates = new Coordinate[0];
-
-    static class NearestNeighborInterpolationWrapper {
-        public Square square;
-        public long millis;
-        public Duration range;
-        public ObservedProperty observedProperty;
-
-        public NearestNeighborInterpolationWrapper() {
-        }
-
-        public NearestNeighborInterpolationWrapper(@JsonProperty("x1") double x1,
-                @JsonProperty("x2") double x2, @JsonProperty("y1") double y1,
-                @JsonProperty("y2") double y2, @JsonProperty("millis") long millis,
-                @JsonProperty("range") Duration range,
-                @JsonProperty("observedProperty") ObservedProperty observedProperty) {
-            this.square = new Square(x1, x2, y1, y2);
-            this.millis = millis;
-            this.range = range;
-            this.observedProperty = observedProperty;
-        }
-    }
 
     @Override
     protected PointDatum[] interpolateCoordinates(Square square,
@@ -86,8 +63,8 @@ public class NearestNeighborInterpolation extends Interpolation {
 
     @Override
     public PointDatum[] interpolate(Square square, Instant time, Duration range,
-            ObservedProperty observedProperty) {
-        return super.interpolate(square, time, range, observedProperty);
+            ObservedProperty observedProperty, double average, double variance) {
+        return super.interpolate(square, time, range, observedProperty, average, variance);
     }
 
     /**
@@ -98,11 +75,11 @@ public class NearestNeighborInterpolation extends Interpolation {
      */
     @CrossOrigin
     @PostMapping(MAPPING)
-    public PointDatum[]
-            interpolate(@RequestBody NearestNeighborInterpolationWrapper interpolationWrapper) {
+    public PointDatum[] interpolate(@RequestBody InterpolationWrapper interpolationWrapper) {
         return this.interpolate(interpolationWrapper.square,
                 Instant.ofEpochMilli(interpolationWrapper.millis), interpolationWrapper.range,
-                interpolationWrapper.observedProperty);
+                interpolationWrapper.observedProperty, interpolationWrapper.average,
+                interpolationWrapper.variance);
     }
 
     /**
