@@ -15,7 +15,6 @@ import org.locationtech.jts.geom.Coordinate;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import de.visaq.controller.math.DefaultInterpolationTest;
 import de.visaq.model.Square;
 import de.visaq.model.sensorthings.Datastream;
 import de.visaq.model.sensorthings.FeatureOfInterest;
@@ -34,7 +33,7 @@ import de.visaq.model.sensorthings.Thing;
         HistoricalLocationControllerTest.class, LocationControllerTest.class,
         ObservationControllerTest.class, ObservedPropertyControllerTest.class,
         SensorControllerTest.class, ThingControllerTest.class, SensorthingControllerTest.class,
-        UtilityControllerTest.class, DefaultInterpolationTest.class })
+        UtilityControllerTest.class })
 public class SensorthingsControllerTests {
     /**
      * The following ALIVE objects are used as a reference in various tests.
