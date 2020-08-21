@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import de.visaq.controller.ObservedPropertyController;
 import de.visaq.controller.SensorthingsControllerTests;
-import de.visaq.controller.math.NearestNeighborInterpolation.NearestNeighborInterpolationWrapper;
+import de.visaq.controller.math.Interpolation.InterpolationWrapper;
 import de.visaq.model.Square;
 import de.visaq.model.sensorthings.ObservedProperty;
 
@@ -23,7 +23,7 @@ public class NearestNeighborInterpolationTest {
 
     @Test
     public void nearestNeighborInterpolationWrapperTest() {
-        NearestNeighborInterpolationWrapper w = new NearestNeighborInterpolationWrapper();
+        InterpolationWrapper w = new InterpolationWrapper();
         assertNull(w.square);
         assertEquals(0, w.millis);
         assertNull(w.range);
@@ -34,7 +34,7 @@ public class NearestNeighborInterpolationTest {
                 .singleBuild(new JSONObject(new JSONTokener(SensorthingsControllerTests.class
                         .getResourceAsStream("/alive_observedproperty.json"))));
         long millis = 500;
-        w = new NearestNeighborInterpolationWrapper(0.d, 2.d, 0.d, 4.d, millis, d, op);
+        w = new InterpolationWrapper(0.d, 2.d, 0.d, 4.d, millis, d, op, 0, 1000);
 
         assertEquals(new Square(0.d, 2.d, 0.d, 4.d), w.square);
         assertEquals(millis, millis);
@@ -47,8 +47,8 @@ public class NearestNeighborInterpolationTest {
         ObservedProperty op = new ObservedPropertyController()
                 .singleBuild(new JSONObject(new JSONTokener(SensorthingsControllerTests.class
                         .getResourceAsStream("/alive_observedproperty.json"))));
-        NearestNeighborInterpolationWrapper w = new NearestNeighborInterpolationWrapper(47, 48, 9,
-                10, System.currentTimeMillis(), Duration.ofHours(1), op);
+        InterpolationWrapper w = new InterpolationWrapper(47, 48, 9, 10, System.currentTimeMillis(),
+                Duration.ofHours(1), op, 0, 1000);
         assertTrue(0 < new NearestNeighborInterpolation().interpolate(w).length);
     }
 

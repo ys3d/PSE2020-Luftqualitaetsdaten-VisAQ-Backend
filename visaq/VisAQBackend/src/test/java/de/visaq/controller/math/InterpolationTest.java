@@ -37,7 +37,7 @@ public class InterpolationTest {
                 assertEquals(new Square(48, 49, 8, 9), square);
                 return null;
             }
-        }.interpolate(new Square(48, 49, 8, 9), Instant.EPOCH, Duration.ZERO, op);
+        }.interpolate(new Square(48, 49, 8, 9), Instant.EPOCH, Duration.ZERO, op, 0, 1000);
 
         new Interpolation() {
 
@@ -48,7 +48,7 @@ public class InterpolationTest {
                 assertEquals(new Square(10, 11, 48, 49), square);
                 return null;
             }
-        }.interpolate(new Square(10, 11, 48, 49), Instant.now(), Duration.ofHours(1), op);
+        }.interpolate(new Square(10, 11, 48, 49), Instant.now(), Duration.ofHours(1), op, 0, 1000);
     }
 
 }
