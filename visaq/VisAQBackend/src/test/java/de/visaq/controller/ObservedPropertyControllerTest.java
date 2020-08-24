@@ -1,11 +1,12 @@
 package de.visaq.controller;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
+import de.visaq.ResourceTest;
 import de.visaq.controller.SensorthingController.IdWrapper;
 import de.visaq.controller.link.MultiOnlineLink;
 import de.visaq.controller.link.SingleOnlineLink;
@@ -14,7 +15,7 @@ import de.visaq.model.sensorthings.ObservedProperty;
 /**
  * Tests {@link ObservedPropertyController}.
  */
-public class ObservedPropertyControllerTest {
+public class ObservedPropertyControllerTest extends ResourceTest {
     private static final ObservedPropertyController CONTROLLER = new ObservedPropertyController();
 
     @Test
@@ -27,7 +28,7 @@ public class ObservedPropertyControllerTest {
 
     @Test
     public void testSingleObservedPropertyGetByDatastream() {
-        assertNotNull(CONTROLLER.get(SensorthingsControllerTests.ALIVEDATASTREAM));
+        assertNotNull(CONTROLLER.get(ALIVEDATASTREAM));
     }
 
     @Test
@@ -41,15 +42,15 @@ public class ObservedPropertyControllerTest {
     @Test
     public void testSingleObservedPropertyGetById() {
         assertNull(CONTROLLER.get("undefined"));
-        assertNotNull(CONTROLLER.get(SensorthingsControllerTests.ALIVEOBSERVEDPROPERTY.id));
+        assertNotNull(CONTROLLER.get(ALIVEOBSERVEDPROPERTY.id));
         assertNotNull(CONTROLLER
-                .get(new IdWrapper(SensorthingsControllerTests.ALIVEOBSERVEDPROPERTY.id)));
+                .get(new IdWrapper(ALIVEOBSERVEDPROPERTY.id)));
 
     }
 
     @Test
     public void singleBuildEmptyTest() {
-        assertNull(CONTROLLER.singleBuild(SensorthingsControllerTests.EMPTYARRAY));
+        assertNull(CONTROLLER.singleBuild(EMPTYARRAY));
     }
 
     @Test

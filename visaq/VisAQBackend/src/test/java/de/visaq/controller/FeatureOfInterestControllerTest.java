@@ -1,11 +1,12 @@
 package de.visaq.controller;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
+import de.visaq.ResourceTest;
 import de.visaq.controller.SensorthingController.IdWrapper;
 import de.visaq.controller.link.MultiOnlineLink;
 import de.visaq.controller.link.SingleOnlineLink;
@@ -14,7 +15,7 @@ import de.visaq.model.sensorthings.FeatureOfInterest;
 /**
  * Tests {@link FeatureOfInterestController}.
  */
-public class FeatureOfInterestControllerTest {
+public class FeatureOfInterestControllerTest extends ResourceTest {
     private static final FeatureOfInterestController CONTROLLER = new FeatureOfInterestController();
 
     @Test
@@ -28,9 +29,8 @@ public class FeatureOfInterestControllerTest {
     @Test
     public void testSingleFeatureOfInterestGetById() {
         assertNull(CONTROLLER.get("undefined"));
-        assertNotNull(CONTROLLER.get(SensorthingsControllerTests.ALIVEFEATUREOFINTEREST.id));
-        assertNotNull(CONTROLLER
-                .get(new IdWrapper(SensorthingsControllerTests.ALIVEFEATUREOFINTEREST.id)));
+        assertNotNull(CONTROLLER.get(ALIVEFEATUREOFINTEREST.id));
+        assertNotNull(CONTROLLER.get(new IdWrapper(ALIVEFEATUREOFINTEREST.id)));
     }
 
     @Test
@@ -53,7 +53,7 @@ public class FeatureOfInterestControllerTest {
 
     @Test
     public void singleBuildEmptyTest() {
-        assertNull(CONTROLLER.singleBuild(SensorthingsControllerTests.EMPTYARRAY));
+        assertNull(CONTROLLER.singleBuild(EMPTYARRAY));
     }
 
 }
