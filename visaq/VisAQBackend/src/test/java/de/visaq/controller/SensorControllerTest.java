@@ -1,11 +1,12 @@
 package de.visaq.controller;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
+import de.visaq.ResourceTest;
 import de.visaq.controller.SensorthingController.IdWrapper;
 import de.visaq.controller.link.MultiOnlineLink;
 import de.visaq.controller.link.SingleOnlineLink;
@@ -14,7 +15,7 @@ import de.visaq.model.sensorthings.Sensor;
 /**
  * Tests {@link SensorController}.
  */
-public class SensorControllerTest {
+public class SensorControllerTest extends ResourceTest {
     private static final SensorController CONTROLLER = new SensorController();
 
     @Test
@@ -27,18 +28,18 @@ public class SensorControllerTest {
     @Test
     public void testSingleSensorGetById() {
         assertNull(CONTROLLER.get("undefined"));
-        assertNotNull(CONTROLLER.get(SensorthingsControllerTests.ALIVESENSOR.id));
-        assertNotNull(CONTROLLER.get(new IdWrapper(SensorthingsControllerTests.ALIVESENSOR.id)));
+        assertNotNull(CONTROLLER.get(ALIVESENSOR.id));
+        assertNotNull(CONTROLLER.get(new IdWrapper(ALIVESENSOR.id)));
     }
 
     @Test
     public void testSingleSensorGetByDatastream() {
-        assertNotNull(CONTROLLER.get(SensorthingsControllerTests.ALIVEDATASTREAM));
+        assertNotNull(CONTROLLER.get(ALIVEDATASTREAM));
     }
 
     @Test
     public void testMultiSensorGetByThing() {
-        assertFalse(CONTROLLER.getAll(SensorthingsControllerTests.ALIVETHING).isEmpty());
+        assertFalse(CONTROLLER.getAll(ALIVETHING).isEmpty());
     }
 
     @Test
@@ -50,7 +51,7 @@ public class SensorControllerTest {
 
     @Test
     public void singleBuildEmptyTest() {
-        assertNull(CONTROLLER.singleBuild(SensorthingsControllerTests.EMPTYARRAY));
+        assertNull(CONTROLLER.singleBuild(EMPTYARRAY));
     }
 
     @Test

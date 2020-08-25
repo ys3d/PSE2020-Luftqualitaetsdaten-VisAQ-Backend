@@ -1,22 +1,21 @@
 package de.visaq.controller.math;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import de.visaq.controller.SensorthingsControllerTests;
+import de.visaq.ResourceTest;
 
 /**
  * Tests {@link DefaultInterpolation}.
  */
-public class DefaultInterpolationTest {
+public class DefaultInterpolationTest extends ResourceTest {
     private static final DefaultInterpolation CONTROLLER = new DefaultInterpolation();
 
     @Test
     public void testDefaultInterpolationInterpolateCoordinates() {
         assertNotNull(
-                CONTROLLER.interpolateCoordinates(SensorthingsControllerTests.INTERPOLATIONSQUARE,
-                        SensorthingsControllerTests.INTERPOLATIONCOORDINATES));
+                CONTROLLER.interpolateCoordinates(INTERPOLATIONSQUARE, INTERPOLATIONCOORDINATES));
     }
 
 }
