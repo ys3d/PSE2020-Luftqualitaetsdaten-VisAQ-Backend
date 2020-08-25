@@ -22,6 +22,7 @@ import de.visaq.model.sensorthings.ObservedProperty;
 @RestController
 public class DefaultInterpolation extends Interpolation {
     public static final String MAPPING = "/api/interpolation/default";
+    private static final double SCALE = 3.0;
 
     @Override
     protected PointDatum[] interpolateCoordinates(Square square,
@@ -29,8 +30,7 @@ public class DefaultInterpolation extends Interpolation {
         Coordinate[] coordinatesArray = new Coordinate[coordinates.size()];
         coordinates.toArray(coordinatesArray);
 
-        double scale = 3.0;
-        int gridNum = (int) (square.maxExtent() / (0.03 / scale));
+        int gridNum = (int) (square.maxExtent() / (0.03 / SCALE));
 
         GridTransform trans = new GridTransform(square, gridNum, gridNum);
 
@@ -47,7 +47,7 @@ public class DefaultInterpolation extends Interpolation {
         bsi.setPassCount(1);
 
         // Too much load on server
-        if (gridNum > 15 * scale) {
+        if (gridNum > 15 * SCALE) {
             return null;
         }
 

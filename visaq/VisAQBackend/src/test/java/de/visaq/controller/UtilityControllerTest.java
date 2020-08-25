@@ -15,6 +15,7 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 import de.visaq.ResourceTest;
+import de.visaq.model.sensorthings.UnitOfMeasurement;
 
 /**
  * Tests {@link UtilityController}.
@@ -32,11 +33,11 @@ public class UtilityControllerTest extends ResourceTest {
 
     @Test
     public void buildUnitOfMeasurementTest() {
-        assertNotNull(ALIVEUNITOFMEASUREMENT);
-        assertEquals(ALIVEUNITOFMEASUREMENTJSON.getString("name"), ALIVEUNITOFMEASUREMENT.name);
-        assertEquals(ALIVEUNITOFMEASUREMENTJSON.getString("definition"),
-                ALIVEUNITOFMEASUREMENT.definition);
-        assertEquals(ALIVEUNITOFMEASUREMENTJSON.getString("symbol"), ALIVEUNITOFMEASUREMENT.symbol);
+        UnitOfMeasurement um = UtilityController.buildUnitOfMeasurement(ALIVEUNITOFMEASUREMENTJSON);
+        assertNotNull(um);
+        assertEquals(ALIVEUNITOFMEASUREMENTJSON.getString("name"), um.name);
+        assertEquals(ALIVEUNITOFMEASUREMENTJSON.getString("definition"), um.definition);
+        assertEquals(ALIVEUNITOFMEASUREMENTJSON.getString("symbol"), um.symbol);
     }
 
     @Test
