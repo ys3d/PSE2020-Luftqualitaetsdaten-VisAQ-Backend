@@ -274,7 +274,7 @@ public class ObservationController extends SensorthingController<Observation> {
 
         ExecutorService es = Executors.newCachedThreadPool();
 
-        for (int i = 0; i < things.size() / packetSize; i++) {
+        for (int i = 0; i < ((float) things.size() / (float) packetSize); i++) {
             es.execute(new TimeframeRun(i * packetSize, packetSize, thingsArr, observations, lower,
                     upper, observedProperty, average, variance));
         }
