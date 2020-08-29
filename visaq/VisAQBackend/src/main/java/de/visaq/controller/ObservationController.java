@@ -77,10 +77,13 @@ public class ObservationController extends SensorthingController<Observation> {
                                 .get(ObservationController.this);
                 if (!temp.isEmpty()) {
                     Observation observation = temp.get(0);
-                    if (observation.result <= average + 10 * variance
-                            && observation.result >= average - 10 * variance) {
-                        this.observations[i] = observation;
+
+                    if (observation.result > average + 10 * variance
+                            || observation.result < average - 10 * variance) {
+                        continue;
                     }
+
+                    this.observations[i] = observation;
                 }
             }
         }
