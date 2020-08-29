@@ -80,9 +80,10 @@ public abstract class Interpolation {
                 if (p != null && observations.get(i) != null) {
                     // Probably broken sensor
                     if (observations.get(i).result > average + 10 * variance
-                            && observations.get(i).result < average - 10 * variance) {
+                            || observations.get(i).result < average - 10 * variance) {
                         continue;
                     }
+
                     Coordinate c = new Coordinate(p.getX(), p.getY(), observations.get(i).result);
                     coordinates.add(c);
                 }
