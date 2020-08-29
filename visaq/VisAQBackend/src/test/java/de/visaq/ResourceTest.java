@@ -58,7 +58,7 @@ public class ResourceTest {
     public static final JSONObject ALIVEOBSERVATIONJSON;
     public static final JSONObject EMPTYARRAY;
     public static final Square INTERPOLATIONSQUARE;
-    public static final JSONObject ALIVETHINGEXPANDDATASTREANSJSON;
+    public static final JSONObject ALIVETHINGEXPANDDATASTREAMSJSON;
     public static final JSONObject ALIVEDATASTREAMEXPANDTHINGJSON;
     public static final ObservedProperty ALIVEOBSERVEDPROPERTYPM10;
     public static final ArrayList<Coordinate> INTERPOLATIONCOORDINATES;
@@ -129,7 +129,7 @@ public class ResourceTest {
         MULTIALIVEDATASTREAMNOVALUE = new DatastreamController()
                 .multiBuild(new JSONObject(new JSONTokener(ResourceTest.class
                         .getResourceAsStream("/multi_alive_datastreams_no_value.json"))));
-        ALIVETHINGEXPANDDATASTREANSJSON =
+        ALIVETHINGEXPANDDATASTREAMSJSON =
                 new JSONObject(new JSONTokener(MultiNavigationLinkTest.class
                         .getResourceAsStream("/alive_thing_expand_datastreams.json")));
         ALIVEDATASTREAMEXPANDTHINGJSON =

@@ -1,9 +1,9 @@
 package de.visaq.controller.math;
 
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -29,7 +29,7 @@ public class DefaultInterpolationTest extends ResourceTest {
         assertNotNull(result);
         assertTrue(result.length > 0);
 
-        // ExtremHighLoad
+        // Extrem high load
         assertNull(CONTROLLER.interpolateCoordinates(new Square(9, 11, 47, 50),
                 INTERPOLATIONCOORDINATES));
 
