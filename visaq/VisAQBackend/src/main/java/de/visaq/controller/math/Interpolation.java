@@ -65,7 +65,7 @@ public abstract class Interpolation {
 
         ThingController thingController = new ThingController();
         ArrayList<Thing> things = thingController.getAll(square);
-        // This function in addition filters probably borken sensors with variance and average value
+        // This function in addition filters probably broken sensors with variance and average value
         ArrayList<Observation> observations = new ObservationController().getAll(things, time,
                 range, observedProperty, average, variance);
         ArrayList<Coordinate> coordinates = new ArrayList<>();
