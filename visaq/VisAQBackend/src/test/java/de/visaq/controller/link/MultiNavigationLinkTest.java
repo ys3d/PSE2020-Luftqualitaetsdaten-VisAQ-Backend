@@ -23,10 +23,10 @@ public class MultiNavigationLinkTest extends ResourceTest {
     public void builderLocalLinkTest() {
         Builder<Datastream> builder = new Builder<Datastream>();
         MultiNavigationLink<Datastream> link = builder.build("Datastreams@iot.navigationLink",
-                "Datastreams", new DatastreamController(), ALIVETHINGEXPANDDATASTREANSJSON);
+                "Datastreams", new DatastreamController(), ALIVETHINGEXPANDDATASTREAMSJSON);
         assertNotNull(link);
         assertEquals(MultiLocalLink.class, link.getClass());
-        assertEquals(ALIVETHINGEXPANDDATASTREANSJSON.getString("Datastreams@iot.navigationLink"),
+        assertEquals(ALIVETHINGEXPANDDATASTREAMSJSON.getString("Datastreams@iot.navigationLink"),
                 link.url);
     }
 
@@ -34,10 +34,10 @@ public class MultiNavigationLinkTest extends ResourceTest {
     public void builderOnlineLinkTest() {
         Builder<Datastream> builder = new Builder<Datastream>();
         MultiNavigationLink<Datastream> link = builder.build("Datastreams@iot.navigationLink",
-                "no data key", new DatastreamController(), ALIVETHINGEXPANDDATASTREANSJSON);
+                "no data key", new DatastreamController(), ALIVETHINGEXPANDDATASTREAMSJSON);
         assertNotNull(link);
         assertEquals(MultiOnlineLink.class, link.getClass());
-        assertEquals(ALIVETHINGEXPANDDATASTREANSJSON.getString("Datastreams@iot.navigationLink"),
+        assertEquals(ALIVETHINGEXPANDDATASTREAMSJSON.getString("Datastreams@iot.navigationLink"),
                 link.url);
     }
 
