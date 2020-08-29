@@ -1,14 +1,18 @@
 package de.visaq.controller.math;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.awt.geom.Point2D;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.locationtech.jts.geom.Coordinate;
 
 import de.visaq.ResourceTest;
@@ -115,4 +119,39 @@ public class InterpolationTest extends ResourceTest {
         }.interpolate(INTERPOLATIONSQUARE, Instant.now(), Duration.ofHours(2),
                 ALIVEOBSERVEDPROPERTY, -5000, 0);
     }
+
+    /**
+     * Tests passes values from interpolateCoordinates() that should be returned in interpolate
+     * function.
+     * 
+     * @param numberReturnedPoints The number of returned {@link PointDatum}
+     */
+    @ParameterizedTest
+    @ValueSource(ints = { 0, 1, 2 })
+    public void resultPassingTest(int numberReturnedPoints) {
+        PointDatum[] result = new Interpolation() {
+            @Override
+            protected PointDatum[] interpolateCoordinates(Square square,
+                    ArrayList<Coordinate> coordinates) {
+                assertTrue(0 < coordinates.size());
+                assertEquals(INTERPOLATIONSQUARE, square);
+                PointDatum[] toReturn = new PointDatum[numberReturnedPoints];
+                for (int i = 0; i < toReturn.length; i++) {
+                    toReturn[i] = new PointDatum(new Point2D.Double(i * 2, i * 3), i * 4);
+                }
+                return toReturn;
+            }
+        }.interpolate(INTERPOLATIONSQUARE, Instant.now(), Duration.ofHours(2),
+                ALIVEOBSERVEDPROPERTY, 75, 25);
+
+        assertNotNull(result);
+        assertEquals(numberReturnedPoints, result.length);
+        for (int i = 0; i < result.length; i++) {
+            assertEquals(i * 2, result[i].location.getX());
+            assertEquals(i * 3, result[i].location.getY());
+            assertEquals(i * 4, result[i].datum);
+        }
+
+    }
+
 }
