@@ -40,8 +40,8 @@ public class ObservationControllerTest extends ResourceTest {
     @Test
     public void testSingleObservationGetById() {
         assertNull(CONTROLLER.get("undefined"));
-        assertNotNull(CONTROLLER.get(ALIVEOBSERVATION.id));
-        assertNotNull(CONTROLLER.get(new IdWrapper(ALIVEOBSERVATION.id)));
+        assertEquals(ALIVEOBSERVATION, CONTROLLER.get(ALIVEOBSERVATION.id));
+        assertEquals(ALIVEOBSERVATION, CONTROLLER.get(new IdWrapper(ALIVEOBSERVATION.id)));
     }
 
     @Test

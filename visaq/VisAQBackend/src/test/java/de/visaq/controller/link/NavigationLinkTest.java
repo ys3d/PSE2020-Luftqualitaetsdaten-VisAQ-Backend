@@ -14,7 +14,7 @@ import de.visaq.controller.DatastreamController;
 /**
  * Tests {@link NavigationLink}.
  */
-public class NavigationLinkTest {
+public class NavigationLinkTest extends ResourceTest {
 
     @Test
     public void initTest() {
@@ -26,11 +26,10 @@ public class NavigationLinkTest {
 
     @Test
     public void getJsonTest() {
-        TestNavigationLink link =
-                new TestNavigationLink(ResourceTest.ALIVEDATASTREAM.selfUrl, false);
+        TestNavigationLink link = new TestNavigationLink(ALIVEDATASTREAM.selfUrl, false);
         JSONObject json = link.getJson();
         assertNotNull(json);
-        assertEquals(ResourceTest.ALIVEDATASTREAM, new DatastreamController().singleBuild(json));
+        assertEquals(ALIVEDATASTREAM, new DatastreamController().singleBuild(json));
         link = new TestNavigationLink("/illegal", true);
         assertNull(link.getJson());
     }

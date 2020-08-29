@@ -1,7 +1,7 @@
 package de.visaq.controller.math;
 
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Duration;
@@ -22,7 +22,7 @@ import de.visaq.model.Square;
 public class InterpolationTest extends ResourceTest {
 
     @Test
-    public void interpolationTest() {
+    public void interpolationValuePassingTest() {
         new Interpolation() {
             @Override
             protected PointDatum[] interpolateCoordinates(Square square,
@@ -47,6 +47,30 @@ public class InterpolationTest extends ResourceTest {
     }
 
     @Test
+    public void interpolateWithDataTest() {
+        int average = 75;
+        int variance = 25;
+        new Interpolation() {
+            @Override
+            protected PointDatum[] interpolateCoordinates(Square square,
+                    ArrayList<Coordinate> coordinates) {
+                assertTrue(0 < coordinates.size());
+                for (int i = 0; i < coordinates.size(); i++) {
+                    assertTrue(coordinates.get(i).x <= square.getMaxX()
+                            && coordinates.get(i).x >= square.getMinX());
+                    assertTrue(coordinates.get(i).y <= square.getMaxY()
+                            && coordinates.get(i).y >= square.getMinY());
+                    assertTrue(coordinates.get(i).z <= average + variance * 10
+                            && coordinates.get(i).z >= average - variance * 10);
+                }
+                assertEquals(INTERPOLATIONSQUARE, square);
+                return null;
+            }
+        }.interpolate(INTERPOLATIONSQUARE, Instant.now(), Duration.ofHours(2),
+                ALIVEOBSERVEDPROPERTY, average, variance);
+    }
+
+    @Test
     public void interpolationWrapperTest() {
         InterpolationWrapper w = new InterpolationWrapper();
         assertNull(w.square);
@@ -62,5 +86,33 @@ public class InterpolationTest extends ResourceTest {
         assertEquals(millis, millis);
         assertEquals(d, w.range);
         assertEquals(ALIVEOBSERVEDPROPERTY, w.observedProperty);
+    }
+
+    @Test
+    public void interpolateIllegalValueToLowTest() {
+        new Interpolation() {
+            @Override
+            protected PointDatum[] interpolateCoordinates(Square square,
+                    ArrayList<Coordinate> coordinates) {
+                assertEquals(0, coordinates.size());
+                assertEquals(INTERPOLATIONSQUARE, square);
+                return null;
+            }
+        }.interpolate(INTERPOLATIONSQUARE, Instant.now(), Duration.ofHours(2),
+                ALIVEOBSERVEDPROPERTY, 5000, 0);
+    }
+
+    @Test
+    public void interpolateIllegalValueToHighTest() {
+        new Interpolation() {
+            @Override
+            protected PointDatum[] interpolateCoordinates(Square square,
+                    ArrayList<Coordinate> coordinates) {
+                assertEquals(0, coordinates.size());
+                assertEquals(INTERPOLATIONSQUARE, square);
+                return null;
+            }
+        }.interpolate(INTERPOLATIONSQUARE, Instant.now(), Duration.ofHours(2),
+                ALIVEOBSERVEDPROPERTY, -5000, 0);
     }
 }

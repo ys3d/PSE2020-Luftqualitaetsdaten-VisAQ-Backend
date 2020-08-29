@@ -37,8 +37,8 @@ public class DatastreamControllerTest extends ResourceTest {
     @Test
     public void testSingleDatastreamGetById() {
         assertNull(CONTROLLER.get("undefined"));
-        assertNotNull(CONTROLLER.get(ALIVEDATASTREAM.id));
-        assertNotNull(CONTROLLER.get(new IdWrapper(ALIVEDATASTREAM.id)));
+        assertEquals(ALIVEDATASTREAM, CONTROLLER.get(ALIVEDATASTREAM.id));
+        assertEquals(ALIVEDATASTREAM, CONTROLLER.get(new IdWrapper(ALIVEDATASTREAM.id)));
     }
 
     @Test
@@ -119,4 +119,5 @@ public class DatastreamControllerTest extends ResourceTest {
     public void singleBuildEmptyTest() {
         assertNull(CONTROLLER.singleBuild(EMPTYARRAY));
     }
+
 }

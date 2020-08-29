@@ -1,5 +1,6 @@
 package de.visaq.controller;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -28,8 +29,8 @@ public class SensorControllerTest extends ResourceTest {
     @Test
     public void testSingleSensorGetById() {
         assertNull(CONTROLLER.get("undefined"));
-        assertNotNull(CONTROLLER.get(ALIVESENSOR.id));
-        assertNotNull(CONTROLLER.get(new IdWrapper(ALIVESENSOR.id)));
+        assertEquals(ALIVESENSOR, CONTROLLER.get(ALIVESENSOR.id));
+        assertEquals(ALIVESENSOR, CONTROLLER.get(new IdWrapper(ALIVESENSOR.id)));
     }
 
     @Test

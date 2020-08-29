@@ -33,8 +33,9 @@ public class FeatureOfInterestControllerTest extends ResourceTest {
     @Test
     public void testSingleFeatureOfInterestGetById() {
         assertNull(CONTROLLER.get("undefined"));
-        assertNotNull(CONTROLLER.get(ALIVEFEATUREOFINTEREST.id));
-        assertNotNull(CONTROLLER.get(new IdWrapper(ALIVEFEATUREOFINTEREST.id)));
+        assertEquals(ALIVEFEATUREOFINTEREST, CONTROLLER.get(ALIVEFEATUREOFINTEREST.id));
+        assertEquals(ALIVEFEATUREOFINTEREST,
+                CONTROLLER.get(new IdWrapper(ALIVEFEATUREOFINTEREST.id)));
     }
 
     @Test

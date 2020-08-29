@@ -3,10 +3,9 @@ package de.visaq.controller.link;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import org.json.JSONObject;
-import org.json.JSONTokener;
 import org.junit.jupiter.api.Test;
 
+import de.visaq.ResourceTest;
 import de.visaq.RestConstants;
 import de.visaq.controller.SensorthingController;
 import de.visaq.controller.ThingController;
@@ -17,32 +16,28 @@ import de.visaq.model.sensorthings.Thing;
 /**
  * Tests {@link SingleNavigationLink}.
  */
-public class SingleNavigationLinkTest {
-    private static final JSONObject ALIVEDATASTREAMEXPANDTHING;
-
-    static {
-        ALIVEDATASTREAMEXPANDTHING = new JSONObject(new JSONTokener(SingleNavigationLinkTest.class
-                .getResourceAsStream("/alive_datastream_expand_thing.json")));
-    }
+public class SingleNavigationLinkTest extends ResourceTest {
 
     @Test
     public void builderLocalLinkTest() {
         Builder<Thing> builder = new Builder<Thing>();
         SingleNavigationLink<Thing> link = builder.build("Thing@iot.navigationLink", "Thing",
-                new ThingController(), ALIVEDATASTREAMEXPANDTHING);
+                new ThingController(), ALIVEDATASTREAMEXPANDTHINGJSON);
         assertNotNull(link);
         assertEquals(SingleLocalLink.class, link.getClass());
-        assertEquals(ALIVEDATASTREAMEXPANDTHING.getString("Thing@iot.navigationLink"), link.url);
+        assertEquals(ALIVEDATASTREAMEXPANDTHINGJSON.getString("Thing@iot.navigationLink"),
+                link.url);
     }
 
     @Test
     public void builderOnlineLinkTest() {
         Builder<Thing> builder = new Builder<Thing>();
         SingleNavigationLink<Thing> link = builder.build("Thing@iot.navigationLink", "No data key",
-                new ThingController(), ALIVEDATASTREAMEXPANDTHING);
+                new ThingController(), ALIVEDATASTREAMEXPANDTHINGJSON);
         assertNotNull(link);
         assertEquals(SingleOnlineLink.class, link.getClass());
-        assertEquals(ALIVEDATASTREAMEXPANDTHING.getString("Thing@iot.navigationLink"), link.url);
+        assertEquals(ALIVEDATASTREAMEXPANDTHINGJSON.getString("Thing@iot.navigationLink"),
+                link.url);
     }
 
     @Test

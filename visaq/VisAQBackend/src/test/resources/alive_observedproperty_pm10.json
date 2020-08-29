@@ -1,0 +1,33 @@
+{
+  "name" : "PM10 Mass Concentration",
+  "description" : "Mass concentration of Particulate Matter with a diameter of equal or less than 10 micrometers in air.",
+  "properties" : {
+    "conventions" : {
+      "unitOfMeasurement" : {
+        "name" : "microgram per cubic meter",
+        "symbol" : "ug/m3",
+        "definition" : "http://unitsofmeasure.org/ucum.html"
+      },
+      "fixedPoints" : {
+        "0" : "#0f8a0f",
+        "5" : "#2db00c",
+        "10" : "#59d408",
+        "15" : "#8fec04",
+        "20" : "#c7f901",
+        "25" : "#ffff00",
+        "30" : "#f9c701",
+        "40" : "#ec8f04",
+        "50" : "#d45908",
+        "100" : "#b02d0c",
+        "2147483647" : "#8a0f0f"
+      }
+    },
+    "shortname.definition" : "http://www.uc2-program.org/uc2_table_A1.pdf",
+    "shortname" : "mcpm10"
+  },
+  "Datastreams@iot.navigationLink" : "https://api.smartaq.net/v1.0/ObservedProperties('saqn%3Aop%3Amcpm10')/Datastreams",
+  "MultiDatastreams@iot.navigationLink" : "https://api.smartaq.net/v1.0/ObservedProperties('saqn%3Aop%3Amcpm10')/MultiDatastreams",
+  "definition" : "http://cfconventions.org/Data/cf-standard-names/63/build/cf-standard-name-table.html#mass_concentration_of_pm10_ambient_aerosol_particles_in_air",
+  "@iot.id" : "saqn:op:mcpm10",
+  "@iot.selfLink" : "https://api.smartaq.net/v1.0/ObservedProperties('saqn%3Aop%3Amcpm10')"
+}

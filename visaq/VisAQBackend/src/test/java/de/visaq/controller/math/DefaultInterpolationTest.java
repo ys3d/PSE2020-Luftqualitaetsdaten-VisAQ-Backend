@@ -37,7 +37,7 @@ public class DefaultInterpolationTest extends ResourceTest {
 
     @Test
     public void interpolateTest() {
-        Instant instant = Instant.now().minus(2, ChronoUnit.HOURS);
+        Instant instant = Instant.now().minus(4, ChronoUnit.HOURS);
         PointDatum[] resultWrapper =
                 CONTROLLER.interpolate(new InterpolationWrapper(INTERPOLATIONSQUARE.getMinX(),
                         INTERPOLATIONSQUARE.getMaxX(), INTERPOLATIONSQUARE.getMinY(),

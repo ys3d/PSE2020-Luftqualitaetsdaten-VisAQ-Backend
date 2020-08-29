@@ -1,8 +1,9 @@
 package de.visaq.controller;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import org.junit.jupiter.api.Test;
 
@@ -42,9 +43,9 @@ public class ObservedPropertyControllerTest extends ResourceTest {
     @Test
     public void testSingleObservedPropertyGetById() {
         assertNull(CONTROLLER.get("undefined"));
-        assertNotNull(CONTROLLER.get(ALIVEOBSERVEDPROPERTY.id));
-        assertNotNull(CONTROLLER
-                .get(new IdWrapper(ALIVEOBSERVEDPROPERTY.id)));
+        assertEquals(ALIVEOBSERVEDPROPERTY, CONTROLLER.get(ALIVEOBSERVEDPROPERTY.id));
+        assertEquals(ALIVEOBSERVEDPROPERTY,
+                CONTROLLER.get(new IdWrapper(ALIVEOBSERVEDPROPERTY.id)));
 
     }
 

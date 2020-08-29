@@ -1,7 +1,7 @@
 package de.visaq.controller;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.Test;
@@ -28,8 +28,8 @@ public class LocationControllerTest extends ResourceTest {
     @Test
     public void testSingleLocationGetById() {
         assertNull(CONTROLLER.get("undefined"));
-        assertNotNull(CONTROLLER.get(ALIVELOCATION.id));
-        assertNotNull(CONTROLLER.get(new IdWrapper(ALIVELOCATION.id)));
+        assertEquals(ALIVELOCATION, CONTROLLER.get(ALIVELOCATION.id));
+        assertEquals(ALIVELOCATION, CONTROLLER.get(new IdWrapper(ALIVELOCATION.id)));
     }
 
     @Test
