@@ -32,6 +32,8 @@ public class DefaultInterpolationTest extends ResourceTest {
         // Extrem high load
         assertNull(CONTROLLER.interpolateCoordinates(new Square(9, 11, 47, 50),
                 INTERPOLATIONCOORDINATES));
+        Square sq = new Square(11, 11.45, 50, 50.45);
+        assertNotNull(CONTROLLER.interpolateCoordinates(sq, INTERPOLATIONCOORDINATES));
 
     }
 
