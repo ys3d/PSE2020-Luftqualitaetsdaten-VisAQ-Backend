@@ -1,9 +1,33 @@
 {
-	"name": "Edm80Neph Zero N-1",
-	"description": "Entspricht der Auto-Zero nicht den festgelegten Qualitätskriterien (interne Festlegung) so wird der zuletzt ermittelte Offset (weiter)verwendet. Alle gemessenen Daten können verwendet werden! Der Rückgriff auf einen, zuletzt ermittelten Offset, bedeutet normalerweise keine Qualitätsminderung der Messung.",
-	"Datastreams@iot.navigationLink": "https://api.smartaq.net/v1.0/ObservedProperties('saqn%3Aop%3Acal_edm80neph_zero_N-1')/Datastreams",
-	"MultiDatastreams@iot.navigationLink": "https://api.smartaq.net/v1.0/ObservedProperties('saqn%3Aop%3Acal_edm80neph_zero_N-1')/MultiDatastreams",
-	"definition": "TODO",
-	"@iot.id": "saqn:op:cal_edm80neph_zero_N-1",
-	"@iot.selfLink": "https://api.smartaq.net/v1.0/ObservedProperties('saqn%3Aop%3Acal_edm80neph_zero_N-1')"
+"name" : "Relative Humidity",
+    "description" : "Relative humidity is the ratio of the partial pressure of water vapor to the equilibrium vapor pressure of water at a given temperature.",
+    "properties" : {
+      "conventions" : {
+        "unitOfMeasurement" : {
+          "name" : "percent",
+          "symbol" : "%",
+          "definition" : "http://www.qudt.org/qudt/owl/1.0.0/unit/Instances.html#Percent"
+        },
+        "fixedPoints" : {
+          "0" : "#ffd500",
+          "10" : "#f6f609",
+          "20" : "#c2ee11",
+          "30" : "#8ee916",
+          "40" : "#56e718",
+          "50" : "#19e619",
+          "60" : "#18e75d",
+          "70" : "#16e9aa",
+          "80" : "#11d8ee",
+          "90" : "#0978f6",
+          "100" : "#0000ff"
+        }
+      },
+      "shortname.definition" : "http://www.uc2-program.org/uc2_table_A1.pdf",
+      "shortname" : "hur"
+    },
+    "Datastreams@iot.navigationLink" : "https://api.smartaq.net/v1.0/ObservedProperties('saqn%3Aop%3Ahur')/Datastreams",
+    "MultiDatastreams@iot.navigationLink" : "https://api.smartaq.net/v1.0/ObservedProperties('saqn%3Aop%3Ahur')/MultiDatastreams",
+    "definition" : "http://cfconventions.org/Data/cf-standard-names/63/build/cf-standard-name-table.html#relative_humidity",
+    "@iot.id" : "saqn:op:hur",
+    "@iot.selfLink" : "https://api.smartaq.net/v1.0/ObservedProperties('saqn%3Aop%3Ahur')"
 }

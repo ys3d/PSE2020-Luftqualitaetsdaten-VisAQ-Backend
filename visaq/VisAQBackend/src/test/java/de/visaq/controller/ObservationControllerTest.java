@@ -1,16 +1,17 @@
 package de.visaq.controller;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
+import de.visaq.ResourceTest;
 import de.visaq.controller.ObservationController.AreaWrapper;
 import de.visaq.controller.ObservationController.TimeframedThingWrapper;
 import de.visaq.controller.ObservationController.TopWrapper;
@@ -25,7 +26,7 @@ import de.visaq.model.sensorthings.Thing;
 /**
  * Tests {@link ObservationController}.
  */
-public class ObservationControllerTest {
+public class ObservationControllerTest extends ResourceTest {
     private static final ObservationController CONTROLLER = new ObservationController();
 
     @Test
@@ -39,9 +40,8 @@ public class ObservationControllerTest {
     @Test
     public void testSingleObservationGetById() {
         assertNull(CONTROLLER.get("undefined"));
-        assertNotNull(CONTROLLER.get(SensorthingsControllerTests.ALIVEOBSERVATION.id));
-        assertNotNull(
-                CONTROLLER.get(new IdWrapper(SensorthingsControllerTests.ALIVEOBSERVATION.id)));
+        assertEquals(ALIVEOBSERVATION, CONTROLLER.get(ALIVEOBSERVATION.id));
+        assertEquals(ALIVEOBSERVATION, CONTROLLER.get(new IdWrapper(ALIVEOBSERVATION.id)));
     }
 
     @Test
@@ -54,7 +54,7 @@ public class ObservationControllerTest {
 
     @Test
     public void testMultiObservationGetByDatastream() {
-        assertFalse(CONTROLLER.getAll(SensorthingsControllerTests.ALIVEDATASTREAM).isEmpty());
+        assertFalse(CONTROLLER.getAll(ALIVEDATASTREAM).isEmpty());
     }
 
     @Test
@@ -63,23 +63,21 @@ public class ObservationControllerTest {
         Instant time = Instant.now();
         Duration range = Duration.ofMinutes(5);
 
-        assertNotNull(CONTROLLER.getAll(square, time, range,
-                SensorthingsControllerTests.ALIVEOBSERVEDPROPERTY));
-        assertNotNull(CONTROLLER.getAll(new AreaWrapper(square, 10000, range,
-                SensorthingsControllerTests.ALIVEOBSERVEDPROPERTY)));
+        assertNotNull(CONTROLLER.getAll(square, time, range, ALIVEOBSERVEDPROPERTY));
+        assertNotNull(
+                CONTROLLER.getAll(new AreaWrapper(square, 10000, range, ALIVEOBSERVEDPROPERTY)));
     }
 
     @Test
     public void testMultiObservationGetByTimeframedThings() {
         ArrayList<Thing> things = new ArrayList<Thing>();
-        things.add(SensorthingsControllerTests.ALIVETHING);
+        things.add(ALIVETHING);
         Instant time = Instant.now();
         Duration range = Duration.ofHours(12);
 
-        assertNotNull(CONTROLLER.getAll(things, time, range,
-                SensorthingsControllerTests.ALIVEOBSERVEDPROPERTY));
-        assertNotNull(CONTROLLER.getAll(new TimeframedThingWrapper(things, 10000, range,
-                SensorthingsControllerTests.ALIVEOBSERVEDPROPERTY)));
+        assertNotNull(CONTROLLER.getAll(things, time, range, ALIVEOBSERVEDPROPERTY, 0, 1000));
+        assertNotNull(CONTROLLER.getAll(
+                new TimeframedThingWrapper(things, 10000, range, ALIVEOBSERVEDPROPERTY, 0, 1000)));
     }
 
     @Test
@@ -91,7 +89,7 @@ public class ObservationControllerTest {
 
     @Test
     public void singleBuildEmptyTest() {
-        assertNull(CONTROLLER.singleBuild(SensorthingsControllerTests.EMPTYARRAY));
+        assertNull(CONTROLLER.singleBuild(EMPTYARRAY));
     }
 
     @Test
@@ -129,7 +127,7 @@ public class ObservationControllerTest {
         ObservedProperty observedProperty = new ObservedProperty("id", "selfUrl", true,
                 "description", "name", null, "definition", null);
 
-        wrapper = new TimeframedThingWrapper(things, millis, range, observedProperty);
+        wrapper = new TimeframedThingWrapper(things, millis, range, observedProperty, 0, 1000);
         assertEquals(things, wrapper.things);
         assertEquals(millis, wrapper.millis);
         assertEquals(range, wrapper.range);

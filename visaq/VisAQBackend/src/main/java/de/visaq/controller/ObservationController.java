@@ -5,13 +5,18 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import de.visaq.controller.link.MultiOnlineLink;
 import de.visaq.controller.link.SingleNavigationLink;
@@ -29,6 +34,60 @@ import de.visaq.model.sensorthings.Thing;
 @RestController
 public class ObservationController extends SensorthingController<Observation> {
     public static final String MAPPING = "/api/observation";
+
+    class TimeframeRun implements Runnable {
+        private Thing[] things;
+        private Observation[] observations;
+        private Instant lower;
+        private Instant upper;
+        private ObservedProperty observedProperty;
+        private double average;
+        private double variance;
+        private int start;
+        private int packetSize;
+
+        public TimeframeRun(int start, int packetSize, Thing[] things, Observation[] observations,
+                Instant lower, Instant upper, ObservedProperty observedProperty, double average,
+                double variance) {
+            this.things = things;
+            this.observations = observations;
+            this.lower = lower;
+            this.upper = upper;
+            this.observedProperty = observedProperty;
+            this.average = average;
+            this.variance = variance;
+            this.start = start;
+            this.packetSize = packetSize;
+        }
+
+        @Override
+        public void run() {
+            for (int i = this.start; i < this.start + this.packetSize; i++) {
+                if (i >= things.length) {
+                    break;
+                }
+
+                Thing thing = things[i];
+                ArrayList<Observation> temp = new MultiOnlineLink<Observation>(MessageFormat.format(
+                        "/Observations?$orderby=phenomenonTime desc&"
+                                + "$filter=phenomenonTime ge {0} and phenomenonTime le {1} and "
+                                + "Datastream/ObservedProperty/id eq ''{2}'' and "
+                                + "Datastream/Thing/id eq ''{3}''&$top=1",
+                        this.lower, this.upper, this.observedProperty.id, thing.id), true)
+                                .get(ObservationController.this);
+                if (!temp.isEmpty()) {
+                    Observation observation = temp.get(0);
+
+                    if (observation.result > average + 10 * variance
+                            || observation.result < average - 10 * variance) {
+                        continue;
+                    }
+
+                    this.observations[i] = observation;
+                }
+            }
+        }
+    }
 
     static class AreaWrapper {
         public Square square;
@@ -53,21 +112,25 @@ public class ObservationController extends SensorthingController<Observation> {
         public long millis;
         public Duration range;
         public ObservedProperty observedProperty;
+        public double average;
+        public double variance;
 
         public TimeframedThingWrapper() {
         }
 
         public TimeframedThingWrapper(ArrayList<Thing> things, long millis, Duration range,
-                ObservedProperty observedProperty) {
+                ObservedProperty observedProperty, double average, double variance) {
             this.things = things;
             this.millis = millis;
             this.range = range;
             this.observedProperty = observedProperty;
+            this.average = average;
+            this.variance = variance;
         }
     }
 
     /**
-     * Wrapps data for the top request.
+     * Wraps data for the top request.
      */
     static class TopWrapper {
         public int topNumber;
@@ -177,7 +240,8 @@ public class ObservationController extends SensorthingController<Observation> {
             getAll(@RequestBody TimeframedThingWrapper timeframedThingWrapper) {
         return getAll(timeframedThingWrapper.things,
                 Instant.ofEpochMilli(timeframedThingWrapper.millis), timeframedThingWrapper.range,
-                timeframedThingWrapper.observedProperty);
+                timeframedThingWrapper.observedProperty, timeframedThingWrapper.average,
+                timeframedThingWrapper.variance);
     }
 
     /**
@@ -189,27 +253,46 @@ public class ObservationController extends SensorthingController<Observation> {
      * @param range            The Observation must have been recorded in [time - range, time +
      *                         range]
      * @param observedProperty The ObservedProperty that was observed
+     * @param average          Assumed average of the ObservedProperty
+     * @param variance         Assumed variance of the ObservedProperty
      * @return An ArrayList of Observation entities
      */
     public ArrayList<Observation> getAll(ArrayList<Thing> things, Instant time, Duration range,
-            ObservedProperty observedProperty) {
-        Observation[] observations = new Observation[things.size()];
+            ObservedProperty observedProperty, double average, double variance) {
+        /*
+         * int ticket = (int) (Math.random() * 1000);
+         * 
+         * System.out.println(ticket + " Things: " + things.size() + " Time: " + time + " Range: " +
+         * range + " AirQ " + observedProperty.name + " Before: " + Instant.now().toEpochMilli());
+         */
 
         Instant upper = time.plus(range);
         Instant lower = time.minus(range);
 
-        for (int i = 0; i < things.size(); i++) {
-            Thing thing = things.get(i);
-            ArrayList<Observation> temp = new MultiOnlineLink<Observation>(MessageFormat.format(
-                    "/Observations?$orderby=phenomenonTime desc&"
-                            + "$filter=phenomenonTime ge {0} and phenomenonTime le {1} and "
-                            + "Datastream/ObservedProperty/id eq ''{2}'' and "
-                            + "Datastream/Thing/id eq ''{3}''&$top=1",
-                    lower, upper, observedProperty.id, thing.id), true).get(this);
-            if (!temp.isEmpty()) {
-                observations[i] = temp.get(0);
-            }
+        Thing[] thingsArr = new Thing[things.size()];
+        things.toArray(thingsArr);
+        Observation[] observations = new Observation[things.size()];
+
+        int packetSize = 4;
+
+        ExecutorService es = Executors.newCachedThreadPool();
+
+        for (int i = 0; i < ((float) things.size() / (float) packetSize); i++) {
+            es.execute(new TimeframeRun(i * packetSize, packetSize, thingsArr, observations, lower,
+                    upper, observedProperty, average, variance));
         }
+
+        es.shutdown();
+        try {
+            es.awaitTermination(30, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        /*
+         * System.out.println( ticket + " Things: " + things.size() + " After: " +
+         * Instant.now().toEpochMilli());
+         */
 
         return new ArrayList<Observation>(Arrays.asList(observations));
     }

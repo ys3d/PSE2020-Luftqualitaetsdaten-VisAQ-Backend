@@ -1,10 +1,10 @@
 package de.visaq.model.sensorthings;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.awt.geom.Point2D;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import de.visaq.RestConstants;
 import de.visaq.controller.link.MultiNavigationLink;

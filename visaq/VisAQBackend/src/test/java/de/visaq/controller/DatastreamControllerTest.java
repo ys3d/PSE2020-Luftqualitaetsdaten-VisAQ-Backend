@@ -1,12 +1,13 @@
 package de.visaq.controller;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
+import de.visaq.ResourceTest;
 import de.visaq.controller.DatastreamController.SensorAndObservedPropertyWrapper;
 import de.visaq.controller.DatastreamController.ThingAndObservedPropertyWrapper;
 import de.visaq.controller.SensorthingController.IdWrapper;
@@ -23,7 +24,7 @@ import de.visaq.model.sensorthings.Thing;
 /**
  * Tests {@link DatastreamController}.
  */
-public class DatastreamControllerTest {
+public class DatastreamControllerTest extends ResourceTest {
     private static final DatastreamController CONTROLLER = new DatastreamController();
 
     @Test
@@ -36,37 +37,32 @@ public class DatastreamControllerTest {
     @Test
     public void testSingleDatastreamGetById() {
         assertNull(CONTROLLER.get("undefined"));
-        assertNotNull(CONTROLLER.get(SensorthingsControllerTests.ALIVEDATASTREAM.id));
-        assertNotNull(
-                CONTROLLER.get(new IdWrapper(SensorthingsControllerTests.ALIVEDATASTREAM.id)));
+        assertEquals(ALIVEDATASTREAM, CONTROLLER.get(ALIVEDATASTREAM.id));
+        assertEquals(ALIVEDATASTREAM, CONTROLLER.get(new IdWrapper(ALIVEDATASTREAM.id)));
     }
 
     @Test
     public void testSingleDatastreamGetByThingAndObservedProperty() {
-        assertNotNull(CONTROLLER.get(SensorthingsControllerTests.ALIVETHING,
-                SensorthingsControllerTests.ALIVEOBSERVEDPROPERTY));
+        assertNotNull(CONTROLLER.get(ALIVETHING, ALIVEOBSERVEDPROPERTY));
         assertNotNull(CONTROLLER
-                .get(new SensorAndObservedPropertyWrapper(SensorthingsControllerTests.ALIVESENSOR,
-                        SensorthingsControllerTests.ALIVEOBSERVEDPROPERTY)));
+                .get(new SensorAndObservedPropertyWrapper(ALIVESENSOR, ALIVEOBSERVEDPROPERTY)));
     }
 
     @Test
     public void testSingleDatastreamGetBySensorAndObservedProperty() {
-        assertNotNull(CONTROLLER.get(SensorthingsControllerTests.ALIVESENSOR,
-                SensorthingsControllerTests.ALIVEOBSERVEDPROPERTY));
+        assertNotNull(CONTROLLER.get(ALIVESENSOR, ALIVEOBSERVEDPROPERTY));
         assertNotNull(CONTROLLER
-                .get(new ThingAndObservedPropertyWrapper(SensorthingsControllerTests.ALIVETHING,
-                        SensorthingsControllerTests.ALIVEOBSERVEDPROPERTY)));
+                .get(new ThingAndObservedPropertyWrapper(ALIVETHING, ALIVEOBSERVEDPROPERTY)));
     }
 
     @Test
     public void testMultiDatastreamGetByThing() {
-        assertFalse(CONTROLLER.getAll(SensorthingsControllerTests.ALIVETHING).isEmpty());
+        assertFalse(CONTROLLER.getAll(ALIVETHING).isEmpty());
     }
 
     @Test
     public void testMultiDatastreamGetBySensor() {
-        assertFalse(CONTROLLER.getAll(SensorthingsControllerTests.ALIVESENSOR).isEmpty());
+        assertFalse(CONTROLLER.getAll(ALIVESENSOR).isEmpty());
     }
 
     @Test
@@ -121,6 +117,7 @@ public class DatastreamControllerTest {
 
     @Test
     public void singleBuildEmptyTest() {
-        assertNull(CONTROLLER.singleBuild(SensorthingsControllerTests.EMPTYARRAY));
+        assertNull(CONTROLLER.singleBuild(EMPTYARRAY));
     }
+
 }

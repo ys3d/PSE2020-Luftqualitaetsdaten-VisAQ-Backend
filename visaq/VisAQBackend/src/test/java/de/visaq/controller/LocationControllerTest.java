@@ -1,11 +1,12 @@
 package de.visaq.controller;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
+import de.visaq.ResourceTest;
 import de.visaq.controller.SensorthingController.IdWrapper;
 import de.visaq.controller.link.MultiOnlineLink;
 import de.visaq.controller.link.SingleOnlineLink;
@@ -14,7 +15,7 @@ import de.visaq.model.sensorthings.Location;
 /**
  * Tests {@link LocationController}.
  */
-public class LocationControllerTest {
+public class LocationControllerTest extends ResourceTest {
     private static final LocationController CONTROLLER = new LocationController();
 
     @Test
@@ -27,8 +28,8 @@ public class LocationControllerTest {
     @Test
     public void testSingleLocationGetById() {
         assertNull(CONTROLLER.get("undefined"));
-        assertNotNull(CONTROLLER.get(SensorthingsControllerTests.ALIVELOCATION.id));
-        assertNotNull(CONTROLLER.get(new IdWrapper(SensorthingsControllerTests.ALIVELOCATION.id)));
+        assertEquals(ALIVELOCATION, CONTROLLER.get(ALIVELOCATION.id));
+        assertEquals(ALIVELOCATION, CONTROLLER.get(new IdWrapper(ALIVELOCATION.id)));
     }
 
     @Test
@@ -40,7 +41,7 @@ public class LocationControllerTest {
 
     @Test
     public void singleBuildEmptyTest() {
-        assertNull(CONTROLLER.singleBuild(SensorthingsControllerTests.EMPTYARRAY));
+        assertNull(CONTROLLER.singleBuild(EMPTYARRAY));
     }
 
     @Test

@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import de.visaq.model.PointDatum;
 import de.visaq.model.Square;
 import de.visaq.model.sensorthings.ObservedProperty;
@@ -27,40 +25,19 @@ public class NearestNeighborInterpolation extends Interpolation {
     public static final int GRID_NUM = 10;
 
     /*
-     * The default value if there if the coordinates are empty or the minimal distance of the grid
-     * point to a sensor is bigger than maxDistance.
+     * The default value if the coordinates are empty or the minimal distance of the grid point to a
+     * sensor is bigger than maxDistance.
      */
     public final double defaultValue = -99999;
 
     public final double maxDistance = 0.05;
 
-    private Coordinate[] coordinates;
-
-    static class NearestNeighborInterpolationWrapper {
-        public Square square;
-        public long millis;
-        public Duration range;
-        public ObservedProperty observedProperty;
-
-        public NearestNeighborInterpolationWrapper() {
-        }
-
-        public NearestNeighborInterpolationWrapper(@JsonProperty("x1") double x1,
-                @JsonProperty("x2") double x2, @JsonProperty("y1") double y1,
-                @JsonProperty("y2") double y2, @JsonProperty("millis") long millis,
-                @JsonProperty("range") Duration range,
-                @JsonProperty("observedProperty") ObservedProperty observedProperty) {
-            this.square = new Square(x1, x2, y1, y2);
-            this.millis = millis;
-            this.range = range;
-            this.observedProperty = observedProperty;
-        }
-    }
+    private Coordinate[] coordinates = new Coordinate[0];
 
     @Override
     protected PointDatum[] interpolateCoordinates(Square square,
             ArrayList<Coordinate> coordinates) {
-        this.coordinates = coordinatesToArray(coordinates);
+        this.coordinates = coordinates.toArray(this.coordinates);
 
         // interpolated is in row major order.
         double[][] interpolated = computeSurface(square, GRID_NUM, GRID_NUM);
@@ -70,7 +47,6 @@ public class NearestNeighborInterpolation extends Interpolation {
 
         for (int i = 0; i < interpolated.length; i++) {
             for (int j = 0; j < interpolated[0].length; j++) {
-                System.out.println(interpolated[i][j]);
                 GridTransform trans = new GridTransform(square, GRID_NUM, GRID_NUM);
                 /*
                  * Start on the right top of the square.
@@ -87,8 +63,8 @@ public class NearestNeighborInterpolation extends Interpolation {
 
     @Override
     public PointDatum[] interpolate(Square square, Instant time, Duration range,
-            ObservedProperty observedProperty) {
-        return super.interpolate(square, time, range, observedProperty);
+            ObservedProperty observedProperty, double average, double variance) {
+        return super.interpolate(square, time, range, observedProperty, average, variance);
     }
 
     /**
@@ -99,15 +75,15 @@ public class NearestNeighborInterpolation extends Interpolation {
      */
     @CrossOrigin
     @PostMapping(MAPPING)
-    public PointDatum[]
-            interpolate(@RequestBody NearestNeighborInterpolationWrapper interpolationWrapper) {
+    public PointDatum[] interpolate(@RequestBody InterpolationWrapper interpolationWrapper) {
         return this.interpolate(interpolationWrapper.square,
                 Instant.ofEpochMilli(interpolationWrapper.millis), interpolationWrapper.range,
-                interpolationWrapper.observedProperty);
+                interpolationWrapper.observedProperty, interpolationWrapper.average,
+                interpolationWrapper.variance);
     }
 
     /**
-     * Projects the the measurements on a grid using nearest neighbor interpolation.
+     * Projects the measurements on a grid using nearest neighbor interpolation.
      * 
      * @param srcEnv The area of the grid
      * @param x      The number of grid points along the x axis
@@ -129,19 +105,6 @@ public class NearestNeighborInterpolation extends Interpolation {
             }
         }
         return grid;
-    }
-
-    /*
-     * Transforms an ArrayList of Coordinates into an Array.
-     */
-    private Coordinate[] coordinatesToArray(ArrayList<Coordinate> c) {
-        int length = c.toArray().length;
-        Coordinate[] coordinates = new Coordinate[length];
-        for (int i = 0; i < length; i++) {
-            coordinates[i] = c.get(i);
-            System.out.println(coordinates[i].toString());
-        }
-        return coordinates;
     }
 
     /*
