@@ -20,6 +20,8 @@ import de.visaq.controller.ObservedPropertyController;
 import de.visaq.controller.SensorController;
 import de.visaq.controller.ThingController;
 import de.visaq.controller.UtilityController;
+import de.visaq.controller.link.MultiNavigationLinkTest;
+import de.visaq.controller.link.SingleNavigationLinkTest;
 import de.visaq.model.Square;
 import de.visaq.model.sensorthings.Datastream;
 import de.visaq.model.sensorthings.FeatureOfInterest;
@@ -56,6 +58,9 @@ public class ResourceTest {
     public static final JSONObject ALIVEOBSERVATIONJSON;
     public static final JSONObject EMPTYARRAY;
     public static final Square INTERPOLATIONSQUARE;
+    public static final JSONObject ALIVETHINGEXPANDDATASTREAMSJSON;
+    public static final JSONObject ALIVEDATASTREAMEXPANDTHINGJSON;
+    public static final ObservedProperty ALIVEOBSERVEDPROPERTYPM10;
     public static final ArrayList<Coordinate> INTERPOLATIONCOORDINATES;
     public static final ArrayList<Datastream> MULTIALIVEDATASTREAM;
     public static final ArrayList<Datastream> MULTIALIVEDATASTREAMNOVALUE;
@@ -89,6 +94,9 @@ public class ResourceTest {
         ALIVEOBSERVEDPROPERTY =
                 new ObservedPropertyController().singleBuild(new JSONObject(new JSONTokener(
                         ResourceTest.class.getResourceAsStream("/alive_observedproperty.json"))));
+        ALIVEOBSERVEDPROPERTYPM10 = new ObservedPropertyController()
+                .singleBuild(new JSONObject(new JSONTokener(ResourceTest.class
+                        .getResourceAsStream("/alive_observedproperty_pm10.json"))));
 
         ALIVESENSORJSON = new JSONObject(
                 new JSONTokener(ResourceTest.class.getResourceAsStream("/alive_sensor.json")));
@@ -121,5 +129,11 @@ public class ResourceTest {
         MULTIALIVEDATASTREAMNOVALUE = new DatastreamController()
                 .multiBuild(new JSONObject(new JSONTokener(ResourceTest.class
                         .getResourceAsStream("/multi_alive_datastreams_no_value.json"))));
+        ALIVETHINGEXPANDDATASTREAMSJSON =
+                new JSONObject(new JSONTokener(MultiNavigationLinkTest.class
+                        .getResourceAsStream("/alive_thing_expand_datastreams.json")));
+        ALIVEDATASTREAMEXPANDTHINGJSON =
+                new JSONObject(new JSONTokener(SingleNavigationLinkTest.class
+                        .getResourceAsStream("/alive_datastream_expand_thing.json")));
     }
 }

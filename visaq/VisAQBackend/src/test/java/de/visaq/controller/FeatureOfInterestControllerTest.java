@@ -1,9 +1,13 @@
 package de.visaq.controller;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import java.awt.geom.Point2D;
+
+import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
 import de.visaq.ResourceTest;
@@ -29,8 +33,9 @@ public class FeatureOfInterestControllerTest extends ResourceTest {
     @Test
     public void testSingleFeatureOfInterestGetById() {
         assertNull(CONTROLLER.get("undefined"));
-        assertNotNull(CONTROLLER.get(ALIVEFEATUREOFINTEREST.id));
-        assertNotNull(CONTROLLER.get(new IdWrapper(ALIVEFEATUREOFINTEREST.id)));
+        assertEquals(ALIVEFEATUREOFINTEREST, CONTROLLER.get(ALIVEFEATUREOFINTEREST.id));
+        assertEquals(ALIVEFEATUREOFINTEREST,
+                CONTROLLER.get(new IdWrapper(ALIVEFEATUREOFINTEREST.id)));
     }
 
     @Test
@@ -44,16 +49,22 @@ public class FeatureOfInterestControllerTest extends ResourceTest {
     @Test
     public void getLocationPointTest() {
         assertNull(CONTROLLER.getLocationPoint(null));
+        Point2D.Double point = CONTROLLER.getLocationPoint(ALIVEFEATUREOFINTEREST);
+        assertNotNull(point);
+        assertEquals(UtilityController
+                .buildLocationPoint(new JSONObject(ALIVEFEATUREOFINTEREST.features)), point);
     }
 
     @Test
     public void getAllTest() {
         assertFalse(CONTROLLER.getAll().isEmpty());
+        assertNotNull(CONTROLLER.getAll());
     }
 
     @Test
     public void singleBuildEmptyTest() {
         assertNull(CONTROLLER.singleBuild(EMPTYARRAY));
+        assertNull(CONTROLLER.singleBuild(ALIVEOBSERVATIONJSON));
     }
 
 }

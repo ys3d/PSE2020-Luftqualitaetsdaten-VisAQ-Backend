@@ -1,8 +1,9 @@
 package de.visaq.controller;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import org.junit.jupiter.api.Test;
 
@@ -30,8 +31,8 @@ public class ThingControllerTest extends ResourceTest {
     @Test
     public void testSingleThingGetById() {
         assertNull(CONTROLLER.get("undefined"));
-        assertNotNull(CONTROLLER.get(ALIVETHING.id));
-        assertNotNull(CONTROLLER.get(new IdWrapper(ALIVETHING.id)));
+        assertEquals(ALIVETHING, CONTROLLER.get(ALIVETHING.id));
+        assertEquals(ALIVETHING, CONTROLLER.get(new IdWrapper(ALIVETHING.id)));
     }
 
     @Test

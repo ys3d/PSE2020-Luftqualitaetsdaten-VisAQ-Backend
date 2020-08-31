@@ -46,4 +46,11 @@ public class SensorthingControllerTest extends ResourceTest {
         assertEquals(2, MULTIALIVEDATASTREAM.size());
         assertEquals(1, MULTIALIVEDATASTREAMNOVALUE.size());
     }
+
+    @Test
+    public void multiBuildSingleObjectJsonTest() {
+        ArrayList<Datastream> value = new DatastreamController().multiBuild(ALIVEDATASTREAMJSON);
+        assertEquals(1, value.size());
+        assertEquals(ALIVEDATASTREAM, value.get(0));
+    }
 }
