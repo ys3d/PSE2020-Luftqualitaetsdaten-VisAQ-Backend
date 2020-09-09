@@ -13,6 +13,7 @@ import de.visaq.controller.DatastreamController;
 import de.visaq.controller.SensorthingController;
 import de.visaq.controller.link.MultiNavigationLink.Builder;
 import de.visaq.model.sensorthings.Datastream;
+import de.visaq.model.sensorthings.TestSensorthing;
 
 /**
  * Tests {@link MultiNavigationLink}.
@@ -49,14 +50,14 @@ public class MultiNavigationLinkTest extends ResourceTest {
         assertEquals(RestConstants.ENTRY_POINT + "url", link.url);
     }
 
-    private class TestMultiNavigationLink extends MultiNavigationLink<TestSensorThing> {
+    private class TestMultiNavigationLink extends MultiNavigationLink<TestSensorthing> {
 
         public TestMultiNavigationLink(String url, boolean relative) {
             super(url, relative);
         }
 
         @Override
-        public ArrayList<TestSensorThing> get(SensorthingController<TestSensorThing> controller) {
+        public ArrayList<TestSensorthing> get(SensorthingController<TestSensorthing> controller) {
             return null;
         }
 

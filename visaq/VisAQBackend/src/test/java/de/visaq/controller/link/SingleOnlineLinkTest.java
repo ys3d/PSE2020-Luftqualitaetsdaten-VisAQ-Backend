@@ -9,6 +9,7 @@ import de.visaq.ResourceTest;
 import de.visaq.RestConstants;
 import de.visaq.controller.DatastreamController;
 import de.visaq.model.sensorthings.Datastream;
+import de.visaq.model.sensorthings.TestSensorthing;
 
 /**
  * Tests {@link SingleOnlineLink}.
@@ -17,10 +18,10 @@ public class SingleOnlineLinkTest {
 
     @Test
     public void superInitTest() {
-        SingleOnlineLink<TestSensorThing> link =
-                new SingleOnlineLink<TestSensorThing>("url", false);
+        SingleOnlineLink<TestSensorthing> link =
+                new SingleOnlineLink<TestSensorthing>("url", false);
         assertEquals("url", link.url);
-        link = new SingleOnlineLink<TestSensorThing>("url", true);
+        link = new SingleOnlineLink<TestSensorthing>("url", true);
         assertEquals(RestConstants.ENTRY_POINT + "url", link.url);
     }
 

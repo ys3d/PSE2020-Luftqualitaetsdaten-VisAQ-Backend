@@ -11,6 +11,7 @@ import de.visaq.controller.SensorthingController;
 import de.visaq.controller.ThingController;
 import de.visaq.controller.link.SingleNavigationLink.Builder;
 import de.visaq.model.sensorthings.Sensorthing;
+import de.visaq.model.sensorthings.TestSensorthing;
 import de.visaq.model.sensorthings.Thing;
 
 /**
@@ -42,20 +43,20 @@ public class SingleNavigationLinkTest extends ResourceTest {
 
     @Test
     public void initTest() {
-        SingleNavigationLink<TestSensorThing> link = new TestSingleNavigationLink("url", false);
+        SingleNavigationLink<TestSensorthing> link = new TestSingleNavigationLink("url", false);
         assertEquals("url", link.url);
         link = new TestSingleNavigationLink("url", true);
         assertEquals(RestConstants.ENTRY_POINT + "url", link.url);
     }
 
-    private class TestSingleNavigationLink extends SingleNavigationLink<TestSensorThing> {
+    private class TestSingleNavigationLink extends SingleNavigationLink<TestSensorthing> {
 
         public TestSingleNavigationLink(String url, boolean relative) {
             super(url, relative);
         }
 
         @Override
-        public Sensorthing<TestSensorThing> get(SensorthingController<TestSensorThing> controller) {
+        public Sensorthing<TestSensorthing> get(SensorthingController<TestSensorthing> controller) {
             return null;
         }
 

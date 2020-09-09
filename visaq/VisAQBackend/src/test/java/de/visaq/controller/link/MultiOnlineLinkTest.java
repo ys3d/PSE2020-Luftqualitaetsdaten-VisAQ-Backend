@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import de.visaq.RestConstants;
 import de.visaq.controller.ObservedPropertyController;
 import de.visaq.model.sensorthings.ObservedProperty;
+import de.visaq.model.sensorthings.TestSensorthing;
 
 /**
  * Tests {@link MultiOnlineLink}.
@@ -20,9 +21,9 @@ public class MultiOnlineLinkTest {
 
     @Test
     public void superInitTest() {
-        MultiOnlineLink<TestSensorThing> link = new MultiOnlineLink<TestSensorThing>("url", false);
+        MultiOnlineLink<TestSensorthing> link = new MultiOnlineLink<TestSensorthing>("url", false);
         assertEquals("url", link.url);
-        link = new MultiOnlineLink<TestSensorThing>("url", true);
+        link = new MultiOnlineLink<TestSensorthing>("url", true);
         assertEquals(RestConstants.ENTRY_POINT + "url", link.url);
     }
 

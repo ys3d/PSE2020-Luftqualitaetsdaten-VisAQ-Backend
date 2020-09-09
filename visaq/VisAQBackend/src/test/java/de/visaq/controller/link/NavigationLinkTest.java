@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import de.visaq.ResourceTest;
 import de.visaq.RestConstants;
 import de.visaq.controller.DatastreamController;
+import de.visaq.model.sensorthings.TestSensorthing;
 
 /**
  * Tests {@link NavigationLink}.
@@ -34,11 +35,10 @@ public class NavigationLinkTest extends ResourceTest {
         assertNull(link.getJson());
     }
 
-    private class TestNavigationLink extends NavigationLink<TestSensorThing> {
+    private class TestNavigationLink extends NavigationLink<TestSensorthing> {
 
         public TestNavigationLink(String url, boolean relative) {
             super(url, relative);
-            // TODO Auto-generated constructor stub
         }
 
     }
